@@ -20,19 +20,6 @@ class PcfTableType(IntEnum):
     BDF_ACCELERATORS = 1 << 8
 
 
-_TABLE_PARSE_ORDER = [
-    PcfTableType.PROPERTIES,
-    PcfTableType.ACCELERATORS,
-    PcfTableType.BDF_ACCELERATORS,
-    PcfTableType.GLYPH_NAMES,
-    PcfTableType.METRICS,
-    PcfTableType.INK_METRICS,
-    PcfTableType.SWIDTHS,
-    PcfTableType.BITMAPS,
-    PcfTableType.BDF_ENCODINGS,
-]
-
-
 class PcfHeader:
     @staticmethod
     def parse(stream: Stream) -> list['PcfHeader']:
