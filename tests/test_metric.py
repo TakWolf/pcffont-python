@@ -1,7 +1,7 @@
-from pcffont import PcfMetric, PcfTable, PcfProperties, PcfAccelerators, PcfMetrics, PcfBitmaps, PcfBdfEncodings, PcfScalableWidths, PcfGlyphNames
+from pcffont import PcfMetric, PcfMetrics
 
 
-def test_metric_eq():
+def test_eq():
     metric_1 = PcfMetric(
         left_side_bearing=-3,
         right_side_bearing=8,
@@ -29,7 +29,7 @@ def test_metric_eq():
     assert metric_1 != 'Hello World!'
 
 
-def test_metric_compressible():
+def test_compressible():
     metric = PcfMetric(
         left_side_bearing=0,
         right_side_bearing=0,
@@ -85,17 +85,7 @@ def test_metric_compressible():
     assert metric.compressible
 
 
-def test_table_isinstance():
-    assert isinstance(PcfProperties(), PcfTable)
-    assert isinstance(PcfAccelerators(), PcfTable)
-    assert isinstance(PcfMetrics(), PcfTable)
-    assert isinstance(PcfBitmaps(), PcfTable)
-    assert isinstance(PcfBdfEncodings(), PcfTable)
-    assert isinstance(PcfScalableWidths(), PcfTable)
-    assert isinstance(PcfGlyphNames(), PcfTable)
-
-
-def test_metrics_calculate():
+def test_calculate():
     metrics = PcfMetrics(metrics=[
         PcfMetric(
             left_side_bearing=-3,
