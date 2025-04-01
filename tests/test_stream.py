@@ -292,6 +292,15 @@ def test_bool():
     assert stream.tell() == size
 
 
+def test_align_to_bit32():
+    stream = Stream(BytesIO())
+    stream.write(b'abc')
+    assert stream.align_to_bit32_with_nulls() == 1
+    assert stream.tell() == 4
+    stream.seek(0)
+    assert stream.read(4) == b'abc\x00'
+
+
 def test_skip():
     stream = Stream(BytesIO())
     stream.write_nulls(100)
@@ -299,12 +308,3 @@ def test_skip():
     stream.seek(25)
     stream.skip(50)
     assert stream.tell() == 75
-
-
-def test_align_to_bit32():
-    stream = Stream(BytesIO())
-    stream.write(b'abc')
-    stream.align_to_bit32_with_nulls()
-    assert stream.tell() == 4
-    stream.seek(0)
-    assert stream.read(4) == b'abc\x00'
