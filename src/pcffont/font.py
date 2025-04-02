@@ -21,7 +21,7 @@ _TABLE_TYPE_REGISTRY = {
     PcfTableType.BITMAPS: PcfBitmaps,
     PcfTableType.INK_METRICS: PcfMetrics,
     PcfTableType.BDF_ENCODINGS: PcfBdfEncodings,
-    PcfTableType.SWIDTHS: PcfScalableWidths,
+    PcfTableType.SCALABLE_WIDTHS: PcfScalableWidths,
     PcfTableType.GLYPH_NAMES: PcfGlyphNames,
     PcfTableType.BDF_ACCELERATORS: PcfAccelerators,
 }
@@ -117,11 +117,11 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
 
     @property
     def scalable_widths(self) -> PcfScalableWidths | None:
-        return self.get(PcfTableType.SWIDTHS, None)
+        return self.get(PcfTableType.SCALABLE_WIDTHS, None)
 
     @scalable_widths.setter
     def scalable_widths(self, table: PcfScalableWidths | None):
-        self[PcfTableType.SWIDTHS] = table
+        self[PcfTableType.SCALABLE_WIDTHS] = table
 
     @property
     def glyph_names(self) -> PcfGlyphNames | None:

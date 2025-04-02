@@ -15,7 +15,7 @@ class PcfTableType(IntEnum):
     BITMAPS = 1 << 3
     INK_METRICS = 1 << 4
     BDF_ENCODINGS = 1 << 5
-    SWIDTHS = 1 << 6
+    SCALABLE_WIDTHS = 1 << 6
     GLYPH_NAMES = 1 << 7
     BDF_ACCELERATORS = 1 << 8
 
