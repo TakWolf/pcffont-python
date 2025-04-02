@@ -35,7 +35,7 @@ def test_compressible():
         right_side_bearing=0,
         character_width=0,
         ascent=0,
-        descent=-0,
+        descent=0,
     )
     assert metric.compressible
 

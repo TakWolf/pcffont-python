@@ -143,12 +143,11 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         stream = Stream(stream)
 
         headers = []
-        table_offset = 4 + 4 + (4 * 4) * len(self)
+        table_offset = 4 + 4 + 4 * 4 * len(self)
         for table_type, table in sorted(self.items()):
             table_size = table.dump(stream, self, table_offset)
             headers.append(PcfHeader(table_type, table.table_format, table_size, table_offset))
             table_offset += table_size
-
         PcfHeader.dump(stream, headers)
 
     def dump_to_bytes(self) -> bytes:
