@@ -1,5 +1,4 @@
 from collections import UserList
-from copy import copy
 from typing import Any
 
 import pcffont
@@ -48,30 +47,46 @@ class PcfMetrics(UserList[PcfMetric]):
         min_bounds = None
         for metric in self:
             if min_bounds is None:
-                min_bounds = copy(metric)
+                min_bounds = PcfMetric(
+                    metric.left_side_bearing,
+                    metric.right_side_bearing,
+                    metric.character_width,
+                    metric.ascent,
+                    metric.descent,
+                )
             else:
                 min_bounds.left_side_bearing = min(min_bounds.left_side_bearing, metric.left_side_bearing)
                 min_bounds.right_side_bearing = min(min_bounds.right_side_bearing, metric.right_side_bearing)
                 min_bounds.character_width = min(min_bounds.character_width, metric.character_width)
                 min_bounds.ascent = min(min_bounds.ascent, metric.ascent)
                 min_bounds.descent = min(min_bounds.descent, metric.descent)
+        if min_bounds is None:
+            min_bounds = PcfMetric(0, 0, 0, 0, 0)
         return min_bounds
 
     def calculate_max_bounds(self) -> PcfMetric:
         max_bounds = None
         for metric in self:
             if max_bounds is None:
-                max_bounds = copy(metric)
+                max_bounds = PcfMetric(
+                    metric.left_side_bearing,
+                    metric.right_side_bearing,
+                    metric.character_width,
+                    metric.ascent,
+                    metric.descent,
+                )
             else:
                 max_bounds.left_side_bearing = max(max_bounds.left_side_bearing, metric.left_side_bearing)
                 max_bounds.right_side_bearing = max(max_bounds.right_side_bearing, metric.right_side_bearing)
                 max_bounds.character_width = max(max_bounds.character_width, metric.character_width)
                 max_bounds.ascent = max(max_bounds.ascent, metric.ascent)
                 max_bounds.descent = max(max_bounds.descent, metric.descent)
+        if max_bounds is None:
+            max_bounds = PcfMetric(0, 0, 0, 0, 0)
         return max_bounds
 
     def calculate_max_overlap(self) -> int:
-        return max(metric.right_side_bearing - metric.character_width for metric in self)
+        return max((metric.right_side_bearing - metric.character_width for metric in self), default=0)
 
     def calculate_compressible(self) -> bool:
         return all(metric.compressible for metric in self)

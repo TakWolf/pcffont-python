@@ -85,7 +85,7 @@ def test_compressible():
     assert metric.compressible
 
 
-def test_calculate():
+def test_calculate_1():
     metrics = PcfMetrics(metrics=[
         PcfMetric(
             left_side_bearing=-3,
@@ -134,3 +134,11 @@ def test_calculate():
     assert metrics.calculate_compressible()
     metrics[0].left_side_bearing = 128
     assert not metrics.calculate_compressible()
+
+
+def test_calculate_2():
+    metrics = PcfMetrics()
+    assert metrics.calculate_min_bounds() == PcfMetric(0, 0, 0, 0, 0)
+    assert metrics.calculate_max_bounds() == PcfMetric(0, 0, 0, 0, 0)
+    assert metrics.calculate_max_overlap() == 0
+    assert metrics.calculate_compressible()
