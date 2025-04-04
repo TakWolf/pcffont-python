@@ -1,11 +1,14 @@
 import math
 from collections import UserList
-from typing import Any, Final
+from typing import Any
 
 import pcffont
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
 from pcffont.internal.stream import Stream
+
+_GLYPH_PAD_OPTIONS = [1, 2, 4, 8]
+_SCAN_UNIT_OPTIONS = [1, 2, 4, 8]
 
 
 def _swap_fragments(fragments: list[list[int]], scan_unit: int):
@@ -18,15 +21,12 @@ def _swap_fragments(fragments: list[list[int]], scan_unit: int):
 
 
 class PcfBitmaps(UserList[list[list[int]]]):
-    GLYPH_PAD_OPTIONS: Final = [1, 2, 4, 8]
-    SCAN_UNIT_OPTIONS: Final = [1, 2, 4, 8]
-
     @staticmethod
     def parse(stream: Stream, font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfBitmaps':
         table_format = header.read_and_check_table_format(stream)
 
-        glyph_pad = PcfBitmaps.GLYPH_PAD_OPTIONS[table_format.glyph_pad_index]
-        scan_unit = PcfBitmaps.SCAN_UNIT_OPTIONS[table_format.scan_unit_index]
+        glyph_pad = _GLYPH_PAD_OPTIONS[table_format.glyph_pad_index]
+        scan_unit = _SCAN_UNIT_OPTIONS[table_format.scan_unit_index]
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)
         bitmap_offsets = stream.read_uint32_list(glyphs_count, table_format.ms_byte_first)
@@ -80,8 +80,8 @@ class PcfBitmaps(UserList[list[list[int]]]):
                 super().__eq__(other))
 
     def dump(self, stream: Stream, font: 'pcffont.PcfFont', table_offset: int) -> int:
-        glyph_pad = PcfBitmaps.GLYPH_PAD_OPTIONS[self.table_format.glyph_pad_index]
-        scan_unit = PcfBitmaps.SCAN_UNIT_OPTIONS[self.table_format.scan_unit_index]
+        glyph_pad = _GLYPH_PAD_OPTIONS[self.table_format.glyph_pad_index]
+        scan_unit = _SCAN_UNIT_OPTIONS[self.table_format.scan_unit_index]
 
         glyphs_count = len(self)
 
@@ -113,7 +113,7 @@ class PcfBitmaps(UserList[list[list[int]]]):
             bitmaps_sizes = list(self._compat_info)
             bitmaps_sizes[self.table_format.glyph_pad_index] = bitmaps_size
         else:
-            bitmaps_sizes = [bitmaps_size // glyph_pad * glyph_pad_option for glyph_pad_option in PcfBitmaps.GLYPH_PAD_OPTIONS]
+            bitmaps_sizes = [bitmaps_size // glyph_pad * glyph_pad_option for glyph_pad_option in _GLYPH_PAD_OPTIONS]
 
         stream.seek(table_offset)
         stream.write_uint32(self.table_format.value)
