@@ -34,14 +34,6 @@ class PcfAccelerators:
             ink_min_bounds = None
             ink_max_bounds = None
 
-        # Compat
-        if header.table_size > stream.tell() - header.table_offset:
-            stream.seek(header.table_offset)
-            raw_chunk = stream.read(header.table_size, ignore_eof=True)
-            _compat_info = raw_chunk, header.table_size
-        else:
-            _compat_info = None
-
         accelerators = PcfAccelerators(
             table_format,
             no_overlap,
@@ -61,7 +53,10 @@ class PcfAccelerators:
         )
 
         # Compat
-        accelerators._compat_info = _compat_info
+        if header.table_size > stream.tell() - header.table_offset:
+            stream.seek(header.table_offset)
+            raw_chunk = stream.read(header.table_size, ignore_eof=True)
+            accelerators._compat_info = raw_chunk, header.table_size
 
         return accelerators
 
