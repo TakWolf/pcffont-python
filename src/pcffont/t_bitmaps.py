@@ -34,9 +34,8 @@ class PcfBitmaps(UserList[list[list[int]]]):
         bitmaps_start = stream.tell()
 
         bitmaps = PcfBitmaps(table_format)
-        for glyph_index, bitmap_offset in enumerate(bitmap_offsets):
+        for bitmap_offset, metric in zip(bitmap_offsets, font.metrics):
             stream.seek(bitmaps_start + bitmap_offset)
-            metric = font.metrics[glyph_index]
             glyph_row_pad = math.ceil(metric.width / (glyph_pad * 8)) * glyph_pad
 
             fragments = stream.read_binary_list(glyph_row_pad * metric.height, table_format.ms_bit_first)
@@ -44,10 +43,10 @@ class PcfBitmaps(UserList[list[list[int]]]):
                 _swap_fragments(fragments, scan_unit)
 
             bitmap = []
-            for _ in range(metric.height):
+            for y in range(metric.height):
                 bitmap_row = []
-                for _ in range(glyph_row_pad):
-                    bitmap_row.extend(fragments.pop(0))
+                for i in range(glyph_row_pad):
+                    bitmap_row.extend(fragments[glyph_row_pad * y + i])
                 bitmap_row = bitmap_row[:metric.width]
                 bitmap.append(bitmap_row)
             bitmaps.append(bitmap)
@@ -89,9 +88,8 @@ class PcfBitmaps(UserList[list[list[int]]]):
         bitmaps_size = 0
         bitmap_offsets = []
         stream.seek(bitmaps_start)
-        for glyph_index, bitmap in enumerate(self):
+        for bitmap, metric in zip(self, font.metrics):
             bitmap_offsets.append(bitmaps_size)
-            metric = font.metrics[glyph_index]
             bitmap_row_width = math.ceil(metric.width / (glyph_pad * 8)) * glyph_pad * 8
 
             fragments = []
@@ -100,8 +98,8 @@ class PcfBitmaps(UserList[list[list[int]]]):
                     bitmap_row = bitmap_row + [0] * (bitmap_row_width - len(bitmap_row))
                 elif len(bitmap_row) > bitmap_row_width:
                     bitmap_row = bitmap_row[:bitmap_row_width]
-                for i in range(bitmap_row_width // 8):
-                    fragments.append(bitmap_row[i * 8:(i + 1) * 8])
+                for i in range(0, bitmap_row_width, 8):
+                    fragments.append(bitmap_row[i:i + 8])
 
             if self.table_format.ms_byte_first != self.table_format.ms_bit_first:
                 _swap_fragments(fragments, scan_unit)
