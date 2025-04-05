@@ -55,7 +55,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
             raise KeyError(f"expected type 'PcfTableType', got '{type(table_type).__name__}' instead")
 
         if not isinstance(table, _TABLE_TYPE_REGISTRY[table_type]):
-            raise ValueError(f"illegal value type: '{type(table).__name__}'")
+            raise ValueError(f"expected type '{_TABLE_TYPE_REGISTRY[table_type].__name__}', got '{type(table).__name__}' instead")
 
         super().__setitem__(table_type, table)
 

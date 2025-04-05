@@ -66,7 +66,7 @@ class PcfBdfEncodings(UserDict[int, int]):
             raise KeyError(f'encoding must between [0, {PcfBdfEncodings.MAX_ENCODING}]')
 
         if not isinstance(glyph_index, int):
-            raise ValueError(f"illegal value type: '{type(glyph_index).__name__}'")
+            raise ValueError(f"expected type 'int', got '{type(glyph_index).__name__}' instead")
 
         if glyph_index < 0 or glyph_index > PcfBdfEncodings.NO_GLYPH_INDEX:
             raise ValueError(f'glyph index must between [0, {PcfBdfEncodings.NO_GLYPH_INDEX}]')
