@@ -106,7 +106,7 @@ class PcfProperties(UserDict[str, str | int]):
                 prop_infos.append((key_offset, is_string_prop, value))
 
         # Pad to next int32 boundary
-        padding = 3 - (((4 + 1 + 4) * props_count + 3) % 4)
+        padding = 3 - ((4 + 1 + 4) * props_count + 3) % 4
         stream.skip(padding)
 
         stream.skip(4)  # strings_size
@@ -119,8 +119,6 @@ class PcfProperties(UserDict[str, str | int]):
             if is_string_prop:
                 stream.seek(strings_start + value)
                 value = stream.read_string()
-            else:
-                value = int(value)
             properties[key] = value
         return properties
 
@@ -387,12 +385,12 @@ class PcfProperties(UserDict[str, str | int]):
             value_offset = strings_size
             if isinstance(value, str):
                 strings_size += stream.write_string(value)
-            prop_infos.append((key, key_offset, value, value_offset))
+            prop_infos.append((key_offset, value, value_offset))
 
         stream.seek(table_offset)
         stream.write_uint32(self.table_format.value)
         stream.write_uint32(props_count, self.table_format.ms_byte_first)
-        for key, key_offset, value, value_offset in prop_infos:
+        for key_offset, value, value_offset in prop_infos:
             stream.write_uint32(key_offset, self.table_format.ms_byte_first)
             if isinstance(value, str):
                 stream.write_bool(True)
