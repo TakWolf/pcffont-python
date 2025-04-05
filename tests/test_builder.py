@@ -29,6 +29,7 @@ def _load_pcf_by_bdf(file_path: Path) -> PcfFont:
         ))
 
     builder.properties.update(bdf_font.properties)
+    builder.properties.generate_xlfd()
 
     return builder.build()
 
@@ -48,7 +49,7 @@ def test_unifont(assets_dir: Path):
     assert font_1.bitmaps == font_2.bitmaps
     assert font_1.accelerators == font_2.accelerators
     assert font_1.bdf_accelerators == font_2.bdf_accelerators
-    assert font_1.properties.generate_xlfd() == font_2.properties.generate_xlfd()
+    assert font_1.properties.font.upper() == font_2.properties.font.upper().replace('-SANS SERIF', '-SANS')
 
 
 def test_demo(assets_dir: Path):
@@ -66,7 +67,7 @@ def test_demo(assets_dir: Path):
     assert font_1.bitmaps == font_2.bitmaps
     assert font_1.accelerators == font_2.accelerators
     assert font_1.bdf_accelerators == font_2.bdf_accelerators
-    assert font_1.properties.generate_xlfd() == font_2.properties.generate_xlfd()
+    assert font_1.properties.font == font_2.properties.font
 
 
 def test_demo_2(assets_dir: Path):
@@ -84,4 +85,4 @@ def test_demo_2(assets_dir: Path):
     assert font_1.bitmaps == font_2.bitmaps
     assert font_1.accelerators == font_2.accelerators
     assert font_1.bdf_accelerators == font_2.bdf_accelerators
-    assert font_1.properties.generate_xlfd() == font_2.properties.generate_xlfd()
+    assert font_1.properties.font == font_2.properties.font

@@ -52,19 +52,19 @@ class PcfFontConfig:
 
 
 class PcfFontBuilder:
+    config: PcfFontConfig
     properties: PcfProperties
     glyphs: list[PcfGlyph]
-    config: PcfFontConfig
 
     def __init__(
             self,
+            config: PcfFontConfig | None = None,
             properties: PcfProperties | None = None,
             glyphs: list[PcfGlyph] | None = None,
-            config: PcfFontConfig | None = None,
     ):
+        self.config = PcfFontConfig() if config is None else config
         self.properties = PcfProperties() if properties is None else properties
         self.glyphs = [] if glyphs is None else glyphs
-        self.config = PcfFontConfig() if config is None else config
 
     def build(self) -> PcfFont:
         bdf_encodings = PcfBdfEncodings(
@@ -81,10 +81,13 @@ class PcfFontBuilder:
             font_ascent=self.config.font_ascent,
             font_descent=self.config.font_descent,
         )
+        properties = PcfProperties(
+            self.config.to_table_format(),
+            self.properties.data
+        )
 
         for glyph_index, glyph in enumerate(self.glyphs):
-            if 0 <= glyph.encoding <= PcfBdfEncodings.MAX_ENCODING:
-                bdf_encodings[glyph.encoding] = glyph_index
+            bdf_encodings[glyph.encoding] = glyph_index
             glyph_names.append(glyph.name)
             scalable_widths.append(glyph.scalable_width)
             metrics.append(glyph.create_metric(False))
@@ -141,7 +144,7 @@ class PcfFontBuilder:
         font.bitmaps = bitmaps
         font.accelerators = accelerators
         font.bdf_accelerators = accelerators
-        font.properties = self.properties
+        font.properties = properties
         return font
 
     def save(self, file_path: str | PathLike[str]):
