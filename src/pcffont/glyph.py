@@ -75,7 +75,7 @@ class PcfGlyph:
 
         # Top
         for bitmap_row in self.bitmap:
-            if any(bitmap_row) != 0:
+            if any(color != 0 for color in bitmap_row):
                 break
             metric.ascent -= 1
 
@@ -88,19 +88,19 @@ class PcfGlyph:
 
         # Bottom
         for bitmap_row in reversed(self.bitmap):
-            if any(bitmap_row) != 0:
+            if any(color != 0 for color in bitmap_row):
                 break
             metric.descent -= 1
 
         # Left
         for i in range(self.width):
-            if any(bitmap_row[i] for bitmap_row in self.bitmap) != 0:
+            if any(bitmap_row[i] != 0 for bitmap_row in self.bitmap):
                 break
             metric.left_side_bearing += 1
 
         # Right
         for i in range(self.width):
-            if any(bitmap_row[self.width - 1 - i] for bitmap_row in self.bitmap) != 0:
+            if any(bitmap_row[self.width - 1 - i] != 0 for bitmap_row in self.bitmap):
                 break
             metric.right_side_bearing -= 1
 
