@@ -17,6 +17,7 @@ pip install pcffont
 
 ```python
 import shutil
+import statistics
 
 from examples import build_dir
 from pcffont import PcfFontBuilder, PcfGlyph
@@ -70,7 +71,7 @@ def main():
     builder.properties.resolution_x = 75
     builder.properties.resolution_y = 75
     builder.properties.spacing = 'P'
-    builder.properties.average_width = round(sum([glyph.character_width * 10 for glyph in builder.glyphs]) / len(builder.glyphs))
+    builder.properties.average_width = round(statistics.fmean(glyph.character_width * 10 for glyph in builder.glyphs))
     builder.properties.charset_registry = 'ISO10646'
     builder.properties.charset_encoding = '1'
     builder.properties.generate_xlfd()
