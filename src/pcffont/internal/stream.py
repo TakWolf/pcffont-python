@@ -93,7 +93,7 @@ class Stream:
         return self.write(value.to_bytes(size, 'big' if ms_byte_first else 'little', signed=True))
 
     def write_int_list(self, values: Iterable[int], size: int, ms_byte_first: bool = False) -> int:
-        return sum([self.write_int(value, size, ms_byte_first) for value in values])
+        return sum(self.write_int(value, size, ms_byte_first) for value in values)
 
     def write_int8(self, value: int) -> int:
         return self.write_int(value, 1)
@@ -117,7 +117,7 @@ class Stream:
         return self.write(value.to_bytes(size, 'big' if ms_byte_first else 'little', signed=False))
 
     def write_uint_list(self, values: Iterable[int], size: int, ms_byte_first: bool = False) -> int:
-        return sum([self.write_uint(value, size, ms_byte_first) for value in values])
+        return sum(self.write_uint(value, size, ms_byte_first) for value in values)
 
     def write_uint8(self, value: int) -> int:
         return self.write_uint(value, 1)
@@ -143,13 +143,13 @@ class Stream:
         return self.write(bytes([int(''.join(map(str, value)), 2)]))
 
     def write_binary_list(self, values: Iterable[list[int]], ms_bit_first: bool = False) -> int:
-        return sum([self.write_binary(value, ms_bit_first) for value in values])
+        return sum(self.write_binary(value, ms_bit_first) for value in values)
 
     def write_string(self, value: str) -> int:
         return self.write(value.encode()) + self.write_nulls(1)
 
     def write_string_list(self, values: Iterable[str]) -> int:
-        return sum([self.write_string(value) for value in values])
+        return sum(self.write_string(value) for value in values)
 
     def write_bool(self, value: bool) -> int:
         return self.write(b'\x01' if value else b'\x00')
