@@ -159,7 +159,7 @@ class PcfAccelerators:
             raw_chunk, table_size = self._compat_info
             stream.write(raw_chunk[stream.tell() - table_offset::])
         else:
-            stream.align_to_bit32_with_nulls()
+            stream.align_to_4_byte_with_nulls()
             table_size = stream.tell() - table_offset
 
         return table_size

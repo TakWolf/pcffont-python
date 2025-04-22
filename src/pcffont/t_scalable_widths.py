@@ -46,7 +46,7 @@ class PcfScalableWidths(UserList[int]):
         stream.write_uint32(self.table_format.value)
         stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
         stream.write_int32_list(self, self.table_format.ms_byte_first)
-        stream.align_to_bit32_with_nulls()
+        stream.align_to_4_byte_with_nulls()
 
         table_size = stream.tell() - table_offset
         return table_size

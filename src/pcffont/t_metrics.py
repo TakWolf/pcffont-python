@@ -102,7 +102,7 @@ class PcfMetrics(UserList[PcfMetric]):
             stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
         for metric in self:
             metric.dump(stream, self.table_format.ms_byte_first, self.table_format.ink_bounds_or_compressed_metrics)
-        stream.align_to_bit32_with_nulls()
+        stream.align_to_4_byte_with_nulls()
 
         table_size = stream.tell() - table_offset
         return table_size

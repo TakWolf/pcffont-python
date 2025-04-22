@@ -60,7 +60,7 @@ class PcfGlyphNames(UserList[str]):
         stream.write_uint32_list(name_offsets, self.table_format.ms_byte_first)
         stream.write_uint32(strings_size, self.table_format.ms_byte_first)
         stream.skip(strings_size)
-        stream.align_to_bit32_with_nulls()
+        stream.align_to_4_byte_with_nulls()
 
         table_size = stream.tell() - table_offset
         return table_size
