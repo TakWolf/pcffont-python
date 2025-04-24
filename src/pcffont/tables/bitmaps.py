@@ -22,7 +22,7 @@ def _swap_fragments(fragments: list[list[int]], scan_unit: int):
 
 class PcfBitmaps(UserList[list[list[int]]]):
     @staticmethod
-    def parse(stream: Stream, font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfBitmaps':
+    def parse(stream: Stream, header: PcfHeader, font: 'pcffont.PcfFont') -> 'PcfBitmaps':
         table_format = header.read_and_check_table_format(stream)
 
         glyph_pad = _GLYPH_PAD_OPTIONS[table_format.glyph_pad_index]
@@ -78,7 +78,7 @@ class PcfBitmaps(UserList[list[list[int]]]):
                 self._compat_info == other._compat_info and
                 super().__eq__(other))
 
-    def dump(self, stream: Stream, font: 'pcffont.PcfFont', table_offset: int) -> int:
+    def dump(self, stream: Stream, table_offset: int, font: 'pcffont.PcfFont') -> int:
         glyph_pad = _GLYPH_PAD_OPTIONS[self.table_format.glyph_pad_index]
         scan_unit = _SCAN_UNIT_OPTIONS[self.table_format.scan_unit_index]
 

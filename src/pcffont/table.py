@@ -13,9 +13,9 @@ class PcfTable(Protocol):
 
     @staticmethod
     @abstractmethod
-    def parse(stream: Stream, font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfTable':
+    def parse(stream: Stream, header: PcfHeader, font: 'pcffont.PcfFont') -> 'PcfTable':
         raise NotImplementedError()
 
     @abstractmethod
-    def dump(self, stream: Stream, font: 'pcffont.PcfFont', table_offset: int) -> int:
+    def dump(self, stream: Stream, table_offset: int, font: 'pcffont.PcfFont') -> int:
         raise NotImplementedError()

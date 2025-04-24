@@ -9,7 +9,7 @@ from pcffont.internal.stream import Stream
 
 class PcfGlyphNames(UserList[str]):
     @staticmethod
-    def parse(stream: Stream, font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfGlyphNames':
+    def parse(stream: Stream, header: PcfHeader, font: 'pcffont.PcfFont') -> 'PcfGlyphNames':
         table_format = header.read_and_check_table_format(stream)
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)
@@ -43,7 +43,7 @@ class PcfGlyphNames(UserList[str]):
         return (self.table_format == other.table_format and
                 super().__eq__(other))
 
-    def dump(self, stream: Stream, font: 'pcffont.PcfFont', table_offset: int) -> int:
+    def dump(self, stream: Stream, table_offset: int, font: 'pcffont.PcfFont') -> int:
         glyphs_count = len(self)
 
         strings_start = table_offset + 4 + 4 + 4 * glyphs_count + 4

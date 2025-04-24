@@ -89,7 +89,7 @@ _XLFD_KEYS_ORDER = [
 
 class PcfProperties(UserDict[str, str | int]):
     @staticmethod
-    def parse(stream: Stream, font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfProperties':
+    def parse(stream: Stream, header: PcfHeader, font: 'pcffont.PcfFont') -> 'PcfProperties':
         table_format = header.read_and_check_table_format(stream)
 
         props_count = stream.read_uint32(table_format.ms_byte_first)
@@ -369,7 +369,7 @@ class PcfProperties(UserDict[str, str | int]):
                     value = int(token)
             self[key] = value
 
-    def dump(self, stream: Stream, font: 'pcffont.PcfFont', table_offset: int) -> int:
+    def dump(self, stream: Stream, table_offset: int, font: 'pcffont.PcfFont') -> int:
         props_count = len(self)
 
         # Pad to next int32 boundary

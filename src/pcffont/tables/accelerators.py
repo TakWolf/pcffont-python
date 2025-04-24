@@ -9,7 +9,7 @@ from pcffont.metric import PcfMetric
 
 class PcfAccelerators:
     @staticmethod
-    def parse(stream: Stream, font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfAccelerators':
+    def parse(stream: Stream, header: PcfHeader, font: 'pcffont.PcfFont') -> 'PcfAccelerators':
         table_format = header.read_and_check_table_format(stream)
 
         no_overlap = stream.read_bool()
@@ -132,7 +132,7 @@ class PcfAccelerators:
                 self.ink_max_bounds == other.ink_max_bounds and
                 self._compat_info == other._compat_info)
 
-    def dump(self, stream: Stream, font: 'pcffont.PcfFont', table_offset: int) -> int:
+    def dump(self, stream: Stream, table_offset: int, font: 'pcffont.PcfFont') -> int:
         stream.seek(table_offset)
         stream.write_uint32(self.table_format.value)
         stream.write_bool(self.no_overlap)

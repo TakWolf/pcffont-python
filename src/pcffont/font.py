@@ -26,7 +26,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         font = PcfFont()
         headers = PcfHeader.parse(stream)
         for header in headers:
-            table = TABLE_TYPE_REGISTRY[header.table_type].parse(stream, font, header)
+            table = TABLE_TYPE_REGISTRY[header.table_type].parse(stream, header, font)
             font[header.table_type] = table
         return font
 
@@ -134,7 +134,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         headers = []
         table_offset = 4 + 4 + 4 * 4 * len(self)
         for table_type, table in sorted(self.items()):
-            table_size = table.dump(stream, self, table_offset)
+            table_size = table.dump(stream, table_offset, self)
             headers.append(PcfHeader(table_type, table.table_format, table_size, table_offset))
             table_offset += table_size
         PcfHeader.dump(stream, headers)
