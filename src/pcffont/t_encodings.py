@@ -16,7 +16,7 @@ class PcfBdfEncodings(UserDict[int, int]):
     NO_GLYPH_INDEX: Final = 0xFFFF
 
     @staticmethod
-    def parse(stream: Stream, _font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfBdfEncodings':
+    def parse(stream: Stream, font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfBdfEncodings':
         table_format = header.read_and_check_table_format(stream)
 
         min_byte_2 = stream.read_uint16(table_format.ms_byte_first)
@@ -83,7 +83,7 @@ class PcfBdfEncodings(UserDict[int, int]):
                 self.default_char == other.default_char and
                 super().__eq__(other))
 
-    def dump(self, stream: Stream, _font: 'pcffont.PcfFont', table_offset: int) -> int:
+    def dump(self, stream: Stream, font: 'pcffont.PcfFont', table_offset: int) -> int:
         min_byte_2 = 0xFF
         max_byte_2 = 0
         min_byte_1 = 0xFF

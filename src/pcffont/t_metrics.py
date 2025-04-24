@@ -10,7 +10,7 @@ from pcffont.metric import PcfMetric
 
 class PcfMetrics(UserList[PcfMetric]):
     @staticmethod
-    def parse(stream: Stream, _font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfMetrics':
+    def parse(stream: Stream, font: 'pcffont.PcfFont', header: PcfHeader) -> 'PcfMetrics':
         table_format = header.read_and_check_table_format(stream)
 
         if table_format.ink_bounds_or_compressed_metrics:
@@ -91,7 +91,7 @@ class PcfMetrics(UserList[PcfMetric]):
     def calculate_compressible(self) -> bool:
         return all(metric.compressible for metric in self)
 
-    def dump(self, stream: Stream, _font: 'pcffont.PcfFont', table_offset: int) -> int:
+    def dump(self, stream: Stream, font: 'pcffont.PcfFont', table_offset: int) -> int:
         glyphs_count = len(self)
 
         stream.seek(table_offset)
