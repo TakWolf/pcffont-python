@@ -4,11 +4,11 @@ from pcffont.format import PcfTableFormat
 from pcffont.glyph import PcfGlyph
 from pcffont.header import PcfTableType, PcfHeader
 from pcffont.metric import PcfMetric
-from pcffont.t_accelerators import PcfAccelerators
-from pcffont.t_bitmaps import PcfBitmaps
-from pcffont.t_encodings import PcfBdfEncodings
-from pcffont.t_glyph_names import PcfGlyphNames
-from pcffont.t_metrics import PcfMetrics
-from pcffont.t_properties import PcfProperties
-from pcffont.t_scalable_widths import PcfScalableWidths
 from pcffont.table import PcfTable
+from pcffont.tables.accelerators import PcfAccelerators
+from pcffont.tables.bitmaps import PcfBitmaps
+from pcffont.tables.encodings import PcfBdfEncodings
+from pcffont.tables.glyph_names import PcfGlyphNames
+from pcffont.tables.metrics import PcfMetrics
+from pcffont.tables.properties import PcfProperties
+from pcffont.tables.scalable_widths import PcfScalableWidths

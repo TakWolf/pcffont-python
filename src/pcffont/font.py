@@ -5,26 +5,15 @@ from typing import Any, BinaryIO
 
 from pcffont.header import PcfTableType, PcfHeader
 from pcffont.internal.stream import Stream
-from pcffont.t_accelerators import PcfAccelerators
-from pcffont.t_bitmaps import PcfBitmaps
-from pcffont.t_encodings import PcfBdfEncodings
-from pcffont.t_glyph_names import PcfGlyphNames
-from pcffont.t_metrics import PcfMetrics
-from pcffont.t_properties import PcfProperties
-from pcffont.t_scalable_widths import PcfScalableWidths
 from pcffont.table import PcfTable
-
-_TABLE_TYPE_REGISTRY = {
-    PcfTableType.PROPERTIES: PcfProperties,
-    PcfTableType.ACCELERATORS: PcfAccelerators,
-    PcfTableType.METRICS: PcfMetrics,
-    PcfTableType.BITMAPS: PcfBitmaps,
-    PcfTableType.INK_METRICS: PcfMetrics,
-    PcfTableType.BDF_ENCODINGS: PcfBdfEncodings,
-    PcfTableType.SCALABLE_WIDTHS: PcfScalableWidths,
-    PcfTableType.GLYPH_NAMES: PcfGlyphNames,
-    PcfTableType.BDF_ACCELERATORS: PcfAccelerators,
-}
+from pcffont.tables import TABLE_TYPE_REGISTRY
+from pcffont.tables.accelerators import PcfAccelerators
+from pcffont.tables.bitmaps import PcfBitmaps
+from pcffont.tables.encodings import PcfBdfEncodings
+from pcffont.tables.glyph_names import PcfGlyphNames
+from pcffont.tables.metrics import PcfMetrics
+from pcffont.tables.properties import PcfProperties
+from pcffont.tables.scalable_widths import PcfScalableWidths
 
 
 class PcfFont(UserDict[PcfTableType, PcfTable]):
@@ -37,7 +26,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         font = PcfFont()
         headers = PcfHeader.parse(stream)
         for header in headers:
-            table = _TABLE_TYPE_REGISTRY[header.table_type].parse(stream, font, header)
+            table = TABLE_TYPE_REGISTRY[header.table_type].parse(stream, font, header)
             font[header.table_type] = table
         return font
 
@@ -54,8 +43,8 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         if not isinstance(table_type, PcfTableType):
             raise KeyError(f"expected type 'PcfTableType', got '{type(table_type).__name__}' instead")
 
-        if not isinstance(table, _TABLE_TYPE_REGISTRY[table_type]):
-            raise ValueError(f"expected type '{_TABLE_TYPE_REGISTRY[table_type].__name__}', got '{type(table).__name__}' instead")
+        if not isinstance(table, TABLE_TYPE_REGISTRY[table_type]):
+            raise ValueError(f"expected type '{TABLE_TYPE_REGISTRY[table_type].__name__}', got '{type(table).__name__}' instead")
 
         super().__setitem__(table_type, table)
 
