@@ -1,5 +1,4 @@
 import random
-from io import BytesIO
 
 import pytest
 
@@ -7,7 +6,7 @@ from pcffont.internal.stream import Stream
 
 
 def test_byte():
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     size += stream.write(b'Hello World')
     size += stream.write_nulls(4)
@@ -19,7 +18,7 @@ def test_byte():
 
 
 def test_eof():
-    stream = Stream(BytesIO())
+    stream = Stream()
     with pytest.raises(EOFError):
         stream.read(1)
     stream.read(1, ignore_eof=True)
@@ -28,7 +27,7 @@ def test_eof():
 def test_int8():
     values = [random.randint(-0x80, 0x7F) for _ in range(20)]
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_int8(value)
@@ -37,7 +36,7 @@ def test_int8():
     assert stream.read_int8_list(len(values)) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_int8_list(values)
     assert stream.tell() == size
     stream.seek(0)
@@ -49,7 +48,7 @@ def test_int8():
 def test_uint8():
     values = [random.randint(0, 0xFF) for _ in range(20)]
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_uint8(value)
@@ -58,7 +57,7 @@ def test_uint8():
     assert stream.read_uint8_list(len(values)) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_uint8_list(values)
     assert stream.tell() == size
     stream.seek(0)
@@ -70,7 +69,7 @@ def test_uint8():
 def test_int16():
     values = [random.randint(-0x80_00, 0x7F_FF) for _ in range(20)]
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_int16(value, True)
@@ -79,7 +78,7 @@ def test_int16():
     assert stream.read_int16_list(len(values), True) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_int16_list(values, True)
     assert stream.tell() == size
     stream.seek(0)
@@ -87,7 +86,7 @@ def test_int16():
         assert stream.read_int16(True) == value
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_int16(value, False)
@@ -96,7 +95,7 @@ def test_int16():
     assert stream.read_int16_list(len(values), False) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_int16_list(values, False)
     assert stream.tell() == size
     stream.seek(0)
@@ -108,7 +107,7 @@ def test_int16():
 def test_uint16():
     values = [random.randint(0, 0xFF_FF) for _ in range(20)]
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_uint16(value, True)
@@ -117,7 +116,7 @@ def test_uint16():
     assert stream.read_uint16_list(len(values), True) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_uint16_list(values, True)
     assert stream.tell() == size
     stream.seek(0)
@@ -125,7 +124,7 @@ def test_uint16():
         assert stream.read_uint16(True) == value
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_uint16(value, False)
@@ -134,7 +133,7 @@ def test_uint16():
     assert stream.read_uint16_list(len(values), False) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_uint16_list(values, False)
     assert stream.tell() == size
     stream.seek(0)
@@ -146,7 +145,7 @@ def test_uint16():
 def test_int32():
     values = [random.randint(-0x80_00_00_00, 0x7F_FF_FF_FF) for _ in range(20)]
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_int32(value, True)
@@ -155,7 +154,7 @@ def test_int32():
     assert stream.read_int32_list(len(values), True) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_int32_list(values, True)
     assert stream.tell() == size
     stream.seek(0)
@@ -163,7 +162,7 @@ def test_int32():
         assert stream.read_int32(True) == value
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_int32(value, False)
@@ -172,7 +171,7 @@ def test_int32():
     assert stream.read_int32_list(len(values), False) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_int32_list(values, False)
     assert stream.tell() == size
     stream.seek(0)
@@ -184,7 +183,7 @@ def test_int32():
 def test_uint32():
     values = [random.randint(0, 0xFF_FF_FF_FF) for _ in range(20)]
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_uint32(value, True)
@@ -193,7 +192,7 @@ def test_uint32():
     assert stream.read_uint32_list(len(values), True) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_uint32_list(values, True)
     assert stream.tell() == size
     stream.seek(0)
@@ -201,7 +200,7 @@ def test_uint32():
         assert stream.read_uint32(True) == value
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_uint32(value, False)
@@ -210,7 +209,7 @@ def test_uint32():
     assert stream.read_uint32_list(len(values), False) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_uint32_list(values, False)
     assert stream.tell() == size
     stream.seek(0)
@@ -220,7 +219,7 @@ def test_uint32():
 
 
 def test_binary():
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     size += stream.write_binary([1, 1, 1, 1, 0, 0, 0, 0], True)
     size += stream.write_binary([1, 1, 1, 1, 0, 0, 0, 0], False)
@@ -262,7 +261,7 @@ def test_binary():
 def test_string():
     values = ['ABC', 'DEF', '12345', '67890']
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     for value in values:
         size += stream.write_string(value)
@@ -271,7 +270,7 @@ def test_string():
     assert stream.read_string_list(len(values)) == values
     assert stream.tell() == size
 
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = stream.write_string_list(values)
     assert stream.tell() == size
     stream.seek(0)
@@ -281,7 +280,7 @@ def test_string():
 
 
 def test_bool():
-    stream = Stream(BytesIO())
+    stream = Stream()
     size = 0
     size += stream.write_bool(True)
     size += stream.write_bool(False)
@@ -293,7 +292,7 @@ def test_bool():
 
 
 def test_align_to_4_byte():
-    stream = Stream(BytesIO())
+    stream = Stream()
     stream.write(b'abc')
     assert stream.align_to_4_byte_with_nulls() == 1
     assert stream.tell() == 4
@@ -302,7 +301,7 @@ def test_align_to_4_byte():
 
 
 def test_skip():
-    stream = Stream(BytesIO())
+    stream = Stream()
     stream.write_nulls(100)
     assert stream.tell() == 100
     stream.seek(25)
