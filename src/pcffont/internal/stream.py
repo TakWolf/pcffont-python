@@ -1,3 +1,4 @@
+import os
 from collections.abc import Iterable
 from io import BytesIO
 from typing import BinaryIO
@@ -167,11 +168,8 @@ class Stream:
     def align_to_4_byte_with_nulls(self) -> int:
         return self.write_nulls(3 - (self.tell() + 3) % 4)
 
-    def seek(self, offset: int):
-        self.source.seek(offset)
+    def seek(self, offset: int, whence: int = os.SEEK_SET):
+        self.source.seek(offset, whence)
 
     def tell(self) -> int:
         return self.source.tell()
-
-    def skip(self, size: int):
-        self.seek(self.tell() + size)

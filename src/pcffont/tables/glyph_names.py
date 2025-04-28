@@ -1,3 +1,4 @@
+import os
 from collections import UserList
 from typing import Any
 
@@ -14,7 +15,7 @@ class PcfGlyphNames(UserList[str]):
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)
         name_offsets = stream.read_uint32_list(glyphs_count, table_format.ms_byte_first)
-        stream.skip(4)  # strings_size
+        stream.seek(4, os.SEEK_CUR)  # strings_size
         strings_start = stream.tell()
 
         names = PcfGlyphNames(table_format)
@@ -59,7 +60,7 @@ class PcfGlyphNames(UserList[str]):
         stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
         stream.write_uint32_list(name_offsets, self.table_format.ms_byte_first)
         stream.write_uint32(strings_size, self.table_format.ms_byte_first)
-        stream.skip(strings_size)
+        stream.seek(strings_size, os.SEEK_CUR)
         stream.align_to_4_byte_with_nulls()
 
         table_size = stream.tell() - table_offset

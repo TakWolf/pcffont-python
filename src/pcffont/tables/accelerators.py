@@ -1,3 +1,4 @@
+import os
 from typing import Any
 
 import pcffont
@@ -19,7 +20,7 @@ class PcfAccelerators:
         ink_inside = stream.read_bool()
         ink_metrics = stream.read_bool()
         draw_right_to_left = stream.read_bool()
-        stream.skip(1)
+        stream.seek(1, os.SEEK_CUR)
         font_ascent = stream.read_int32(table_format.ms_byte_first)
         font_descent = stream.read_int32(table_format.ms_byte_first)
         max_overlap = stream.read_int32(table_format.ms_byte_first)

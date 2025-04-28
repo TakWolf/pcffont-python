@@ -298,12 +298,3 @@ def test_align_to_4_byte():
     assert stream.tell() == 4
     stream.seek(0)
     assert stream.read(4) == b'abc\x00'
-
-
-def test_skip():
-    stream = Stream()
-    stream.write_nulls(100)
-    assert stream.tell() == 100
-    stream.seek(25)
-    stream.skip(50)
-    assert stream.tell() == 75

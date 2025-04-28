@@ -1,3 +1,4 @@
+import os
 import re
 from collections import UserDict
 from typing import Any
@@ -107,9 +108,9 @@ class PcfProperties(UserDict[str, str | int]):
 
         # Pad to next int32 boundary
         padding = 3 - ((4 + 1 + 4) * props_count + 3) % 4
-        stream.skip(padding)
+        stream.seek(padding, os.SEEK_CUR)
 
-        stream.skip(4)  # strings_size
+        stream.seek(4, os.SEEK_CUR)  # strings_size
         strings_start = stream.tell()
 
         properties = PcfProperties(table_format)
@@ -400,7 +401,7 @@ class PcfProperties(UserDict[str, str | int]):
                 stream.write_int32(value, self.table_format.ms_byte_first)
         stream.write_nulls(padding)
         stream.write_uint32(strings_size, self.table_format.ms_byte_first)
-        stream.skip(strings_size)
+        stream.seek(strings_size, os.SEEK_CUR)
         stream.align_to_4_byte_with_nulls()
 
         table_size = stream.tell() - table_offset
