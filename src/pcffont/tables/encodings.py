@@ -4,7 +4,7 @@ from typing import Final, Any
 import pcffont
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
-from pcffont.internal.stream import Stream
+from pcffont.utils.stream import Stream
 
 
 class PcfBdfEncodings(UserDict[int, int]):

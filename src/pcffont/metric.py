@@ -1,6 +1,6 @@
 from typing import Any
 
-from pcffont.internal.stream import Stream
+from pcffont.utils.stream import Stream
 
 
 class PcfMetric:

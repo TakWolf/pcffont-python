@@ -2,7 +2,7 @@ import random
 
 import pytest
 
-from pcffont.internal.stream import Stream
+from pcffont.utils.stream import Stream
 
 
 def test_byte():

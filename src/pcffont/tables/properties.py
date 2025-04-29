@@ -7,7 +7,7 @@ import pcffont
 from pcffont.error import PcfXlfdError
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
-from pcffont.internal.stream import Stream
+from pcffont.utils.stream import Stream
 
 _KEY_FOUNDRY = 'FOUNDRY'
 _KEY_FAMILY_NAME = 'FAMILY_NAME'

@@ -4,7 +4,6 @@ from os import PathLike
 from typing import Any, BinaryIO
 
 from pcffont.header import PcfTableType, PcfHeader
-from pcffont.internal.stream import Stream
 from pcffont.table import PcfTable
 from pcffont.tables import TABLE_TYPE_REGISTRY
 from pcffont.tables.accelerators import PcfAccelerators
@@ -14,6 +13,7 @@ from pcffont.tables.glyph_names import PcfGlyphNames
 from pcffont.tables.metrics import PcfMetrics
 from pcffont.tables.properties import PcfProperties
 from pcffont.tables.scalable_widths import PcfScalableWidths
+from pcffont.utils.stream import Stream
 
 
 class PcfFont(UserDict[PcfTableType, PcfTable]):

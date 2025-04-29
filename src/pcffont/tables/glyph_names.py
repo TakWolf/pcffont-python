@@ -5,7 +5,7 @@ from typing import Any
 import pcffont
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
-from pcffont.internal.stream import Stream
+from pcffont.utils.stream import Stream
 
 
 class PcfGlyphNames(UserList[str]):

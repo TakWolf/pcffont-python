@@ -4,7 +4,7 @@ from typing import Protocol, runtime_checkable
 import pcffont
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
-from pcffont.internal.stream import Stream
+from pcffont.utils.stream import Stream
 
 
 @runtime_checkable

@@ -3,7 +3,7 @@ from typing import Any
 
 from pcffont.error import PcfParseError
 from pcffont.format import PcfTableFormat
-from pcffont.internal.stream import Stream
+from pcffont.utils.stream import Stream
 
 _FILE_VERSION = b'\x01fcp'
 

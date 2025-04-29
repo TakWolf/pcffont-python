@@ -6,7 +6,7 @@ from typing import Any
 import pcffont
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
-from pcffont.internal.stream import Stream
+from pcffont.utils.stream import Stream
 
 _GLYPH_PAD_OPTIONS = [1, 2, 4, 8]
 _SCAN_UNIT_OPTIONS = [1, 2, 4, 8]
