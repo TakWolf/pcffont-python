@@ -1,13 +1,13 @@
 from collections import UserDict
 from typing import Final, Any
 
-import pcffont
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
+from pcffont.table import PcfTableContainer, PcfTable
 from pcffont.utils.stream import Stream
 
 
-class PcfBdfEncodings(UserDict[int, int]):
+class PcfBdfEncodings(UserDict[int, int], PcfTable):
     """
     encoding -> glyph_index
     """
@@ -16,7 +16,7 @@ class PcfBdfEncodings(UserDict[int, int]):
     NO_GLYPH_INDEX: Final = 0xFFFF
 
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, font: 'pcffont.PcfFont') -> 'PcfBdfEncodings':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfBdfEncodings':
         table_format = header.read_and_check_table_format(stream)
 
         min_byte_2 = stream.read_uint16(table_format.ms_byte_first)
@@ -83,7 +83,7 @@ class PcfBdfEncodings(UserDict[int, int]):
                 self.default_char == other.default_char and
                 super().__eq__(other))
 
-    def dump(self, stream: Stream, table_offset: int, font: 'pcffont.PcfFont') -> int:
+    def dump(self, stream: Stream, table_offset: int, container: PcfTableContainer) -> int:
         min_byte_2 = 0xFF
         max_byte_2 = 0
         min_byte_1 = 0xFF

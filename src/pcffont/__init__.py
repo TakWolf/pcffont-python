@@ -2,7 +2,7 @@ from pcffont.builder import PcfFontConfig, PcfFontBuilder
 from pcffont.font import PcfFont
 from pcffont.format import PcfTableFormat
 from pcffont.glyph import PcfGlyph
-from pcffont.header import PcfTableType, PcfHeader
+from pcffont.header import PcfTableType
 from pcffont.metric import PcfMetric
 from pcffont.table import PcfTable
 from pcffont.tables.accelerators import PcfAccelerators

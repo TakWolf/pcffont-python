@@ -3,9 +3,10 @@ import os
 from collections import UserList
 from typing import Any
 
-import pcffont
 from pcffont.format import PcfTableFormat
-from pcffont.header import PcfHeader
+from pcffont.header import PcfTableType, PcfHeader
+from pcffont.table import PcfTableContainer, PcfTable
+from pcffont.tables.metrics import PcfMetrics
 from pcffont.utils.stream import Stream
 
 _GLYPH_PAD_OPTIONS = [1, 2, 4, 8]
@@ -21,9 +22,11 @@ def _swap_fragments(fragments: list[list[int]], scan_unit: int):
             fragments[i], fragments[i + 1], fragments[i + 2], fragments[i + 3] = fragments[i + 3], fragments[i + 2], fragments[i + 1], fragments[i]
 
 
-class PcfBitmaps(UserList[list[list[int]]]):
+class PcfBitmaps(UserList[list[list[int]]], PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, font: 'pcffont.PcfFont') -> 'PcfBitmaps':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfBitmaps':
+        metrics: PcfMetrics = container.get_table(PcfTableType.METRICS)
+
         table_format = header.read_and_check_table_format(stream)
 
         glyph_pad = _GLYPH_PAD_OPTIONS[table_format.glyph_pad_index]
@@ -35,7 +38,7 @@ class PcfBitmaps(UserList[list[list[int]]]):
         bitmaps_start = stream.tell()
 
         bitmaps = PcfBitmaps(table_format)
-        for bitmap_offset, metric in zip(bitmap_offsets, font.metrics):
+        for bitmap_offset, metric in zip(bitmap_offsets, metrics):
             stream.seek(bitmaps_start + bitmap_offset)
             glyph_row_pad = math.ceil(metric.width / (glyph_pad * 8)) * glyph_pad
 
@@ -79,7 +82,9 @@ class PcfBitmaps(UserList[list[list[int]]]):
                 self._compat_info == other._compat_info and
                 super().__eq__(other))
 
-    def dump(self, stream: Stream, table_offset: int, font: 'pcffont.PcfFont') -> int:
+    def dump(self, stream: Stream, table_offset: int, container: PcfTableContainer) -> int:
+        metrics: PcfMetrics = container.get_table(PcfTableType.METRICS)
+
         glyph_pad = _GLYPH_PAD_OPTIONS[self.table_format.glyph_pad_index]
         scan_unit = _SCAN_UNIT_OPTIONS[self.table_format.scan_unit_index]
 
@@ -89,7 +94,7 @@ class PcfBitmaps(UserList[list[list[int]]]):
         bitmaps_size = 0
         bitmap_offsets = []
         stream.seek(bitmaps_start)
-        for bitmap, metric in zip(self, font.metrics):
+        for bitmap, metric in zip(self, metrics):
             bitmap_offsets.append(bitmaps_size)
             bitmap_row_width = math.ceil(metric.width / (glyph_pad * 8)) * glyph_pad * 8
 

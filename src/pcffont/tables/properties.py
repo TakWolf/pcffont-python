@@ -3,10 +3,10 @@ import re
 from collections import UserDict
 from typing import Any
 
-import pcffont
 from pcffont.error import PcfXlfdError
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
+from pcffont.table import PcfTableContainer, PcfTable
 from pcffont.utils.stream import Stream
 
 _KEY_FOUNDRY = 'FOUNDRY'
@@ -88,9 +88,9 @@ _XLFD_KEYS_ORDER = [
 ]
 
 
-class PcfProperties(UserDict[str, str | int]):
+class PcfProperties(UserDict[str, str | int], PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, font: 'pcffont.PcfFont') -> 'PcfProperties':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfProperties':
         table_format = header.read_and_check_table_format(stream)
 
         props_count = stream.read_uint32(table_format.ms_byte_first)
@@ -370,7 +370,7 @@ class PcfProperties(UserDict[str, str | int]):
                     value = int(token)
             self[key] = value
 
-    def dump(self, stream: Stream, table_offset: int, font: 'pcffont.PcfFont') -> int:
+    def dump(self, stream: Stream, table_offset: int, container: PcfTableContainer) -> int:
         props_count = len(self)
 
         # Pad to next int32 boundary

@@ -1,16 +1,16 @@
 import os
 from typing import Any
 
-import pcffont
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
 from pcffont.metric import PcfMetric
+from pcffont.table import PcfTableContainer, PcfTable
 from pcffont.utils.stream import Stream
 
 
-class PcfAccelerators:
+class PcfAccelerators(PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, font: 'pcffont.PcfFont') -> 'PcfAccelerators':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfAccelerators':
         table_format = header.read_and_check_table_format(stream)
 
         no_overlap = stream.read_bool()
@@ -133,7 +133,7 @@ class PcfAccelerators:
                 self.ink_max_bounds == other.ink_max_bounds and
                 self._compat_info == other._compat_info)
 
-    def dump(self, stream: Stream, table_offset: int, font: 'pcffont.PcfFont') -> int:
+    def dump(self, stream: Stream, table_offset: int, container: PcfTableContainer) -> int:
         stream.seek(table_offset)
         stream.write_uint32(self.table_format.value)
         stream.write_bool(self.no_overlap)

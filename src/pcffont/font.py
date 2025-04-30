@@ -4,11 +4,11 @@ from os import PathLike
 from typing import Any, BinaryIO
 
 from pcffont.header import PcfTableType, PcfHeader
-from pcffont.table import PcfTable
-from pcffont.tables import TABLE_TYPE_REGISTRY
+from pcffont.table import PcfTableContainer, PcfTable
 from pcffont.tables.accelerators import PcfAccelerators
 from pcffont.tables.bitmaps import PcfBitmaps
 from pcffont.tables.encodings import PcfBdfEncodings
+from pcffont.tables.factory import TABLE_TYPE_REGISTRY
 from pcffont.tables.glyph_names import PcfGlyphNames
 from pcffont.tables.metrics import PcfMetrics
 from pcffont.tables.properties import PcfProperties
@@ -16,7 +16,7 @@ from pcffont.tables.scalable_widths import PcfScalableWidths
 from pcffont.utils.stream import Stream
 
 
-class PcfFont(UserDict[PcfTableType, PcfTable]):
+class PcfFont(UserDict[PcfTableType, PcfTable], PcfTableContainer):
     @staticmethod
     def parse(stream: bytes | BinaryIO) -> 'PcfFont':
         if isinstance(stream, bytes):
@@ -55,6 +55,9 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         if not isinstance(other, PcfFont):
             return False
         return super().__eq__(other)
+
+    def get_table(self, table_type: PcfTableType) -> PcfTable:
+        return self[table_type]
 
     @property
     def properties(self) -> PcfProperties | None:
