@@ -18,11 +18,12 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
         else:
             glyphs_count = stream.read_uint32(table_format.ms_byte_first)
 
-        metrics = PcfMetrics(table_format)
+        metrics = []
         for _ in range(glyphs_count):
             metric = PcfMetric.parse(stream, table_format.ms_byte_first, table_format.ink_bounds_or_compressed_metrics)
             metrics.append(metric)
-        return metrics
+
+        return PcfMetrics(table_format, metrics)
 
     table_format: PcfTableFormat
 

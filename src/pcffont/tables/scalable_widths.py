@@ -14,11 +14,9 @@ class PcfScalableWidths(UserList[int], PcfTable):
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)
 
-        scalable_widths = PcfScalableWidths(
-            table_format,
-            stream.read_int32_list(glyphs_count, table_format.ms_byte_first),
-        )
-        return scalable_widths
+        scalable_widths = stream.read_int32_list(glyphs_count, table_format.ms_byte_first)
+
+        return PcfScalableWidths(table_format, scalable_widths)
 
     table_format: PcfTableFormat
 

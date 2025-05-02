@@ -34,10 +34,10 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)
         bitmap_offsets = stream.read_uint32_list(glyphs_count, table_format.ms_byte_first)
-        bitmaps_sizes = stream.read_uint32_list(4, table_format.ms_byte_first)
+        bitmaps_size_configs = stream.read_uint32_list(4, table_format.ms_byte_first)
         bitmaps_start = stream.tell()
 
-        bitmaps = PcfBitmaps(table_format)
+        bitmaps = []
         for bitmap_offset, metric in zip(bitmap_offsets, metrics):
             stream.seek(bitmaps_start + bitmap_offset)
             glyph_row_pad = math.ceil(metric.width / (glyph_pad * 8)) * glyph_pad
@@ -55,10 +55,12 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
                 bitmap.append(bitmap_row)
             bitmaps.append(bitmap)
 
-        # Compat
-        bitmaps._compat_info = bitmaps_sizes
+        table = PcfBitmaps(table_format, bitmaps)
 
-        return bitmaps
+        # Compat
+        table._compat_info = bitmaps_size_configs
+
+        return table
 
     table_format: PcfTableFormat
     _compat_info: list[int] | None
@@ -114,16 +116,16 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
 
         # Compat
         if self._compat_info is not None:
-            bitmaps_sizes = list(self._compat_info)
-            bitmaps_sizes[self.table_format.glyph_pad_index] = bitmaps_size
+            bitmaps_size_configs = list(self._compat_info)
+            bitmaps_size_configs[self.table_format.glyph_pad_index] = bitmaps_size
         else:
-            bitmaps_sizes = [bitmaps_size // glyph_pad * glyph_pad_option for glyph_pad_option in _GLYPH_PAD_OPTIONS]
+            bitmaps_size_configs = [bitmaps_size // glyph_pad * glyph_pad_option for glyph_pad_option in _GLYPH_PAD_OPTIONS]
 
         stream.seek(table_offset)
         stream.write_uint32(self.table_format.value)
         stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
         stream.write_uint32_list(bitmap_offsets, self.table_format.ms_byte_first)
-        stream.write_uint32_list(bitmaps_sizes, self.table_format.ms_byte_first)
+        stream.write_uint32_list(bitmaps_size_configs, self.table_format.ms_byte_first)
         stream.seek(bitmaps_size, os.SEEK_CUR)
         stream.align_to_4_byte_with_nulls()
 
