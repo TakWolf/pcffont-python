@@ -6,10 +6,10 @@ from typing import BinaryIO
 class Stream:
     source: BinaryIO
 
-    def __init__(self, source: bytes | BinaryIO | None = None):
+    def __init__(self, source: bytes | bytearray | BinaryIO | None = None):
         if source is None:
             source = BytesIO()
-        elif isinstance(source, bytes):
+        elif isinstance(source, (bytes, bytearray)):
             source = BytesIO(source)
         self.source = source
 

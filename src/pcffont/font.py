@@ -18,8 +18,8 @@ from pcffont.utils.stream import Stream
 
 class PcfFont(UserDict[PcfTableType, PcfTable], PcfTableContainer):
     @staticmethod
-    def parse(stream: bytes | BinaryIO) -> 'PcfFont':
-        if isinstance(stream, bytes):
+    def parse(stream: bytes | bytearray | BinaryIO) -> 'PcfFont':
+        if isinstance(stream, (bytes, bytearray)):
             stream = BytesIO(stream)
         stream = Stream(stream)
 
