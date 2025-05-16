@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import UserList
 from typing import Any
 
@@ -9,7 +11,7 @@ from pcffont.utils.stream import Stream
 
 class PcfScalableWidths(UserList[int], PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfScalableWidths':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> PcfScalableWidths:
         table_format = header.read_and_check_table_format(stream)
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)

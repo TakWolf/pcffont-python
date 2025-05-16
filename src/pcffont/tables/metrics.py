@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import UserList
 from typing import Any
 
@@ -10,7 +12,7 @@ from pcffont.utils.stream import Stream
 
 class PcfMetrics(UserList[PcfMetric], PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfMetrics':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> PcfMetrics:
         table_format = header.read_and_check_table_format(stream)
 
         if table_format.ink_bounds_or_compressed_metrics:

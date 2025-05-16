@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enum import IntEnum
 from typing import Any
 
@@ -22,7 +24,7 @@ class PcfTableType(IntEnum):
 
 class PcfHeader:
     @staticmethod
-    def parse(stream: Stream) -> list['PcfHeader']:
+    def parse(stream: Stream) -> list[PcfHeader]:
         stream.seek(0)
         if stream.read(4) != _FILE_VERSION:
             raise PcfParseError('data format not support')
@@ -41,7 +43,7 @@ class PcfHeader:
         return headers
 
     @staticmethod
-    def dump(stream: Stream, headers: list['PcfHeader']):
+    def dump(stream: Stream, headers: list[PcfHeader]):
         stream.seek(0)
         stream.write(_FILE_VERSION)
 
@@ -77,7 +79,7 @@ class PcfHeader:
                 self.table_size == other.table_size and
                 self.table_offset == other.table_offset)
 
-    def read_and_check_table_format(self, stream: Stream) -> 'PcfTableFormat':
+    def read_and_check_table_format(self, stream: Stream) -> PcfTableFormat:
         stream.seek(self.table_offset)
         value = stream.read_uint32()
         if value != self.table_format.value:

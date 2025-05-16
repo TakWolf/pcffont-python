@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import re
 from collections import UserDict
@@ -90,7 +92,7 @@ _XLFD_KEYS_ORDER = [
 
 class PcfProperties(UserDict[str, str | int], PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfProperties':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> PcfProperties:
         table_format = header.read_and_check_table_format(stream)
 
         props_count = stream.read_uint32(table_format.ms_byte_first)

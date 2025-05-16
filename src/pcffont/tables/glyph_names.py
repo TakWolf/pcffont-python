@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from collections import UserList
 from typing import Any
@@ -10,7 +12,7 @@ from pcffont.utils.stream import Stream
 
 class PcfGlyphNames(UserList[str], PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfGlyphNames':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> PcfGlyphNames:
         table_format = header.read_and_check_table_format(stream)
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import math
 import os
 from collections import UserList
@@ -24,7 +26,7 @@ def _swap_fragments(fragments: list[list[int]], scan_unit: int):
 
 class PcfBitmaps(UserList[list[list[int]]], PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfBitmaps':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> PcfBitmaps:
         metrics: PcfMetrics = container.get_table(PcfTableType.METRICS)
 
         table_format = header.read_and_check_table_format(stream)

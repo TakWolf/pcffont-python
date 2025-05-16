@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from typing import Any
 
@@ -10,7 +12,7 @@ from pcffont.utils.stream import Stream
 
 class PcfAccelerators(PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfAccelerators':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> PcfAccelerators:
         table_format = header.read_and_check_table_format(stream)
 
         no_overlap = stream.read_bool()

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any
 
 _DEFAULT_VALUE = 0b_0000_0000_0000
@@ -11,7 +13,7 @@ _MASK_SCAN_UNIT = 0b_11_00_00
 
 class PcfTableFormat:
     @staticmethod
-    def parse(value: int) -> 'PcfTableFormat':
+    def parse(value: int) -> PcfTableFormat:
         ms_byte_first = value & _MASK_BYTE_ORDER > 0
         ms_bit_first = value & _MASK_BIT_ORDER > 0
         ink_bounds_or_compressed_metrics = value & _FLAG_INK_BOUNDS_OR_COMPRESSED_METRICS > 0

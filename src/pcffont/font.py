@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import UserDict
 from io import BytesIO
 from os import PathLike
@@ -18,7 +20,7 @@ from pcffont.utils.stream import Stream
 
 class PcfFont(UserDict[PcfTableType, PcfTable], PcfTableContainer):
     @staticmethod
-    def parse(stream: bytes | bytearray | BinaryIO) -> 'PcfFont':
+    def parse(stream: bytes | bytearray | BinaryIO) -> PcfFont:
         if isinstance(stream, (bytes, bytearray)):
             stream = BytesIO(stream)
         stream = Stream(stream)
@@ -31,7 +33,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable], PcfTableContainer):
         return font
 
     @staticmethod
-    def load(file_path: str | PathLike[str]) -> 'PcfFont':
+    def load(file_path: str | PathLike[str]) -> PcfFont:
         with open(file_path, 'rb') as file:
             return PcfFont.parse(file)
 

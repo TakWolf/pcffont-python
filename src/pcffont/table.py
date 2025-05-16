@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import abstractmethod
 from typing import Protocol, runtime_checkable
 
@@ -9,7 +11,7 @@ from pcffont.utils.stream import Stream
 @runtime_checkable
 class PcfTableContainer(Protocol):
     @abstractmethod
-    def get_table(self, table_type: PcfTableType) -> 'PcfTable':
+    def get_table(self, table_type: PcfTableType) -> PcfTable:
         raise NotImplementedError()
 
 
@@ -17,7 +19,7 @@ class PcfTableContainer(Protocol):
 class PcfTable(Protocol):
     @staticmethod
     @abstractmethod
-    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> 'PcfTable':
+    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> PcfTable:
         raise NotImplementedError()
 
     table_format: PcfTableFormat

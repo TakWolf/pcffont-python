@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any
 
 from pcffont.utils.stream import Stream
@@ -5,7 +7,7 @@ from pcffont.utils.stream import Stream
 
 class PcfMetric:
     @staticmethod
-    def parse(stream: Stream, ms_byte_first: bool, compressed: bool) -> 'PcfMetric':
+    def parse(stream: Stream, ms_byte_first: bool, compressed: bool) -> PcfMetric:
         if compressed:
             left_side_bearing = stream.read_uint8() - 0x80
             right_side_bearing = stream.read_uint8() - 0x80
