@@ -1,18 +1,21 @@
 from __future__ import annotations
 
 from collections import UserList
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
 from pcffont.metric import PcfMetric
-from pcffont.table import PcfTableContainer, PcfTable
+from pcffont.table import PcfTable
 from pcffont.utils.stream import Stream
+
+if TYPE_CHECKING:
+    from pcffont.font import PcfFont
 
 
 class PcfMetrics(UserList[PcfMetric], PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> PcfMetrics:
+    def parse(stream: Stream, header: PcfHeader, font: PcfFont) -> PcfMetrics:
         table_format = header.read_and_check_table_format(stream)
 
         if table_format.ink_bounds_or_compressed_metrics:
@@ -94,7 +97,7 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
     def calculate_compressible(self) -> bool:
         return all(metric.compressible for metric in self)
 
-    def dump(self, stream: Stream, table_offset: int, container: PcfTableContainer) -> int:
+    def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
         glyphs_count = len(self)
 
         stream.seek(table_offset)

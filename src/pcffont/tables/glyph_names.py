@@ -2,17 +2,20 @@ from __future__ import annotations
 
 import os
 from collections import UserList
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
-from pcffont.table import PcfTableContainer, PcfTable
+from pcffont.table import PcfTable
 from pcffont.utils.stream import Stream
+
+if TYPE_CHECKING:
+    from pcffont.font import PcfFont
 
 
 class PcfGlyphNames(UserList[str], PcfTable):
     @staticmethod
-    def parse(stream: Stream, header: PcfHeader, container: PcfTableContainer) -> PcfGlyphNames:
+    def parse(stream: Stream, header: PcfHeader, font: PcfFont) -> PcfGlyphNames:
         table_format = header.read_and_check_table_format(stream)
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)
@@ -47,7 +50,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
         return (self.table_format == other.table_format and
                 super().__eq__(other))
 
-    def dump(self, stream: Stream, table_offset: int, container: PcfTableContainer) -> int:
+    def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
         glyphs_count = len(self)
 
         strings_start = table_offset + 4 + 4 + 4 * glyphs_count + 4

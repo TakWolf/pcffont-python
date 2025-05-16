@@ -6,7 +6,7 @@ from os import PathLike
 from typing import Any, BinaryIO
 
 from pcffont.header import PcfTableType, PcfHeader
-from pcffont.table import PcfTableContainer, PcfTable
+from pcffont.table import PcfTable
 from pcffont.tables.accelerators import PcfAccelerators
 from pcffont.tables.bitmaps import PcfBitmaps
 from pcffont.tables.encodings import PcfBdfEncodings
@@ -18,7 +18,7 @@ from pcffont.tables.scalable_widths import PcfScalableWidths
 from pcffont.utils.stream import Stream
 
 
-class PcfFont(UserDict[PcfTableType, PcfTable], PcfTableContainer):
+class PcfFont(UserDict[PcfTableType, PcfTable]):
     @staticmethod
     def parse(stream: bytes | bytearray | BinaryIO) -> PcfFont:
         if isinstance(stream, (bytes, bytearray)):
@@ -57,9 +57,6 @@ class PcfFont(UserDict[PcfTableType, PcfTable], PcfTableContainer):
         if not isinstance(other, PcfFont):
             return False
         return super().__eq__(other)
-
-    def get_table(self, table_type: PcfTableType) -> PcfTable:
-        return self[table_type]
 
     @property
     def properties(self) -> PcfProperties | None:
