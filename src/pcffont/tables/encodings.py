@@ -13,10 +13,6 @@ if TYPE_CHECKING:
 
 
 class PcfBdfEncodings(UserDict[int, int], PcfTable):
-    """
-    encoding -> glyph_index
-    """
-
     MAX_ENCODING: Final = 0xFFFF
     NO_GLYPH_INDEX: Final = 0xFFFF
 
