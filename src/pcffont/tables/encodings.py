@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import UserDict
-from typing import Final, Any, TYPE_CHECKING
+from typing import Any, Final, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
