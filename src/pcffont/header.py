@@ -73,7 +73,7 @@ class PcfHeader:
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfHeader):
-            return False
+            return NotImplemented
         return (self.table_type == other.table_type and
                 self.table_format == other.table_format and
                 self.table_size == other.table_size and

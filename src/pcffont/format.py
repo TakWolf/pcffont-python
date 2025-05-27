@@ -73,7 +73,7 @@ class PcfTableFormat:
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfTableFormat):
-            return False
+            return NotImplemented
         return (self.ms_byte_first == other.ms_byte_first and
                 self.ms_bit_first == other.ms_bit_first and
                 self.ink_bounds_or_compressed_metrics == other.ink_bounds_or_compressed_metrics and

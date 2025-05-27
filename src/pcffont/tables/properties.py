@@ -188,7 +188,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfProperties):
-            return False
+            return NotImplemented
         return (self.table_format == other.table_format and
                 super().__eq__(other))
 

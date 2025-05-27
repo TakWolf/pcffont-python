@@ -34,7 +34,7 @@ class PcfGlyph:
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfGlyph):
-            return False
+            return NotImplemented
         return (self.name == other.name and
                 self.encoding == other.encoding and
                 self.scalable_width == other.scalable_width and

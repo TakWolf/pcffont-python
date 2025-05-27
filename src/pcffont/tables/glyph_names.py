@@ -46,7 +46,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfGlyphNames):
-            return False
+            return NotImplemented
         return (self.table_format == other.table_format and
                 super().__eq__(other))
 

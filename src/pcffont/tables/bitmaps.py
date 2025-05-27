@@ -81,7 +81,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfBitmaps):
-            return False
+            return NotImplemented
         return (self.table_format == other.table_format and
                 self._compat_info == other._compat_info and
                 super().__eq__(other))

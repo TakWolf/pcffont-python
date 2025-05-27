@@ -120,7 +120,7 @@ class PcfAccelerators(PcfTable):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfAccelerators):
-            return False
+            return NotImplemented
         return (self.table_format == other.table_format and
                 self.no_overlap == other.no_overlap and
                 self.constant_metrics == other.constant_metrics and

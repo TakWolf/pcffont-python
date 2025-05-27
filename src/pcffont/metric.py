@@ -66,7 +66,7 @@ class PcfMetric:
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfMetric):
-            return False
+            return NotImplemented
         return (self.left_side_bearing == other.left_side_bearing and
                 self.right_side_bearing == other.right_side_bearing and
                 self.character_width == other.character_width and

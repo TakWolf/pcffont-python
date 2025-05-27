@@ -55,7 +55,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfFont):
-            return False
+            return NotImplemented
         return super().__eq__(other)
 
     @property

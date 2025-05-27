@@ -80,7 +80,7 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfBdfEncodings):
-            return False
+            return NotImplemented
         return (self.table_format == other.table_format and
                 self.default_char == other.default_char and
                 super().__eq__(other))
