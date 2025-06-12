@@ -29,8 +29,10 @@ _KEY_AVERAGE_WIDTH = 'AVERAGE_WIDTH'
 _KEY_CHARSET_REGISTRY = 'CHARSET_REGISTRY'
 _KEY_CHARSET_ENCODING = 'CHARSET_ENCODING'
 
-_KEY_CAP_HEIGHT = 'CAP_HEIGHT'
 _KEY_X_HEIGHT = 'X_HEIGHT'
+_KEY_CAP_HEIGHT = 'CAP_HEIGHT'
+_KEY_UNDERLINE_POSITION = 'UNDERLINE_POSITION'
+_KEY_UNDERLINE_THICKNESS = 'UNDERLINE_THICKNESS'
 
 _KEY_FONT = 'FONT'
 _KEY_FONT_VERSION = 'FONT_VERSION'
@@ -59,8 +61,10 @@ _INT_VALUE_KEYS = {
     _KEY_RESOLUTION_X,
     _KEY_RESOLUTION_Y,
     _KEY_AVERAGE_WIDTH,
-    _KEY_CAP_HEIGHT,
     _KEY_X_HEIGHT,
+    _KEY_CAP_HEIGHT,
+    _KEY_UNDERLINE_POSITION,
+    _KEY_UNDERLINE_THICKNESS,
 }
 
 _XLFD_STR_VALUE_KEYS = {
@@ -319,6 +323,22 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
     @cap_height.setter
     def cap_height(self, value: int | None):
         self[_KEY_CAP_HEIGHT] = value
+
+    @property
+    def underline_position(self) -> int | None:
+        return self.get(_KEY_UNDERLINE_POSITION, None)
+
+    @underline_position.setter
+    def underline_position(self, value: int | None):
+        self[_KEY_UNDERLINE_POSITION] = value
+
+    @property
+    def underline_thickness(self) -> int | None:
+        return self.get(_KEY_UNDERLINE_THICKNESS, None)
+
+    @underline_thickness.setter
+    def underline_thickness(self, value: int | None):
+        self[_KEY_UNDERLINE_THICKNESS] = value
 
     @property
     def font(self) -> str | None:

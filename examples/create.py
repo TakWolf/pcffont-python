@@ -60,6 +60,8 @@ def main():
 
     builder.properties.x_height = 7
     builder.properties.cap_height = 10
+    builder.properties.underline_position = -2
+    builder.properties.underline_thickness = 1
 
     builder.properties.font_version = '1.0.0'
     builder.properties.copyright = 'Copyright (c) TakWolf'
