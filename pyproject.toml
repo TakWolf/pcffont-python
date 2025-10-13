@@ -1,3 +1,7 @@
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
+
 [project]
 name = "pcffont"
 version = "0.0.22"
@@ -29,6 +33,7 @@ dev = [
     "bdffont>=0.0.33",
 ]
 
-[build-system]
-requires = ["uv_build"]
-build-backend = "uv_build"
+[project.urls]
+Homepage = "https://github.com/TakWolf/pcffont-python"
+Source = "https://github.com/TakWolf/pcffont-python"
+Issues = "https://github.com/TakWolf/pcffont-python/issues"
