@@ -52,7 +52,7 @@ wheels = [
 
 [[package]]
 name = "pcffont"
-version = "0.0.22"
+version = "0.0.23"
 source = { editable = "." }
 
 [package.dev-dependencies]
