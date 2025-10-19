@@ -29,8 +29,8 @@ classifiers = [
 
 [dependency-groups]
 dev = [
-    "pytest>=8.4.2",
-    "bdffont>=0.0.34",
+    "pytest>=9.0.1",
+    "bdffont>=0.0.35",
 ]
 
 [project.urls]
