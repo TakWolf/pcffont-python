@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "pcffont"
-version = "0.0.23"
+version = "0.0.24"
 description = "A library for manipulating Portable Compiled Format (PCF) Fonts"
 readme = "README.md"
 license = "MIT"
