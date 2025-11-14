@@ -97,6 +97,12 @@ _XLFD_KEYS_ORDER = [
 ]
 
 
+def _check_xlfd_str_value(key: str, value: str):
+    matched = re.search(r'[-?*,"]', value)
+    if matched is not None:
+        raise ValueError(f'value of {repr(key)} contains illegal characters {repr(matched.group())}')
+
+
 class PcfProperties(UserDict[str, str | int], PcfTable):
     @staticmethod
     def parse(stream: Stream, header: PcfHeader, font: PcfFont) -> PcfProperties:
@@ -169,11 +175,6 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         else:
             if not isinstance(value, str) and not isinstance(value, int):
                 raise ValueError(f"expected type 'str | int', got '{type(value).__name__}' instead")
-
-        if key in _XLFD_STR_VALUE_KEYS:
-            matched = re.search(r'[-?*,"]', value)
-            if matched is not None:
-                raise ValueError(f'contains illegal characters {repr(matched.group())}')
 
         super().__setitem__(key, value)
 
@@ -375,7 +376,10 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
     def generate_xlfd(self):
         tokens = ['']
         for key in _XLFD_KEYS_ORDER:
-            tokens.append(str(self.get(key, '')))
+            value = str(self.get(key, ''))
+            if key in _XLFD_STR_VALUE_KEYS:
+                _check_xlfd_str_value(key, value)
+            tokens.append(value)
         self.font = '-'.join(tokens)
 
     def update_by_xlfd(self):
@@ -391,6 +395,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
                 value = None
             else:
                 if key in _XLFD_STR_VALUE_KEYS:
+                    _check_xlfd_str_value(key, token)
                     value = token
                 else:
                     value = int(token)
