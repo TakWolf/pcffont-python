@@ -12,9 +12,9 @@ def test_value():
 
 def test_parse():
     table_format = PcfTableFormat.parse(270)
-    assert table_format.ms_byte_first == True
-    assert table_format.ms_bit_first == True
-    assert table_format.ink_bounds_or_compressed_metrics == True
+    assert table_format.ms_byte_first
+    assert table_format.ms_bit_first
+    assert table_format.ink_bounds_or_compressed_metrics
     assert table_format.glyph_pad_index == 2
     assert table_format.scan_unit_index == 0
 
