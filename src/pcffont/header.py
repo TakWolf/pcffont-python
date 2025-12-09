@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from enum import IntEnum
+from enum import IntEnum, unique
 from typing import Any
 
 from pcffont.error import PcfParseError
@@ -10,6 +10,7 @@ from pcffont.utils.stream import Stream
 _FILE_VERSION = b'\x01fcp'
 
 
+@unique
 class PcfTableType(IntEnum):
     PROPERTIES = 1 << 0
     ACCELERATORS = 1 << 1
