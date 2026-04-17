@@ -81,6 +81,22 @@ class PcfTableFormat:
                 self.scan_unit_index == other.scan_unit_index)
 
     @property
+    def ink_bounds(self) -> bool:
+        return self.ink_bounds_or_compressed_metrics
+
+    @ink_bounds.setter
+    def ink_bounds(self, value: bool):
+        self.ink_bounds_or_compressed_metrics = value
+
+    @property
+    def compressed_metrics(self) -> bool:
+        return self.ink_bounds_or_compressed_metrics
+
+    @compressed_metrics.setter
+    def compressed_metrics(self, value: bool):
+        self.ink_bounds_or_compressed_metrics = value
+
+    @property
     def value(self) -> int:
         value = _DEFAULT_VALUE
         if self.ms_byte_first:

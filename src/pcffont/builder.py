@@ -123,17 +123,17 @@ class PcfFontBuilder:
 
             accelerators.ink_min_bounds = ink_metrics.calculate_min_bounds()
             accelerators.ink_max_bounds = ink_metrics.calculate_max_bounds()
-            accelerators.table_format.ink_bounds_or_compressed_metrics = True
+            accelerators.table_format.ink_bounds = True
             accelerators.ink_metrics = True
         else:
             ink_metrics = None
 
-            accelerators.table_format.ink_bounds_or_compressed_metrics = False
+            accelerators.table_format.ink_bounds = False
             accelerators.ink_metrics = False
 
-        metrics.table_format.ink_bounds_or_compressed_metrics = metrics.calculate_compressible()
+        metrics.table_format.compressed_metrics = metrics.calculate_compressible()
         if ink_metrics is not None:
-            ink_metrics.table_format.ink_bounds_or_compressed_metrics = ink_metrics.calculate_compressible()
+            ink_metrics.table_format.compressed_metrics = ink_metrics.calculate_compressible()
 
         font = PcfFont()
         font.bdf_encodings = bdf_encodings

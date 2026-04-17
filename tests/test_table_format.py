@@ -15,6 +15,8 @@ def test_parse():
     assert table_format.ms_byte_first
     assert table_format.ms_bit_first
     assert table_format.ink_bounds_or_compressed_metrics
+    assert table_format.ink_bounds
+    assert table_format.compressed_metrics
     assert table_format.glyph_pad_index == 2
     assert table_format.scan_unit_index == 0
 
