@@ -2,7 +2,7 @@ import shutil
 import statistics
 
 from examples import build_dir
-from pcffont import PcfFontBuilder, PcfGlyph
+from pcffont import PcfFontBuilder, PcfGlyph, PcfBdfEncodings
 
 
 def main():
@@ -16,7 +16,34 @@ def main():
     builder.config.font_descent = 2
 
     builder.glyphs.append(PcfGlyph(
-        name='A',
+        name='.notdef',
+        encoding=PcfBdfEncodings.NO_ENCODING,
+        scalable_width=500,
+        character_width=8,
+        dimensions=(8, 16),
+        offset=(0, -2),
+        bitmap=[
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+        ],
+    ))
+
+    builder.glyphs.append(PcfGlyph(
+        name='CAP_LETTER_A',
         encoding=65,
         scalable_width=500,
         character_width=8,
