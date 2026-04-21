@@ -4,11 +4,11 @@ requires-python = ">=3.10"
 
 [[package]]
 name = "bdffont"
-version = "0.0.36"
+version = "0.0.37"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/30/0e/9c20e708f117334f84cef2c5598abe82cb1c22c2f47a8b10a4aa812e7950/bdffont-0.0.36.tar.gz", hash = "sha256:8b58404d7418ae4dee24e741bd883af4a3cd6301e276f8bbe60edb21c18033ab", size = 8348, upload-time = "2026-04-21T13:18:00.692Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ba/a4/c5c13348dcbb0a0affb7b3c31713298be13fbf5172e3f19145be11209964/bdffont-0.0.37.tar.gz", hash = "sha256:a111306ab97bd869674f8edc76b06f22946e10f3940c34ac4a4fdff2d899afb0", size = 9049, upload-time = "2026-05-31T12:42:11.722Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/44/a6/76a12afe031fcb381175f6270265838c3a1b0f8012233d9737cfd189ca26/bdffont-0.0.36-py3-none-any.whl", hash = "sha256:f666b9c5ef43550733f44e1f2f240f1cf2cc1bc49a4cd7df59350b52bbb34221", size = 10447, upload-time = "2026-04-21T13:18:01.468Z" },
+    { url = "https://files.pythonhosted.org/packages/47/a3/abecdb64d251d17c4959ba2d60e1b8ba57596ee29af7e4a3c83d71c2c948/bdffont-0.0.37-py3-none-any.whl", hash = "sha256:c133cee3d0d5e79e9feecd9497e806b5d56bd286a14dd9f4c993628345e0e29e", size = 11415, upload-time = "2026-05-31T12:42:10.871Z" },
 ]
 
 [[package]]
@@ -57,11 +57,11 @@ wheels = [
 
 [[package]]
 name = "packaging"
-version = "26.1"
+version = "26.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/df/de/0d2b39fb4af88a0258f3bac87dfcbb48e73fbdea4a2ed0e2213f9a4c2f9a/packaging-26.1.tar.gz", hash = "sha256:f042152b681c4bfac5cae2742a55e103d27ab2ec0f3d88037136b6bfe7c9c5de", size = 215519, upload-time = "2026-04-14T21:12:49.362Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d7/f1/e7a6dd94a8d4a5626c03e4e99c87f241ba9e350cd9e6d75123f992427270/packaging-26.2.tar.gz", hash = "sha256:ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661", size = 228134, upload-time = "2026-04-24T20:15:23.917Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7a/c2/920ef838e2f0028c8262f16101ec09ebd5969864e5a64c4c05fad0617c56/packaging-26.1-py3-none-any.whl", hash = "sha256:5d9c0669c6285e491e0ced2eee587eaf67b670d94a19e94e3984a481aba6802f", size = 95831, upload-time = "2026-04-14T21:12:47.56Z" },
+    { url = "https://files.pythonhosted.org/packages/df/b2/87e62e8c3e2f4b32e5fe99e0b86d576da1312593b39f47d8ceef365e95ed/packaging-26.2-py3-none-any.whl", hash = "sha256:5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e", size = 100195, upload-time = "2026-04-24T20:15:22.081Z" },
 ]
 
 [[package]]
@@ -80,7 +80,7 @@ dev = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "bdffont", specifier = ">=0.0.36" },
+    { name = "bdffont", specifier = ">=0.0.37" },
     { name = "freetype-py", specifier = ">=2.5.1" },
     { name = "pytest", specifier = ">=9.0.3" },
 ]
