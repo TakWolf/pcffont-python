@@ -26,7 +26,7 @@ class PcfFontConfig:
             self,
             font_ascent: int = 0,
             font_descent: int = 0,
-            default_char: int = PcfBdfEncodings.NO_GLYPH_INDEX,
+            default_char: int = PcfBdfEncodings.NO_ENCODING,
             draw_right_to_left: bool = False,
             ms_byte_first: bool = False,
             ms_bit_first: bool = False,

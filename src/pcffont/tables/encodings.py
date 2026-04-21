@@ -11,10 +11,12 @@ from pcffont.utils.stream import Stream
 if TYPE_CHECKING:
     from pcffont.font import PcfFont
 
+_UINT16_MAX_VALUE = 0xFFFF
+
 
 class PcfBdfEncodings(UserDict[int, int], PcfTable):
-    MAX_ENCODING: Final = 0xFFFF
-    NO_GLYPH_INDEX: Final = 0xFFFF
+    NO_ENCODING: Final = _UINT16_MAX_VALUE
+    NO_GLYPH_INDEX: Final = _UINT16_MAX_VALUE
 
     @staticmethod
     def parse(stream: Stream, header: PcfHeader, font: PcfFont) -> PcfBdfEncodings:
@@ -49,7 +51,7 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
     def __init__(
             self,
             table_format: PcfTableFormat | None = None,
-            default_char: int = NO_GLYPH_INDEX,
+            default_char: int = NO_ENCODING,
             encodings: dict[int, int] | None = None,
     ):
         super().__init__(encodings)
@@ -64,14 +66,14 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
         if not isinstance(encoding, int):
             raise KeyError(f"expected type 'int', got '{type(encoding).__name__}' instead")
 
-        if encoding < 0 or encoding > PcfBdfEncodings.MAX_ENCODING:
-            raise KeyError(f'encoding must between [0, {PcfBdfEncodings.MAX_ENCODING}]')
+        if encoding < 0 or encoding > _UINT16_MAX_VALUE:
+            raise KeyError(f'encoding must between [0, {_UINT16_MAX_VALUE}]')
 
         if not isinstance(glyph_index, int):
             raise ValueError(f"expected type 'int', got '{type(glyph_index).__name__}' instead")
 
-        if glyph_index < 0 or glyph_index > PcfBdfEncodings.NO_GLYPH_INDEX:
-            raise ValueError(f'glyph index must between [0, {PcfBdfEncodings.NO_GLYPH_INDEX}]')
+        if glyph_index < 0 or glyph_index > _UINT16_MAX_VALUE:
+            raise ValueError(f'glyph index must between [0, {_UINT16_MAX_VALUE}]')
 
         super().__setitem__(encoding, glyph_index)
 
