@@ -374,13 +374,13 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         self[_KEY_NOTICE] = value
 
     def generate_xlfd(self):
-        tokens = ['']
+        parts = ['']
         for key in _XLFD_KEYS_ORDER:
             value = str(self.get(key, ''))
             if key in _XLFD_STR_VALUE_KEYS:
                 _check_xlfd_str_value(key, value)
-            tokens.append(value)
-        self.font = '-'.join(tokens)
+            parts.append(value)
+        self.font = '-'.join(parts)
 
     def update_by_xlfd(self):
         if self.font is None:
@@ -389,16 +389,16 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
             raise PcfXlfdError("not starts with '-'")
         if self.font.count('-') != 14:
             raise PcfXlfdError("must be 14 '-'")
-        tokens = self.font.removeprefix('-').split('-')
-        for key, token in zip(_XLFD_KEYS_ORDER, tokens):
-            if token == '':
+        parts = self.font.removeprefix('-').split('-')
+        for key, part in zip(_XLFD_KEYS_ORDER, parts):
+            if part == '':
                 value = None
             else:
                 if key in _XLFD_STR_VALUE_KEYS:
-                    _check_xlfd_str_value(key, token)
-                    value = token
+                    _check_xlfd_str_value(key, part)
+                    value = part
                 else:
-                    value = int(token)
+                    value = int(part)
             self[key] = value
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
