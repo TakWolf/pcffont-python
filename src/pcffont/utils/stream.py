@@ -90,8 +90,8 @@ class Stream:
         return self.write(b'\x01' if value else b'\x00')
 
     def write_nulls(self, size: int) -> int:
-        for _ in range(size):
-            self.write(b'\x00')
+        if size > 0:
+            self.write(b'\x00' * size)
         return size
 
     def align_to_4_byte_with_nulls(self) -> int:
