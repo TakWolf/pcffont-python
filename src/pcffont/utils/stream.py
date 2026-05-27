@@ -38,10 +38,8 @@ class Stream:
         return int.from_bytes(self.read(4), 'big' if ms_byte_first else 'little', signed=True)
 
     def read_binary(self, ms_bit_first: bool = False) -> list[int]:
-        binary = [int(c) for c in f'{self.read(1)[0]:08b}']
-        if not ms_bit_first:
-            binary.reverse()
-        return binary
+        b = self.read(1)[0]
+        return [(b >> shift) & 1 for shift in (range(7, -1, -1) if ms_bit_first else range(8))]
 
     def read_string(self) -> str:
         values = bytearray()
@@ -77,9 +75,13 @@ class Stream:
         return self.write(value.to_bytes(4, 'big' if ms_byte_first else 'little', signed=True))
 
     def write_binary(self, value: list[int], ms_bit_first: bool = False) -> int:
-        if not ms_bit_first:
-            value = value[::-1]
-        return self.write(bytes([int(''.join(map(str, value)), 2)]))
+        if len(value) != 8:
+            raise ValueError("binary length must be 8")
+
+        b = 0
+        for bit in (value if ms_bit_first else reversed(value)):
+            b = (b << 1) | (bit & 1)
+        return self.write(bytes([b]))
 
     def write_string(self, value: str) -> int:
         return self.write(value.encode()) + self.write_nulls(1)
