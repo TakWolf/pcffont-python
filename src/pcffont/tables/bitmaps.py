@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import math
 import os
 from collections import UserList
 from typing import Any, TYPE_CHECKING
@@ -42,7 +41,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         bitmaps = []
         for bitmap_offset, metric in zip(bitmap_offsets, font.metrics):
             stream.seek(bitmaps_start + bitmap_offset)
-            glyph_row_pad = math.ceil(metric.width / (glyph_pad * 8)) * glyph_pad
+            glyph_row_pad = (metric.width + glyph_pad * 8 - 1) // (glyph_pad * 8) * glyph_pad
 
             fragments = [stream.read_binary(table_format.ms_bit_first) for _ in range(glyph_row_pad * metric.height)]
             if table_format.ms_byte_first != table_format.ms_bit_first:
@@ -98,7 +97,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         stream.seek(bitmaps_start)
         for bitmap, metric in zip(self, font.metrics):
             bitmap_offsets.append(bitmaps_size)
-            bitmap_row_width = math.ceil(metric.width / (glyph_pad * 8)) * glyph_pad * 8
+            bitmap_row_width = (metric.width + glyph_pad * 8 - 1) // (glyph_pad * 8) * (glyph_pad * 8)
 
             fragments = []
             for bitmap_row in bitmap:
