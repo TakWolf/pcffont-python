@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from pcffont.font import PcfFont
 
 _GLYPH_PAD_OPTIONS = [1, 2, 4, 8]
-_SCAN_UNIT_OPTIONS = [1, 2, 4, 8]
+_SCAN_UNIT_OPTIONS = [1, 2, 4]
 
 
 def _swap_fragments(fragments: list[list[int]], scan_unit: int):
