@@ -52,7 +52,8 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
                 bitmap_row = []
                 for i in range(glyph_row_pad):
                     bitmap_row.extend(fragments[glyph_row_pad * y + i])
-                bitmap_row = bitmap_row[:metric.width]
+                if len(bitmap_row) > metric.width:
+                    del bitmap_row[metric.width:]
                 bitmap.append(bitmap_row)
             bitmaps.append(bitmap)
 
@@ -101,12 +102,15 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
 
             fragments = []
             for bitmap_row in bitmap:
-                if len(bitmap_row) < bitmap_row_width:
-                    bitmap_row = bitmap_row + [0] * (bitmap_row_width - len(bitmap_row))
-                elif len(bitmap_row) > bitmap_row_width:
-                    bitmap_row = bitmap_row[:bitmap_row_width]
                 for i in range(0, bitmap_row_width, 8):
-                    fragments.append(bitmap_row[i:i + 8])
+                    if i >= len(bitmap_row):
+                        fragments.append([0] * 8)
+                        continue
+
+                    fragment = bitmap_row[i:i + 8]
+                    while len(fragment) < 8:
+                        fragment.append(0)
+                    fragments.append(fragment)
 
             if self.table_format.ms_byte_first != self.table_format.ms_bit_first:
                 _swap_fragments(fragments, scan_unit)
