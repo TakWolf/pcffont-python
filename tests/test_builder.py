@@ -35,54 +35,54 @@ def _load_pcf_by_bdf(file_path: Path) -> PcfFont:
 
 
 def test_unifont(assets_dir: Path):
-    font_1 = PcfFont.load(assets_dir.joinpath('unifont', 'unifont-17.0.04.pcf'))
-    font_1.accelerators._compat_info = None
-    font_1.bdf_accelerators._compat_info = None
-    font_1.bitmaps._compat_info = None
-    font_2 = _load_pcf_by_bdf(assets_dir.joinpath('unifont', 'unifont-17.0.04.bdf'))
+    pcf_font = PcfFont.load(assets_dir.joinpath('unifont', 'unifont-17.0.04.pcf'))
+    pcf_font.accelerators._compat_info = None
+    pcf_font.bdf_accelerators._compat_info = None
+    pcf_font.bitmaps._compat_info = None
+    bdf_font = _load_pcf_by_bdf(assets_dir.joinpath('unifont', 'unifont-17.0.04.bdf'))
 
-    assert font_1.bdf_encodings == font_2.bdf_encodings
-    assert font_1.glyph_names == font_2.glyph_names
-    assert font_1.scalable_widths == font_2.scalable_widths
-    assert font_1.metrics == font_2.metrics
-    assert font_1.ink_metrics == font_2.ink_metrics
-    assert font_1.bitmaps == font_2.bitmaps
-    assert font_1.accelerators == font_2.accelerators
-    assert font_1.bdf_accelerators == font_2.bdf_accelerators
-    assert font_1.properties.font.upper() == font_2.properties.font.upper().replace('-SANS SERIF', '-SANS')
+    assert pcf_font.bdf_encodings == bdf_font.bdf_encodings
+    assert pcf_font.glyph_names == bdf_font.glyph_names
+    assert pcf_font.scalable_widths == bdf_font.scalable_widths
+    assert pcf_font.metrics == bdf_font.metrics
+    assert pcf_font.ink_metrics == bdf_font.ink_metrics
+    assert pcf_font.bitmaps == bdf_font.bitmaps
+    assert pcf_font.accelerators == bdf_font.accelerators
+    assert pcf_font.bdf_accelerators == bdf_font.bdf_accelerators
+    assert pcf_font.properties.font.upper() == bdf_font.properties.font.upper().replace('-SANS SERIF', '-SANS')
 
 
 def test_demo(assets_dir: Path):
-    font_1 = PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf'))
-    font_1.accelerators._compat_info = None
-    font_1.bdf_accelerators._compat_info = None
-    font_1.bitmaps._compat_info = None
-    font_2 = _load_pcf_by_bdf(assets_dir.joinpath('demo', 'demo.bdf'))
+    pcf_font = PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf'))
+    pcf_font.accelerators._compat_info = None
+    pcf_font.bdf_accelerators._compat_info = None
+    pcf_font.bitmaps._compat_info = None
+    bdf_font = _load_pcf_by_bdf(assets_dir.joinpath('demo', 'demo.bdf'))
 
-    assert font_1.bdf_encodings == font_2.bdf_encodings
-    assert font_1.glyph_names == font_2.glyph_names
-    assert font_1.scalable_widths == font_2.scalable_widths
-    assert font_1.metrics == font_2.metrics
-    assert font_1.ink_metrics == font_2.ink_metrics
-    assert font_1.bitmaps == font_2.bitmaps
-    assert font_1.accelerators == font_2.accelerators
-    assert font_1.bdf_accelerators == font_2.bdf_accelerators
-    assert font_1.properties.font == font_2.properties.font
+    assert pcf_font.bdf_encodings == bdf_font.bdf_encodings
+    assert pcf_font.glyph_names == bdf_font.glyph_names
+    assert pcf_font.scalable_widths == bdf_font.scalable_widths
+    assert pcf_font.metrics == bdf_font.metrics
+    assert pcf_font.ink_metrics == bdf_font.ink_metrics
+    assert pcf_font.bitmaps == bdf_font.bitmaps
+    assert pcf_font.accelerators == bdf_font.accelerators
+    assert pcf_font.bdf_accelerators == bdf_font.bdf_accelerators
+    assert pcf_font.properties.font == bdf_font.properties.font
 
 
 def test_demo_2(assets_dir: Path):
-    font_1 = PcfFont.load(assets_dir.joinpath('demo', 'demo-2.pcf'))
-    font_1.accelerators._compat_info = None
-    font_1.bdf_accelerators._compat_info = None
-    font_1.bitmaps._compat_info = None
-    font_2 = _load_pcf_by_bdf(assets_dir.joinpath('demo', 'demo-2.bdf'))
+    pcf_font = PcfFont.load(assets_dir.joinpath('demo', 'demo-2.pcf'))
+    pcf_font.accelerators._compat_info = None
+    pcf_font.bdf_accelerators._compat_info = None
+    pcf_font.bitmaps._compat_info = None
+    bdf_font = _load_pcf_by_bdf(assets_dir.joinpath('demo', 'demo-2.bdf'))
 
-    assert font_1.bdf_encodings == font_2.bdf_encodings
-    assert font_1.glyph_names == font_2.glyph_names
-    assert font_1.scalable_widths == font_2.scalable_widths
-    assert font_1.metrics == font_2.metrics
-    assert font_1.ink_metrics == font_2.ink_metrics
-    assert font_1.bitmaps == font_2.bitmaps
-    assert font_1.accelerators == font_2.accelerators
-    assert font_1.bdf_accelerators == font_2.bdf_accelerators
-    assert font_1.properties.font == font_2.properties.font
+    assert pcf_font.bdf_encodings == bdf_font.bdf_encodings
+    assert pcf_font.glyph_names == bdf_font.glyph_names
+    assert pcf_font.scalable_widths == bdf_font.scalable_widths
+    assert pcf_font.metrics == bdf_font.metrics
+    assert pcf_font.ink_metrics == bdf_font.ink_metrics
+    assert pcf_font.bitmaps == bdf_font.bitmaps
+    assert pcf_font.accelerators == bdf_font.accelerators
+    assert pcf_font.bdf_accelerators == bdf_font.bdf_accelerators
+    assert pcf_font.properties.font == bdf_font.properties.font
