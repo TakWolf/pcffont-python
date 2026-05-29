@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 from bdffont import BdfFont
@@ -7,48 +8,36 @@ from pcffont import PcfFont
 
 def test_demo(assets_dir: Path):
     bdf_font = BdfFont.load(assets_dir.joinpath('demo', 'demo.bdf'))
-    pcf_font_1 = PcfFont.load(assets_dir.joinpath('demo', 'demo-lsbyte-lsbit-p4-u2.pcf'))
-    pcf_font_2 = PcfFont.load(assets_dir.joinpath('demo', 'demo-lsbyte-msbit-p4-u2.pcf'))
-    pcf_font_3 = PcfFont.load(assets_dir.joinpath('demo', 'demo-msbyte-lsbit-p4-u2.pcf'))
-    pcf_font_4 = PcfFont.load(assets_dir.joinpath('demo', 'demo-msbyte-msbit-p4-u2.pcf'))
-    pcf_font_5 = PcfFont.load(assets_dir.joinpath('demo', 'demo-lsbyte-lsbit-p2-u4.pcf'))
-    pcf_font_6 = PcfFont.load(assets_dir.joinpath('demo', 'demo-lsbyte-msbit-p2-u4.pcf'))
-    pcf_font_7 = PcfFont.load(assets_dir.joinpath('demo', 'demo-msbyte-lsbit-p2-u4.pcf'))
-    pcf_font_8 = PcfFont.load(assets_dir.joinpath('demo', 'demo-msbyte-msbit-p2-u4.pcf'))
+    pcf_font_0 = PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf'))
 
-    for glyph_index, glyph in enumerate(bdf_font.glyphs):
-        glyph_name_1 = pcf_font_1.glyph_names[glyph_index]
-        glyph_name_2 = pcf_font_2.glyph_names[glyph_index]
-        glyph_name_3 = pcf_font_3.glyph_names[glyph_index]
-        glyph_name_4 = pcf_font_4.glyph_names[glyph_index]
-        glyph_name_5 = pcf_font_5.glyph_names[glyph_index]
-        glyph_name_6 = pcf_font_6.glyph_names[glyph_index]
-        glyph_name_7 = pcf_font_7.glyph_names[glyph_index]
-        glyph_name_8 = pcf_font_8.glyph_names[glyph_index]
-        assert glyph.name == glyph_name_1 == glyph_name_2 == glyph_name_3 == glyph_name_4 == glyph_name_5 == glyph_name_6 == glyph_name_7 == glyph_name_8
+    pcf_file_paths = []
+    for file_path in assets_dir.joinpath('demo').iterdir():
+        if re.match(r'^demo-(lsbyte|msbyte)-(lsbit|msbit)-p([1248])-u([124])\.pcf$', file_path.name) is None:
+            continue
+        pcf_file_paths.append(file_path)
+    pcf_file_paths.sort()
+    assert len(pcf_file_paths) == 36
 
-        metric_1 = pcf_font_1.metrics[glyph_index]
-        metric_2 = pcf_font_2.metrics[glyph_index]
-        metric_3 = pcf_font_3.metrics[glyph_index]
-        metric_4 = pcf_font_4.metrics[glyph_index]
-        metric_5 = pcf_font_5.metrics[glyph_index]
-        metric_6 = pcf_font_6.metrics[glyph_index]
-        metric_7 = pcf_font_7.metrics[glyph_index]
-        metric_8 = pcf_font_8.metrics[glyph_index]
-        assert metric_1 == metric_2 == metric_3 == metric_4 == metric_5 == metric_6 == metric_7 == metric_8
-        assert glyph.device_width_x == metric_1.character_width == metric_2.character_width == metric_3.character_width == metric_4.character_width == metric_5.character_width == metric_6.character_width == metric_7.character_width == metric_8.character_width
-        assert glyph.dimensions == metric_1.dimensions == metric_2.dimensions == metric_3.dimensions == metric_4.dimensions == metric_5.dimensions == metric_6.dimensions == metric_7.dimensions == metric_8.dimensions
-        assert glyph.offset == metric_1.offset == metric_2.offset == metric_3.offset == metric_4.offset == metric_5.offset == metric_6.offset == metric_7.offset == metric_8.offset
+    for file_path in pcf_file_paths:
+        pcf_font_x = PcfFont.load(file_path)
 
-        bitmap_1 = pcf_font_1.bitmaps[glyph_index]
-        bitmap_2 = pcf_font_2.bitmaps[glyph_index]
-        bitmap_3 = pcf_font_3.bitmaps[glyph_index]
-        bitmap_4 = pcf_font_4.bitmaps[glyph_index]
-        bitmap_5 = pcf_font_5.bitmaps[glyph_index]
-        bitmap_6 = pcf_font_6.bitmaps[glyph_index]
-        bitmap_7 = pcf_font_7.bitmaps[glyph_index]
-        bitmap_8 = pcf_font_8.bitmaps[glyph_index]
-        assert glyph.bitmap == bitmap_1 == bitmap_2 == bitmap_3 == bitmap_4 == bitmap_5 == bitmap_6 == bitmap_7 == bitmap_8
+        for glyph_index, glyph in enumerate(bdf_font.glyphs):
+            glyph_name_0 = pcf_font_0.glyph_names[glyph_index]
+            glyph_name_x = pcf_font_x.glyph_names[glyph_index]
+            assert glyph_name_x == glyph.name, file_path
+            assert glyph_name_x == glyph_name_0, file_path
+
+            metric_0 = pcf_font_0.metrics[glyph_index]
+            metric_x = pcf_font_x.metrics[glyph_index]
+            assert metric_x.character_width == glyph.device_width_x, file_path
+            assert metric_x.dimensions == glyph.dimensions, file_path
+            assert metric_x.offset == glyph.offset, file_path
+            assert metric_x == metric_0, file_path
+
+            bitmap_0 = pcf_font_0.bitmaps[glyph_index]
+            bitmap_x = pcf_font_x.bitmaps[glyph_index]
+            assert bitmap_x == glyph.bitmap, file_path
+            assert bitmap_x == bitmap_0, file_path
 
 
 def test_unifont(assets_dir: Path):
