@@ -10,6 +10,9 @@ _MASK_BYTE_ORDER = 0b_00_01_00
 _MASK_BIT_ORDER = 0b_00_10_00
 _MASK_SCAN_UNIT = 0b_11_00_00
 
+_GLYPH_PAD_OPTIONS = [1, 2, 4, 8]
+_SCAN_UNIT_OPTIONS = [1, 2, 4]
+
 
 class PcfTableFormat:
     @staticmethod
@@ -97,6 +100,22 @@ class PcfTableFormat:
         self.ink_bounds_or_compressed_metrics = value
 
     @property
+    def glyph_pad(self) -> int:
+        return _GLYPH_PAD_OPTIONS[self.glyph_pad_index]
+
+    @glyph_pad.setter
+    def glyph_pad(self, value: int):
+        self.glyph_pad_index = _GLYPH_PAD_OPTIONS.index(value)
+
+    @property
+    def scan_unit(self) -> int:
+        return _SCAN_UNIT_OPTIONS[self.scan_unit_index]
+
+    @scan_unit.setter
+    def scan_unit(self, value: int):
+        self.scan_unit_index = _SCAN_UNIT_OPTIONS.index(value)
+
+    @property
     def value(self) -> int:
         value = _DEFAULT_VALUE
         if self.ms_byte_first:
@@ -108,3 +127,9 @@ class PcfTableFormat:
         value |= self.glyph_pad_index
         value |= self.scan_unit_index << 4
         return value
+
+    def bitmaps_size_configs(self, bitmaps_size: int) -> list[int]:
+        return [
+            bitmaps_size // self.glyph_pad * glyph_pad_option
+            for glyph_pad_option in _GLYPH_PAD_OPTIONS
+        ]

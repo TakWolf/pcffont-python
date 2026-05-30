@@ -1,3 +1,5 @@
+import pytest
+
 from pcffont import PcfTableFormat
 
 
@@ -29,3 +31,43 @@ def test_eq():
     assert table_format_1 != table_format_3
     assert table_format_1 != 1
     assert table_format_1 != 'Hello World!'
+
+
+def test_glyph_pad():
+    table_format = PcfTableFormat(glyph_pad_index=-1)
+    table_format.glyph_pad = 1
+    assert table_format.glyph_pad_index == 0
+    table_format.glyph_pad = 2
+    assert table_format.glyph_pad_index == 1
+    table_format.glyph_pad = 4
+    assert table_format.glyph_pad_index == 2
+    table_format.glyph_pad = 8
+    assert table_format.glyph_pad_index == 3
+
+    with pytest.raises(ValueError):
+        table_format.glyph_pad = 16
+
+
+def test_scan_unit():
+    table_format = PcfTableFormat(scan_unit_index=-1)
+    table_format.scan_unit = 1
+    assert table_format.scan_unit_index == 0
+    table_format.scan_unit = 2
+    assert table_format.scan_unit_index == 1
+    table_format.scan_unit = 4
+    assert table_format.scan_unit_index == 2
+
+    with pytest.raises(ValueError):
+        table_format.scan_unit = 8
+
+
+def test_bitmaps_size_configs():
+    table_format = PcfTableFormat()
+    table_format.glyph_pad = 1
+    assert table_format.bitmaps_size_configs(16) == [16, 32, 64, 128]
+    table_format.glyph_pad = 2
+    assert table_format.bitmaps_size_configs(16) == [8, 16, 32, 64]
+    table_format.glyph_pad = 4
+    assert table_format.bitmaps_size_configs(16) == [4, 8, 16, 32]
+    table_format.glyph_pad = 8
+    assert table_format.bitmaps_size_configs(16) == [2, 4, 8, 16]
