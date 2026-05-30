@@ -39,7 +39,7 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
         else:
             for byte_1 in range(min_byte_1, max_byte_1 + 1):
                 for byte_2 in range(min_byte_2, max_byte_2 + 1):
-                    encoding = int.from_bytes(bytes([byte_1, byte_2]), 'big')
+                    encoding = (byte_1 << 8) | byte_2
                     glyph_index = glyph_indices[(byte_1 - min_byte_1) * (max_byte_2 - min_byte_2 + 1) + byte_2 - min_byte_2]
                     encodings[encoding] = glyph_index
 
@@ -93,9 +93,8 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
         min_byte_1 = 0xFF
         max_byte_1 = 0
         for encoding in self:
-            bs = encoding.to_bytes(2, 'big')
-            byte_1 = bs[0]
-            byte_2 = bs[1]
+            byte_1 = encoding >> 8
+            byte_2 = encoding & 0xFF
             if byte_1 < min_byte_1:
                 min_byte_1 = byte_1
             if byte_1 > max_byte_1:
@@ -120,7 +119,7 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
         else:
             for byte_1 in range(min_byte_1, max_byte_1 + 1):
                 for byte_2 in range(min_byte_2, max_byte_2 + 1):
-                    encoding = int.from_bytes(bytes([byte_1, byte_2]), 'big')
+                    encoding = (byte_1 << 8) | byte_2
                     glyph_index = self.get(encoding, PcfBdfEncodings.NO_GLYPH_INDEX)
                     stream.write_uint16(glyph_index, self.table_format.ms_byte_first)
 
