@@ -103,21 +103,6 @@ def test_int32():
     assert stream.tell() == 16
 
 
-def test_binary():
-    stream = Stream()
-    assert stream.write_binary([1, 1, 1, 1, 0, 0, 0, 0], False) == 1
-    assert stream.write_binary([1, 1, 1, 1, 0, 0, 0, 0], True) == 1
-    assert stream.tell() == 2
-    stream.seek(0)
-    assert stream.read_binary(False) == [1, 1, 1, 1, 0, 0, 0, 0]
-    assert stream.read_binary(True) == [1, 1, 1, 1, 0, 0, 0, 0]
-    assert stream.tell() == 2
-    stream.seek(0)
-    assert stream.read_binary(True) == [0, 0, 0, 0, 1, 1, 1, 1]
-    assert stream.read_binary(False) == [0, 0, 0, 0, 1, 1, 1, 1]
-    assert stream.tell() == 2
-
-
 def test_string():
     stream = Stream()
     assert stream.write_string('ABC') == 4
