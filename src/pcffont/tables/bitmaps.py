@@ -30,8 +30,8 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         table_format = header.read_and_check_table_format(stream)
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)
-        bitmap_offsets = [stream.read_uint32(table_format.ms_byte_first) for _ in range(glyphs_count)]
-        bitmaps_size_configs = [stream.read_uint32(table_format.ms_byte_first) for _ in range(4)]
+        bitmap_offsets = stream.read_uint32_list(glyphs_count, table_format.ms_byte_first)
+        bitmaps_size_configs = stream.read_uint32_list(4, table_format.ms_byte_first)
         bitmaps_start = stream.tell()
 
         bitmaps = []
@@ -126,10 +126,8 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         stream.seek(table_offset)
         stream.write_uint32(self.table_format.value)
         stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
-        for bitmap_offset in bitmap_offsets:
-            stream.write_uint32(bitmap_offset, self.table_format.ms_byte_first)
-        for bitmaps_size_config in bitmaps_size_configs:
-            stream.write_uint32(bitmaps_size_config, self.table_format.ms_byte_first)
+        stream.write_uint32_list(bitmap_offsets, self.table_format.ms_byte_first)
+        stream.write_uint32_list(bitmaps_size_configs, self.table_format.ms_byte_first)
         stream.seek(bitmaps_size, os.SEEK_CUR)
         stream.align_to_4_byte_with_nulls()
 

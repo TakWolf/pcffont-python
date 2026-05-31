@@ -18,8 +18,7 @@ class PcfScalableWidths(UserList[int], PcfTable):
         table_format = header.read_and_check_table_format(stream)
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)
-
-        scalable_widths = [stream.read_int32(table_format.ms_byte_first) for _ in range(glyphs_count)]
+        scalable_widths = stream.read_int32_list(glyphs_count, table_format.ms_byte_first)
 
         return PcfScalableWidths(table_format, scalable_widths)
 
@@ -48,8 +47,7 @@ class PcfScalableWidths(UserList[int], PcfTable):
         stream.seek(table_offset)
         stream.write_uint32(self.table_format.value)
         stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
-        for scalable_width in self:
-            stream.write_int32(scalable_width, self.table_format.ms_byte_first)
+        stream.write_int32_list(self.data, self.table_format.ms_byte_first)
         stream.align_to_4_byte_with_nulls()
 
         table_size = stream.tell() - table_offset
