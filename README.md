@@ -161,11 +161,12 @@ if __name__ == '__main__':
 
 ## References
 
+- [X Consortium - font/bitmap/PCF](https://sources.debian.org/src/tightvnc/1%253A1.3.10-11/Xvnc/lib/font/bitmap)
 - [FreeType font driver for PCF fonts](https://github.com/freetype/freetype/tree/master/src/pcf)
 - [FontForge - The X11 PCF bitmap font file format](https://fontforge.org/docs/techref/pcf-format.html)
-- [The X Font Library](https://www.x.org/releases/current/doc/libXfont/fontlib.html)
 - [bdftopcf](https://gitlab.freedesktop.org/xorg/util/bdftopcf)
 - [bdftopcf - docs](https://www.x.org/releases/current/doc/man/man1/bdftopcf.1.xhtml)
+- [The X Font Library](https://www.x.org/releases/current/doc/libXfont/fontlib.html)
 - [X Logical Font Description Conventions - X Consortium Standard](https://www.x.org/releases/current/doc/xorg-docs/xlfd/xlfd.html)
 
 ## License
