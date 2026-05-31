@@ -1,9 +1,11 @@
 import re
+from io import BytesIO
 from pathlib import Path
 
+import freetype
 from bdffont import BdfFont
 
-from pcffont import PcfFont
+from pcffont import PcfFont, PcfFontBuilder, PcfGlyph
 
 
 def test_demo(assets_dir: Path):
@@ -55,3 +57,71 @@ def test_unifont(assets_dir: Path):
 
         bitmap = pcf_font.bitmaps[glyph_index]
         assert glyph.bitmap == bitmap
+
+
+def test_with_freetype(assets_dir: Path):
+    bdf_font = BdfFont.load(assets_dir.joinpath('demo', 'demo.bdf'))
+    bdf_font.glyphs = bdf_font.glyphs[:10]
+
+    builder = PcfFontBuilder()
+    builder.config.font_ascent = bdf_font.properties.font_ascent
+    builder.config.font_descent = bdf_font.properties.font_descent
+
+    for bdf_glyph in bdf_font.glyphs:
+        builder.glyphs.append(PcfGlyph(
+            name=bdf_glyph.name,
+            encoding=bdf_glyph.encoding,
+            scalable_width=bdf_glyph.scalable_width_x,
+            character_width=bdf_glyph.device_width_x,
+            dimensions=bdf_glyph.dimensions,
+            offset=bdf_glyph.offset,
+            bitmap=bdf_glyph.bitmap,
+        ))
+
+    builder.properties.update(bdf_font.properties)
+    builder.properties.generate_xlfd()
+
+    for ms_byte_first in (False, True):
+        for ms_bit_first in (False, True):
+            for glyph_pad_index, glyph_pad in ((0, 1), (1, 2), (2, 4), (3, 8)):
+                for scan_unit_index, scan_unit in ((0, 1), (1, 2), (2, 4)):
+                    builder.config.ms_byte_first = ms_byte_first
+                    builder.config.ms_bit_first = ms_bit_first
+                    builder.config.glyph_pad_index = glyph_pad_index
+                    builder.config.scan_unit_index = scan_unit_index
+
+                    pcf_font = builder.build()
+                    stream = BytesIO()
+                    pcf_font.dump(stream)
+                    stream.seek(0)
+                    ft_font = freetype.Face(stream)
+
+                    pcf_glyph_index_to_encoding = {glyph_index: encoding for encoding, glyph_index in pcf_font.bdf_encodings.items()}
+                    for pcf_glyph_index, pcf_glyph_name in enumerate(pcf_font.glyph_names):
+                        encoding = pcf_glyph_index_to_encoding[pcf_glyph_index]
+                        ft_glyph_index = ft_font.get_char_index(encoding)
+                        assert ft_glyph_index == pcf_glyph_index + 1
+
+                        ft_font.load_glyph(ft_glyph_index)
+                        ft_bitmap = ft_font.glyph.bitmap
+
+                        pcf_bitmap = pcf_font.bitmaps[pcf_glyph_index]
+                        pcf_metric = pcf_font.metrics[pcf_glyph_index]
+
+                        assert ft_bitmap.width == len(pcf_bitmap[0])
+                        assert ft_bitmap.width == pcf_metric.width
+                        assert ft_bitmap.rows == len(pcf_bitmap)
+                        assert ft_bitmap.rows == pcf_metric.height
+
+                        for y in range(ft_bitmap.rows):
+                            ft_bitmap_row = [
+                                (ft_bitmap.buffer[y * ft_bitmap.pitch + x // 8] >> (7 - x % 8)) & 1
+                                for x in range(ft_bitmap.width)
+                            ]
+                            pcf_bitmap_row = pcf_bitmap[y]
+                            assert ft_bitmap_row == pcf_bitmap_row
+
+                        pcf_bitmap_row_size = (pcf_metric.width + glyph_pad * 8 - 1) // (glyph_pad * 8) * glyph_pad
+                        assert ft_bitmap.pitch == pcf_bitmap_row_size
+                        pcf_bitmap_size = pcf_bitmap_row_size * pcf_metric.height
+                        assert len(ft_bitmap.buffer) == pcf_bitmap_size

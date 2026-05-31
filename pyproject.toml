@@ -27,6 +27,7 @@ classifiers = [
 dev = [
     "pytest>=9.0.3",
     "bdffont>=0.0.36",
+    "freetype-py>=2.5.1",
 ]
 
 [project.urls]
