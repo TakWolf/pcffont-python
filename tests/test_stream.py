@@ -32,6 +32,15 @@ def test_uint8():
     assert stream.tell() == 2
 
 
+def test_uint8_list():
+    stream = Stream()
+    assert stream.write_uint8_list([0x00, 0xFF]) == 2
+    assert stream.tell() == 2
+    stream.seek(0)
+    assert stream.read_uint8_list(2) == [0x00, 0xFF]
+    assert stream.tell() == 2
+
+
 def test_int8():
     stream = Stream()
     assert stream.write_int8(-0x80) == 1
@@ -40,6 +49,15 @@ def test_int8():
     stream.seek(0)
     assert stream.read_int8() == -0x80
     assert stream.read_int8() == 0x7F
+    assert stream.tell() == 2
+
+
+def test_int8_list():
+    stream = Stream()
+    assert stream.write_int8_list([-0x80, 0x7F]) == 2
+    assert stream.tell() == 2
+    stream.seek(0)
+    assert stream.read_int8_list(2) == [-0x80, 0x7F]
     assert stream.tell() == 2
 
 
@@ -58,6 +76,17 @@ def test_uint16():
     assert stream.tell() == 8
 
 
+def test_uint16_list():
+    stream = Stream()
+    assert stream.write_uint16_list([0x0000, 0xFFFF], False) == 4
+    assert stream.write_uint16_list([0x0000, 0xFFFF], True) == 4
+    assert stream.tell() == 8
+    stream.seek(0)
+    assert stream.read_uint16_list(2, False) == [0x0000, 0xFFFF]
+    assert stream.read_uint16_list(2, True) == [0x0000, 0xFFFF]
+    assert stream.tell() == 8
+
+
 def test_int16():
     stream = Stream()
     assert stream.write_int16(-0x8000, False) == 2
@@ -70,6 +99,17 @@ def test_int16():
     assert stream.read_int16(False) == 0x7FFF
     assert stream.read_int16(True) == -0x8000
     assert stream.read_int16(True) == 0x7FFF
+    assert stream.tell() == 8
+
+
+def test_int16_list():
+    stream = Stream()
+    assert stream.write_int16_list([-0x8000, 0x7FFF], False) == 4
+    assert stream.write_int16_list([-0x8000, 0x7FFF], True) == 4
+    assert stream.tell() == 8
+    stream.seek(0)
+    assert stream.read_int16_list(2, False) == [-0x8000, 0x7FFF]
+    assert stream.read_int16_list(2, True) == [-0x8000, 0x7FFF]
     assert stream.tell() == 8
 
 
@@ -88,6 +128,17 @@ def test_uint32():
     assert stream.tell() == 16
 
 
+def test_uint32_list():
+    stream = Stream()
+    assert stream.write_uint32_list([0x00000000, 0xFFFFFFFF], False) == 8
+    assert stream.write_uint32_list([0x00000000, 0xFFFFFFFF], True) == 8
+    assert stream.tell() == 16
+    stream.seek(0)
+    assert stream.read_uint32_list(2, False) == [0x00000000, 0xFFFFFFFF]
+    assert stream.read_uint32_list(2, True) == [0x00000000, 0xFFFFFFFF]
+    assert stream.tell() == 16
+
+
 def test_int32():
     stream = Stream()
     assert stream.write_int32(-0x80000000, False) == 4
@@ -100,6 +151,17 @@ def test_int32():
     assert stream.read_int32(False) == 0x7FFFFFFF
     assert stream.read_int32(True) == -0x80000000
     assert stream.read_int32(True) == 0x7FFFFFFF
+    assert stream.tell() == 16
+
+
+def test_int32_list():
+    stream = Stream()
+    assert stream.write_int32_list([-0x80000000, 0x7FFFFFFF], False) == 8
+    assert stream.write_int32_list([-0x80000000, 0x7FFFFFFF], True) == 8
+    assert stream.tell() == 16
+    stream.seek(0)
+    assert stream.read_int32_list(2, False) == [-0x80000000, 0x7FFFFFFF]
+    assert stream.read_int32_list(2, True) == [-0x80000000, 0x7FFFFFFF]
     assert stream.tell() == 16
 
 

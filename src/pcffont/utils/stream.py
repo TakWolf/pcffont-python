@@ -22,20 +22,38 @@ class Stream:
     def read_uint8(self) -> int:
         return int.from_bytes(self.read(1), 'big', signed=False)
 
+    def read_uint8_list(self, count: int) -> list[int]:
+        return [self.read_uint8() for _ in range(count)]
+
     def read_int8(self) -> int:
         return int.from_bytes(self.read(1), 'big', signed=True)
+
+    def read_int8_list(self, count: int) -> list[int]:
+        return [self.read_int8() for _ in range(count)]
 
     def read_uint16(self, ms_byte_first: bool = False) -> int:
         return int.from_bytes(self.read(2), 'big' if ms_byte_first else 'little', signed=False)
 
+    def read_uint16_list(self, count: int, ms_byte_first: bool = False) -> list[int]:
+        return [self.read_uint16(ms_byte_first) for _ in range(count)]
+
     def read_int16(self, ms_byte_first: bool = False) -> int:
         return int.from_bytes(self.read(2), 'big' if ms_byte_first else 'little', signed=True)
+
+    def read_int16_list(self, count: int, ms_byte_first: bool = False) -> list[int]:
+        return [self.read_int16(ms_byte_first) for _ in range(count)]
 
     def read_uint32(self, ms_byte_first: bool = False) -> int:
         return int.from_bytes(self.read(4), 'big' if ms_byte_first else 'little', signed=False)
 
+    def read_uint32_list(self, count: int, ms_byte_first: bool = False) -> list[int]:
+        return [self.read_uint32(ms_byte_first) for _ in range(count)]
+
     def read_int32(self, ms_byte_first: bool = False) -> int:
         return int.from_bytes(self.read(4), 'big' if ms_byte_first else 'little', signed=True)
+
+    def read_int32_list(self, count: int, ms_byte_first: bool = False) -> list[int]:
+        return [self.read_int32(ms_byte_first) for _ in range(count)]
 
     def read_string(self) -> str:
         values = bytearray()
@@ -55,20 +73,38 @@ class Stream:
     def write_uint8(self, value: int) -> int:
         return self.write(value.to_bytes(1, 'big', signed=False))
 
+    def write_uint8_list(self, values: list[int]) -> int:
+        return sum(self.write_uint8(value) for value in values)
+
     def write_int8(self, value: int) -> int:
         return self.write(value.to_bytes(1, 'big', signed=True))
+
+    def write_int8_list(self, values: list[int]) -> int:
+        return sum(self.write_int8(value) for value in values)
 
     def write_uint16(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(2, 'big' if ms_byte_first else 'little', signed=False))
 
+    def write_uint16_list(self, values: list[int], ms_byte_first: bool = False) -> int:
+        return sum(self.write_uint16(value, ms_byte_first) for value in values)
+
     def write_int16(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(2, 'big' if ms_byte_first else 'little', signed=True))
+
+    def write_int16_list(self, values: list[int], ms_byte_first: bool = False) -> int:
+        return sum(self.write_int16(value, ms_byte_first) for value in values)
 
     def write_uint32(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(4, 'big' if ms_byte_first else 'little', signed=False))
 
+    def write_uint32_list(self, values: list[int], ms_byte_first: bool = False) -> int:
+        return sum(self.write_uint32(value, ms_byte_first) for value in values)
+
     def write_int32(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(4, 'big' if ms_byte_first else 'little', signed=True))
+
+    def write_int32_list(self, values: list[int], ms_byte_first: bool = False) -> int:
+        return sum(self.write_int32(value, ms_byte_first) for value in values)
 
     def write_string(self, value: str) -> int:
         return self.write(value.encode()) + self.write_nulls(1)
