@@ -127,9 +127,3 @@ class PcfTableFormat:
         value |= self.glyph_pad_index
         value |= self.scan_unit_index << 4
         return value
-
-    def bitmaps_size_configs(self, bitmaps_size: int) -> list[int]:
-        return [
-            bitmaps_size // self.glyph_pad * glyph_pad_option
-            for glyph_pad_option in _GLYPH_PAD_OPTIONS
-        ]

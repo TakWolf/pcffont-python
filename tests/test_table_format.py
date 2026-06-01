@@ -59,15 +59,3 @@ def test_scan_unit():
 
     with pytest.raises(ValueError):
         table_format.scan_unit = 8
-
-
-def test_bitmaps_size_configs():
-    table_format = PcfTableFormat()
-    table_format.glyph_pad = 1
-    assert table_format.bitmaps_size_configs(16) == [16, 32, 64, 128]
-    table_format.glyph_pad = 2
-    assert table_format.bitmaps_size_configs(16) == [8, 16, 32, 64]
-    table_format.glyph_pad = 4
-    assert table_format.bitmaps_size_configs(16) == [4, 8, 16, 32]
-    table_format.glyph_pad = 8
-    assert table_format.bitmaps_size_configs(16) == [2, 4, 8, 16]
