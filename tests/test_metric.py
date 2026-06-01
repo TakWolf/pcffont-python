@@ -33,7 +33,9 @@ def test_eq():
 
 
 def test_compressible():
-    metric = PcfMetric()
+    metric = PcfMetric(attributes=1)
+    assert not metric.compressible
+    metric.attributes = 0
     assert metric.compressible
 
     metric.left_side_bearing = -129

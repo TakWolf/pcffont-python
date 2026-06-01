@@ -104,7 +104,8 @@ class PcfMetric:
                 -128 <= self.right_side_bearing <= 127 and
                 -128 <= self.character_width <= 127 and
                 -128 <= self.ascent <= 127 and
-                -128 <= self.descent <= 127)
+                -128 <= self.descent <= 127 and
+                self.attributes == 0)
 
     def dump(self, stream: Stream, ms_byte_first: bool, compressed: bool):
         if compressed:
