@@ -33,7 +33,23 @@ def test_eq():
     assert table_format_1 != 'Hello World!'
 
 
-def test_glyph_pad():
+def test_glyph_pad_1():
+    table_format = PcfTableFormat(glyph_pad_index=-1)
+    table_format.glyph_pad_index = 0
+    assert table_format.glyph_pad == 1
+    table_format.glyph_pad_index = 1
+    assert table_format.glyph_pad == 2
+    table_format.glyph_pad_index = 2
+    assert table_format.glyph_pad == 4
+    table_format.glyph_pad_index = 3
+    assert table_format.glyph_pad == 8
+
+    table_format.glyph_pad_index = 4
+    with pytest.raises(IndexError):
+        _ = table_format.glyph_pad
+
+
+def test_glyph_pad_2():
     table_format = PcfTableFormat(glyph_pad_index=-1)
     table_format.glyph_pad = 1
     assert table_format.glyph_pad_index == 0
@@ -48,7 +64,21 @@ def test_glyph_pad():
         table_format.glyph_pad = 16
 
 
-def test_scan_unit():
+def test_scan_unit_1():
+    table_format = PcfTableFormat(scan_unit_index=-1)
+    table_format.scan_unit_index = 0
+    assert table_format.scan_unit == 1
+    table_format.scan_unit_index = 1
+    assert table_format.scan_unit == 2
+    table_format.scan_unit_index = 2
+    assert table_format.scan_unit == 4
+
+    table_format.scan_unit_index = 3
+    with pytest.raises(IndexError):
+        _ = table_format.scan_unit
+
+
+def test_scan_unit_2():
     table_format = PcfTableFormat(scan_unit_index=-1)
     table_format.scan_unit = 1
     assert table_format.scan_unit_index == 0
