@@ -132,7 +132,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         stream.write_uint32_list(bitmap_offsets, self.table_format.ms_byte_first)
         stream.write_uint32_list(bitmaps_size_configs, self.table_format.ms_byte_first)
         stream.seek(bitmaps_size, os.SEEK_CUR)
-        stream.align_to_4_byte_with_nulls()
+        stream.align_to_4_bytes()
 
         table_size = stream.tell() - table_offset
         return table_size

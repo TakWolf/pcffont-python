@@ -187,10 +187,10 @@ def test_bool():
     assert stream.tell() == 2
 
 
-def test_align_to_4_byte():
+def test_align_to_4_bytes():
     stream = Stream()
     stream.write(b'abc')
-    assert stream.align_to_4_byte_with_nulls() == 1
+    assert stream.align_to_4_bytes() == 1
     assert stream.tell() == 4
     stream.seek(0)
     assert stream.read(4) == b'abc\x00'

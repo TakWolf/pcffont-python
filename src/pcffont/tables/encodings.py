@@ -123,7 +123,7 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
                     glyph_index = self.get(encoding, PcfBdfEncodings.NO_GLYPH_INDEX)
                     stream.write_uint16(glyph_index, self.table_format.ms_byte_first)
 
-        stream.align_to_4_byte_with_nulls()
+        stream.align_to_4_bytes()
 
         table_size = stream.tell() - table_offset
         return table_size

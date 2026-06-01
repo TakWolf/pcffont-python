@@ -117,7 +117,7 @@ class Stream:
             self.write(b'\x00' * size)
         return size
 
-    def align_to_4_byte_with_nulls(self) -> int:
+    def align_to_4_bytes(self) -> int:
         return self.write_nulls(3 - (self.tell() + 3) % 4)
 
     def seek(self, offset: int, whence: int = os.SEEK_SET):
