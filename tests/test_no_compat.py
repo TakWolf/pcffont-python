@@ -10,13 +10,11 @@ def test_no_compat(assets_dir: Path, tmp_path: Path):
     font_1 = PcfFont.load(load_path)
     font_1.accelerators._compat_info = None
     font_1.bdf_accelerators._compat_info = None
-    font_1.bitmaps._compat_info = None
     font_1.save(save_path)
 
     font_2 = PcfFont.load(save_path)
     assert font_2.accelerators._compat_info is None
     assert font_2.bdf_accelerators._compat_info is None
-    font_2.bitmaps._compat_info = None
 
     assert font_1.bdf_encodings == font_2.bdf_encodings
     assert font_1.glyph_names == font_2.glyph_names

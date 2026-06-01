@@ -38,7 +38,6 @@ def test_unifont(assets_dir: Path):
     pcf_font = PcfFont.load(assets_dir.joinpath('unifont', 'unifont-17.0.04.pcf'))
     pcf_font.accelerators._compat_info = None
     pcf_font.bdf_accelerators._compat_info = None
-    pcf_font.bitmaps._compat_info = None
     bdf_font = _load_pcf_by_bdf(assets_dir.joinpath('unifont', 'unifont-17.0.04.bdf'))
 
     assert pcf_font.bdf_encodings == bdf_font.bdf_encodings
@@ -56,7 +55,6 @@ def test_demo(assets_dir: Path):
     pcf_font = PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf'))
     pcf_font.accelerators._compat_info = None
     pcf_font.bdf_accelerators._compat_info = None
-    pcf_font.bitmaps._compat_info = None
     bdf_font = _load_pcf_by_bdf(assets_dir.joinpath('demo', 'demo.bdf'))
 
     assert pcf_font.bdf_encodings == bdf_font.bdf_encodings
@@ -74,7 +72,6 @@ def test_demo_2(assets_dir: Path):
     pcf_font = PcfFont.load(assets_dir.joinpath('demo', 'demo-2.pcf'))
     pcf_font.accelerators._compat_info = None
     pcf_font.bdf_accelerators._compat_info = None
-    pcf_font.bitmaps._compat_info = None
     bdf_font = _load_pcf_by_bdf(assets_dir.joinpath('demo', 'demo-2.bdf'))
 
     assert pcf_font.bdf_encodings == bdf_font.bdf_encodings

@@ -31,7 +31,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
 
         glyphs_count = stream.read_uint32(table_format.ms_byte_first)
         bitmap_offsets = stream.read_uint32_list(glyphs_count, table_format.ms_byte_first)
-        bitmaps_size_configs = stream.read_uint32_list(4, table_format.ms_byte_first)
+        stream.seek(16, os.SEEK_CUR)  # bitmaps_size_configs
         bitmaps_start = stream.tell()
 
         bitmaps = []
@@ -56,15 +56,9 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
                 bitmap.append(bitmap_row)
             bitmaps.append(bitmap)
 
-        table = PcfBitmaps(table_format, bitmaps)
-
-        # Compat
-        table._compat_info = bitmaps_size_configs
-
-        return table
+        return PcfBitmaps(table_format, bitmaps)
 
     table_format: PcfTableFormat
-    _compat_info: list[int] | None
 
     def __init__(
             self,
@@ -73,7 +67,6 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
     ):
         super().__init__(bitmaps)
         self.table_format = PcfTableFormat() if table_format is None else table_format
-        self._compat_info = None
 
     def __repr__(self) -> str:
         return object.__repr__(self)
@@ -82,7 +75,6 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         if not isinstance(other, PcfBitmaps):
             return NotImplemented
         return (self.table_format == other.table_format and
-                self._compat_info == other._compat_info and
                 super().__eq__(other))
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
@@ -91,8 +83,12 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         bitmaps_start = table_offset + 4 + 4 + 4 * glyphs_count + 4 * 4
         bitmaps_size = 0
         bitmap_offsets = []
+        bitmaps_size_configs = [0, 0, 0, 0]
         stream.seek(bitmaps_start)
         for bitmap, metric in zip(self, font.metrics):
+            for glyph_pad_index, glyph_pad in enumerate(PcfTableFormat.GLYPH_PAD_OPTIONS):
+                bitmaps_size_configs[glyph_pad_index] += (metric.width + glyph_pad * 8 - 1) // (glyph_pad * 8) * glyph_pad * metric.height
+
             bitmap_row_size = (metric.width + self.table_format.glyph_pad * 8 - 1) // (self.table_format.glyph_pad * 8) * self.table_format.glyph_pad
 
             bitmap_data = bytearray()
@@ -115,16 +111,6 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
 
             bitmap_offsets.append(bitmaps_size)
             bitmaps_size += stream.write(bitmap_data)
-
-        # Compat
-        if self._compat_info is not None:
-            bitmaps_size_configs = list(self._compat_info)
-            bitmaps_size_configs[self.table_format.glyph_pad_index] = bitmaps_size
-        else:
-            bitmaps_size_configs = [
-                bitmaps_size // self.table_format.glyph_pad * glyph_pad_option
-                for glyph_pad_option in PcfTableFormat.GLYPH_PAD_OPTIONS
-            ]
 
         stream.seek(table_offset)
         stream.write_uint32(self.table_format.value)
