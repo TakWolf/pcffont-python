@@ -15,7 +15,7 @@ def _load_pcf_by_bdf(file_path: Path) -> PcfFont:
         builder.config.default_char = bdf_font.properties.default_char
     builder.config.ms_byte_first = True
     builder.config.ms_bit_first = True
-    builder.config.glyph_pad_index = 2
+    builder.config.glyph_pad = 4
 
     for bdf_glyph in bdf_font.glyphs:
         builder.glyphs.append(PcfGlyph(
