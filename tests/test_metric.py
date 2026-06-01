@@ -129,6 +129,7 @@ def test_calculate_1():
             character_width=4,
             ascent=9,
             descent=-5,
+            attributes=0b_00000001,
         ),
         PcfMetric(
             left_side_bearing=7,
@@ -136,6 +137,7 @@ def test_calculate_1():
             character_width=1,
             ascent=-6,
             descent=0,
+            attributes=0b_00010001,
         ),
         PcfMetric(
             left_side_bearing=1,
@@ -143,6 +145,7 @@ def test_calculate_1():
             character_width=2,
             ascent=5,
             descent=4,
+            attributes=0b_10000001,
         ),
         PcfMetric(
             left_side_bearing=-5,
@@ -150,6 +153,7 @@ def test_calculate_1():
             character_width=7,
             ascent=-3,
             descent=-9,
+            attributes=0b_01100001,
         ),
     ])
     assert metrics.calculate_min_bounds() == PcfMetric(
@@ -158,6 +162,7 @@ def test_calculate_1():
         character_width=1,
         ascent=-6,
         descent=-9,
+        attributes=0b_00000001,
     )
     assert metrics.calculate_max_bounds() == PcfMetric(
         left_side_bearing=7,
@@ -165,8 +170,12 @@ def test_calculate_1():
         character_width=7,
         ascent=9,
         descent=4,
+        attributes=0b_11110001,
     )
     assert metrics.calculate_max_overlap() == 4
+    assert not metrics.calculate_compressible()
+    for metric in metrics:
+        metric.attributes = 0
     assert metrics.calculate_compressible()
     metrics[0].left_side_bearing = 128
     assert not metrics.calculate_compressible()
