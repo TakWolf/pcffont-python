@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Final
 
 _DEFAULT_VALUE = 0b_0000_0000_0000
 _FLAG_INK_BOUNDS_OR_COMPRESSED_METRICS = 0b_0001_0000_0000
@@ -10,11 +10,11 @@ _MASK_BYTE_ORDER = 0b_00_01_00
 _MASK_BIT_ORDER = 0b_00_10_00
 _MASK_SCAN_UNIT = 0b_11_00_00
 
-_GLYPH_PAD_OPTIONS = [1, 2, 4, 8]
-_SCAN_UNIT_OPTIONS = [1, 2, 4]
-
 
 class PcfTableFormat:
+    GLYPH_PAD_OPTIONS: Final = [1, 2, 4, 8]
+    SCAN_UNIT_OPTIONS: Final = [1, 2, 4]
+
     @staticmethod
     def parse(value: int) -> PcfTableFormat:
         ms_byte_first = (value & _MASK_BYTE_ORDER) > 0
@@ -101,19 +101,19 @@ class PcfTableFormat:
 
     @property
     def glyph_pad(self) -> int:
-        return _GLYPH_PAD_OPTIONS[self.glyph_pad_index]
+        return PcfTableFormat.GLYPH_PAD_OPTIONS[self.glyph_pad_index]
 
     @glyph_pad.setter
     def glyph_pad(self, value: int):
-        self.glyph_pad_index = _GLYPH_PAD_OPTIONS.index(value)
+        self.glyph_pad_index = PcfTableFormat.GLYPH_PAD_OPTIONS.index(value)
 
     @property
     def scan_unit(self) -> int:
-        return _SCAN_UNIT_OPTIONS[self.scan_unit_index]
+        return PcfTableFormat.SCAN_UNIT_OPTIONS[self.scan_unit_index]
 
     @scan_unit.setter
     def scan_unit(self, value: int):
-        self.scan_unit_index = _SCAN_UNIT_OPTIONS.index(value)
+        self.scan_unit_index = PcfTableFormat.SCAN_UNIT_OPTIONS.index(value)
 
     @property
     def value(self) -> int:

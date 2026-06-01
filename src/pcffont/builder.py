@@ -42,6 +42,22 @@ class PcfFontConfig:
         self.glyph_pad_index = glyph_pad_index
         self.scan_unit_index = scan_unit_index
 
+    @property
+    def glyph_pad(self) -> int:
+        return PcfTableFormat.GLYPH_PAD_OPTIONS[self.glyph_pad_index]
+
+    @glyph_pad.setter
+    def glyph_pad(self, value: int):
+        self.glyph_pad_index = PcfTableFormat.GLYPH_PAD_OPTIONS.index(value)
+
+    @property
+    def scan_unit(self) -> int:
+        return PcfTableFormat.SCAN_UNIT_OPTIONS[self.scan_unit_index]
+
+    @scan_unit.setter
+    def scan_unit(self, value: int):
+        self.scan_unit_index = PcfTableFormat.SCAN_UNIT_OPTIONS.index(value)
+
     def to_table_format(self) -> PcfTableFormat:
         return PcfTableFormat(
             ms_byte_first=self.ms_byte_first,

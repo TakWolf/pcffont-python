@@ -5,7 +5,7 @@ from pathlib import Path
 import freetype
 from bdffont import BdfFont
 
-from pcffont import PcfFont, PcfFontBuilder, PcfGlyph
+from pcffont import PcfFont, PcfFontBuilder, PcfGlyph, PcfTableFormat
 
 
 def test_demo(assets_dir: Path):
@@ -83,12 +83,12 @@ def test_with_freetype(assets_dir: Path):
 
     for ms_byte_first in (False, True):
         for ms_bit_first in (False, True):
-            for glyph_pad_index, glyph_pad in ((0, 1), (1, 2), (2, 4), (3, 8)):
-                for scan_unit_index, scan_unit in ((0, 1), (1, 2), (2, 4)):
+            for glyph_pad in PcfTableFormat.GLYPH_PAD_OPTIONS:
+                for scan_unit in PcfTableFormat.SCAN_UNIT_OPTIONS:
                     builder.config.ms_byte_first = ms_byte_first
                     builder.config.ms_bit_first = ms_bit_first
-                    builder.config.glyph_pad_index = glyph_pad_index
-                    builder.config.scan_unit_index = scan_unit_index
+                    builder.config.glyph_pad = glyph_pad
+                    builder.config.scan_unit = scan_unit
 
                     pcf_font = builder.build()
                     stream = BytesIO()
