@@ -147,9 +147,9 @@ class PcfFontBuilder:
             accelerators.table_format.ink_bounds = False
             accelerators.ink_metrics = False
 
-        metrics.table_format.compressed_metrics = metrics.calculate_compressible()
+        metrics.table_format.compressed_metrics = accelerators.min_bounds.compressible and accelerators.max_bounds.compressible
         if ink_metrics is not None:
-            ink_metrics.table_format.compressed_metrics = ink_metrics.calculate_compressible()
+            ink_metrics.table_format.compressed_metrics = accelerators.ink_min_bounds.compressible and accelerators.ink_max_bounds.compressible
 
         font = PcfFont()
         font.bdf_encodings = bdf_encodings

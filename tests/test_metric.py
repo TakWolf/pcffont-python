@@ -173,12 +173,6 @@ def test_calculate_1():
         attributes=0b_11110001,
     )
     assert metrics.calculate_max_overlap() == 4
-    assert not metrics.calculate_compressible()
-    for metric in metrics:
-        metric.attributes = 0
-    assert metrics.calculate_compressible()
-    metrics[0].left_side_bearing = 128
-    assert not metrics.calculate_compressible()
 
 
 def test_calculate_2():
@@ -186,4 +180,3 @@ def test_calculate_2():
     assert metrics.calculate_min_bounds() == PcfMetric()
     assert metrics.calculate_max_bounds() == PcfMetric()
     assert metrics.calculate_max_overlap() == 0
-    assert metrics.calculate_compressible()
