@@ -67,7 +67,7 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
                 min_bounds.ascent = min(min_bounds.ascent, metric.ascent)
                 min_bounds.descent = min(min_bounds.descent, metric.descent)
         if min_bounds is None:
-            min_bounds = PcfMetric(0, 0, 0, 0, 0)
+            min_bounds = PcfMetric()
         return min_bounds
 
     def calculate_max_bounds(self) -> PcfMetric:
@@ -88,7 +88,7 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
                 max_bounds.ascent = max(max_bounds.ascent, metric.ascent)
                 max_bounds.descent = max(max_bounds.descent, metric.descent)
         if max_bounds is None:
-            max_bounds = PcfMetric(0, 0, 0, 0, 0)
+            max_bounds = PcfMetric()
         return max_bounds
 
     def calculate_max_overlap(self) -> int:

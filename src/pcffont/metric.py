@@ -40,11 +40,11 @@ class PcfMetric:
 
     def __init__(
             self,
-            left_side_bearing: int,
-            right_side_bearing: int,
-            character_width: int,
-            ascent: int,
-            descent: int,
+            left_side_bearing: int = 0,
+            right_side_bearing: int = 0,
+            character_width: int = 0,
+            ascent: int = 0,
+            descent: int = 0,
             attributes: int = 0,
     ):
         self.left_side_bearing = left_side_bearing

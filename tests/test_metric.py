@@ -30,13 +30,7 @@ def test_eq():
 
 
 def test_compressible():
-    metric = PcfMetric(
-        left_side_bearing=0,
-        right_side_bearing=0,
-        character_width=0,
-        ascent=0,
-        descent=0,
-    )
+    metric = PcfMetric()
     assert metric.compressible
 
     metric.left_side_bearing = -129
@@ -138,7 +132,7 @@ def test_calculate_1():
 
 def test_calculate_2():
     metrics = PcfMetrics()
-    assert metrics.calculate_min_bounds() == PcfMetric(0, 0, 0, 0, 0)
-    assert metrics.calculate_max_bounds() == PcfMetric(0, 0, 0, 0, 0)
+    assert metrics.calculate_min_bounds() == PcfMetric()
+    assert metrics.calculate_max_bounds() == PcfMetric()
     assert metrics.calculate_max_overlap() == 0
     assert metrics.calculate_compressible()
