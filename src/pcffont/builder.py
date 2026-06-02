@@ -115,33 +115,63 @@ class PcfFontBuilder:
         accelerators.max_bounds = calculate_util.calculate_max_bounds(metrics)
         accelerators.calculate_bounds()
 
-        if accelerators.constant_metrics:
+        glyph_indices = set(bdf_encodings.values())
+
+        if len(glyph_indices) == len(self.glyphs):
+            bdf_accelerators = accelerators.copy()
+        else:
+            bdf_metrics = [metrics[glyph_index] for glyph_index in glyph_indices]
+            bdf_accelerators = PcfAccelerators(
+                self.config.to_table_format(),
+                draw_right_to_left=self.config.draw_right_to_left,
+                font_ascent=self.config.font_ascent,
+                font_descent=self.config.font_descent,
+            )
+            bdf_accelerators.max_overlap = calculate_util.calculate_max_overlap(bdf_metrics)
+            bdf_accelerators.min_bounds = calculate_util.calculate_min_bounds(bdf_metrics)
+            bdf_accelerators.max_bounds = calculate_util.calculate_max_bounds(bdf_metrics)
+            bdf_accelerators.calculate_bounds()
+
+        if bdf_accelerators.constant_metrics:
             ink_metrics = PcfMetrics(self.config.to_table_format(), [glyph.create_metric(True) for glyph in self.glyphs])
 
             accelerators.ink_min_bounds = calculate_util.calculate_min_bounds(ink_metrics)
             accelerators.ink_max_bounds = calculate_util.calculate_max_bounds(ink_metrics)
             accelerators.table_format.ink_bounds = True
             accelerators.ink_metrics = True
+
+            if len(glyph_indices) == len(self.glyphs):
+                bdf_accelerators.ink_min_bounds = accelerators.ink_min_bounds.copy()
+                bdf_accelerators.ink_max_bounds = accelerators.ink_max_bounds.copy()
+            else:
+                bdf_ink_metrics = [ink_metrics[glyph_index] for glyph_index in glyph_indices]
+                bdf_accelerators.ink_min_bounds = calculate_util.calculate_min_bounds(bdf_ink_metrics)
+                bdf_accelerators.ink_max_bounds = calculate_util.calculate_max_bounds(bdf_ink_metrics)
+            bdf_accelerators.table_format.ink_bounds = True
+            bdf_accelerators.ink_metrics = True
         else:
             ink_metrics = None
 
             accelerators.table_format.ink_bounds = False
             accelerators.ink_metrics = False
 
+            bdf_accelerators.table_format.ink_bounds = False
+            bdf_accelerators.ink_metrics = False
+
         metrics.table_format.compressed_metrics = accelerators.min_bounds.compressible and accelerators.max_bounds.compressible
         if ink_metrics is not None:
             ink_metrics.table_format.compressed_metrics = accelerators.ink_min_bounds.compressible and accelerators.ink_max_bounds.compressible
 
         font = PcfFont()
-        font.bdf_encodings = bdf_encodings
-        font.glyph_names = glyph_names
-        font.scalable_widths = scalable_widths
-        font.metrics = metrics
-        font.ink_metrics = ink_metrics
-        font.bitmaps = bitmaps
-        font.accelerators = accelerators
-        font.bdf_accelerators = accelerators
         font.properties = properties
+        font.accelerators = accelerators
+        font.metrics = metrics
+        font.bitmaps = bitmaps
+        font.ink_metrics = ink_metrics
+        font.bdf_encodings = bdf_encodings
+        font.scalable_widths = scalable_widths
+        font.glyph_names = glyph_names
+        font.bdf_accelerators = bdf_accelerators
         return font
 
     def save(self, file_path: str | PathLike[str]):
