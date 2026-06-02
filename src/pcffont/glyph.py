@@ -13,6 +13,7 @@ class PcfGlyph:
     offset_x: int
     offset_y: int
     bitmap: list[list[int]]
+    attributes: int
 
     def __init__(
             self,
@@ -23,6 +24,7 @@ class PcfGlyph:
             dimensions: tuple[int, int] = (0, 0),
             offset: tuple[int, int] = (0, 0),
             bitmap: list[list[int]] | None = None,
+            attributes: int = 0,
     ):
         self.name = name
         self.encoding = encoding
@@ -31,6 +33,7 @@ class PcfGlyph:
         self.width, self.height = dimensions
         self.offset_x, self.offset_y = offset
         self.bitmap = [] if bitmap is None else bitmap
+        self.attributes = attributes
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfGlyph):
@@ -43,6 +46,7 @@ class PcfGlyph:
                 self.height == other.height and
                 self.offset_x == other.offset_x and
                 self.offset_y == other.offset_y and
+                self.attributes == other.attributes and
                 self.bitmap == other.bitmap)
 
     @property
@@ -68,6 +72,7 @@ class PcfGlyph:
             character_width=self.character_width,
             ascent=self.offset_y + self.height,
             descent=-self.offset_y,
+            attributes=self.attributes,
         )
 
         if not is_ink:

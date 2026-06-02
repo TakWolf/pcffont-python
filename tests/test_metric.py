@@ -8,6 +8,7 @@ def test_eq():
         character_width=4,
         ascent=9,
         descent=-5,
+        attributes=1,
     )
     metric_2 = PcfMetric(
         left_side_bearing=-3,
@@ -15,6 +16,7 @@ def test_eq():
         character_width=4,
         ascent=9,
         descent=-5,
+        attributes=1,
     )
     metric_3 = PcfMetric(
         left_side_bearing=-2,
@@ -22,6 +24,7 @@ def test_eq():
         character_width=4,
         ascent=9,
         descent=-5,
+        attributes=1,
     )
     assert metric_1 == metric_2
     assert metric_1 != metric_3
