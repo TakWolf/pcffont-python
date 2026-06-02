@@ -1,4 +1,5 @@
-from pcffont import PcfMetric, PcfGlyph, PcfMetrics
+from pcffont import PcfMetric, PcfGlyph
+from pcffont.utils import calculate_util
 
 
 def test_eq():
@@ -122,7 +123,7 @@ def test_create_by_glyph():
 
 
 def test_calculate_1():
-    metrics = PcfMetrics(metrics=[
+    metrics = [
         PcfMetric(
             left_side_bearing=-3,
             right_side_bearing=8,
@@ -155,8 +156,9 @@ def test_calculate_1():
             descent=-9,
             attributes=0b_01100001,
         ),
-    ])
-    assert metrics.calculate_min_bounds() == PcfMetric(
+    ]
+    assert calculate_util.calculate_max_overlap(metrics) == 4
+    assert calculate_util.calculate_min_bounds(metrics) == PcfMetric(
         left_side_bearing=-5,
         right_side_bearing=-1,
         character_width=1,
@@ -164,7 +166,7 @@ def test_calculate_1():
         descent=-9,
         attributes=0b_00000001,
     )
-    assert metrics.calculate_max_bounds() == PcfMetric(
+    assert calculate_util.calculate_max_bounds(metrics) == PcfMetric(
         left_side_bearing=7,
         right_side_bearing=8,
         character_width=7,
@@ -172,11 +174,10 @@ def test_calculate_1():
         descent=4,
         attributes=0b_11110001,
     )
-    assert metrics.calculate_max_overlap() == 4
 
 
 def test_calculate_2():
-    metrics = PcfMetrics()
-    assert metrics.calculate_min_bounds() == PcfMetric()
-    assert metrics.calculate_max_bounds() == PcfMetric()
-    assert metrics.calculate_max_overlap() == 0
+    metrics = []
+    assert calculate_util.calculate_max_overlap(metrics) == 0
+    assert calculate_util.calculate_min_bounds(metrics) == PcfMetric()
+    assert calculate_util.calculate_max_bounds(metrics) == PcfMetric()

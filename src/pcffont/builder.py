@@ -10,6 +10,7 @@ from pcffont.tables.glyph_names import PcfGlyphNames
 from pcffont.tables.metrics import PcfMetrics
 from pcffont.tables.properties import PcfProperties
 from pcffont.tables.scalable_widths import PcfScalableWidths
+from pcffont.utils import calculate_util
 
 
 class PcfFontConfig:
@@ -109,16 +110,16 @@ class PcfFontBuilder:
             metrics.append(glyph.create_metric(False))
             bitmaps.append(glyph.bitmap)
 
-        accelerators.min_bounds = metrics.calculate_min_bounds()
-        accelerators.max_bounds = metrics.calculate_max_bounds()
-        accelerators.max_overlap = metrics.calculate_max_overlap()
+        accelerators.max_overlap = calculate_util.calculate_max_overlap(metrics)
+        accelerators.min_bounds = calculate_util.calculate_min_bounds(metrics)
+        accelerators.max_bounds = calculate_util.calculate_max_bounds(metrics)
         accelerators.calculate_bounds()
 
         if accelerators.constant_metrics:
             ink_metrics = PcfMetrics(self.config.to_table_format(), [glyph.create_metric(True) for glyph in self.glyphs])
 
-            accelerators.ink_min_bounds = ink_metrics.calculate_min_bounds()
-            accelerators.ink_max_bounds = ink_metrics.calculate_max_bounds()
+            accelerators.ink_min_bounds = calculate_util.calculate_min_bounds(ink_metrics)
+            accelerators.ink_max_bounds = calculate_util.calculate_max_bounds(ink_metrics)
             accelerators.table_format.ink_bounds = True
             accelerators.ink_metrics = True
         else:
