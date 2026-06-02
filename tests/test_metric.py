@@ -1,4 +1,4 @@
-from pcffont import PcfMetric, PcfMetrics
+from pcffont import PcfMetric, PcfGlyph, PcfMetrics
 
 
 def test_eq():
@@ -80,6 +80,43 @@ def test_compressible():
     assert not metric.compressible
     metric.descent = 127
     assert metric.compressible
+
+
+def test_create_by_glyph():
+    glyph = PcfGlyph(
+        name='_',
+        encoding=0,
+        character_width=5,
+        dimensions=(5, 8),
+        offset=(0, -2),
+        bitmap=[
+            [0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0],
+        ],
+        attributes=1,
+    )
+    assert glyph.create_metric(False) == PcfMetric(
+        left_side_bearing=0,
+        right_side_bearing=5,
+        character_width=5,
+        ascent=6,
+        descent=2,
+        attributes=1,
+    )
+    assert glyph.create_metric(True) == PcfMetric(
+        left_side_bearing=1,
+        right_side_bearing=4,
+        character_width=5,
+        ascent=5,
+        descent=1,
+        attributes=1,
+    )
 
 
 def test_calculate_1():
