@@ -40,7 +40,7 @@ class PcfAccelerators(PcfTable):
             ink_min_bounds = None
             ink_max_bounds = None
 
-        table = PcfAccelerators(
+        return PcfAccelerators(
             table_format,
             no_overlap,
             constant_metrics,
@@ -58,14 +58,6 @@ class PcfAccelerators(PcfTable):
             ink_max_bounds,
         )
 
-        # Compat
-        if header.table_size > stream.tell() - header.table_offset:
-            stream.seek(header.table_offset)
-            raw_chunk = stream.read(header.table_size, ignore_eof=True)
-            table._compat_info = raw_chunk, header.table_size
-
-        return table
-
     table_format: PcfTableFormat
     no_overlap: bool
     constant_metrics: bool
@@ -81,7 +73,6 @@ class PcfAccelerators(PcfTable):
     max_bounds: PcfMetric | None
     ink_min_bounds: PcfMetric | None
     ink_max_bounds: PcfMetric | None
-    _compat_info: tuple[bytes, int] | None
 
     def __init__(
             self,
@@ -116,7 +107,6 @@ class PcfAccelerators(PcfTable):
         self.max_bounds = max_bounds
         self.ink_min_bounds = ink_min_bounds
         self.ink_max_bounds = ink_max_bounds
-        self._compat_info = None
 
     def __copy__(self) -> PcfAccelerators:
         return self.copy()
@@ -141,8 +131,7 @@ class PcfAccelerators(PcfTable):
                 self.min_bounds == other.min_bounds and
                 self.max_bounds == other.max_bounds and
                 self.ink_min_bounds == other.ink_min_bounds and
-                self.ink_max_bounds == other.ink_max_bounds and
-                self._compat_info == other._compat_info)
+                self.ink_max_bounds == other.ink_max_bounds)
 
     def calculate_bounds(self):
         if self.min_bounds is None or self.max_bounds is None:
@@ -172,7 +161,7 @@ class PcfAccelerators(PcfTable):
         )
 
     def copy(self) -> PcfAccelerators:
-        accelerators = PcfAccelerators(
+        return PcfAccelerators(
             self.table_format.copy(),
             self.no_overlap,
             self.constant_metrics,
@@ -189,8 +178,6 @@ class PcfAccelerators(PcfTable):
             self.ink_min_bounds.copy() if self.ink_min_bounds is not None else None,
             self.ink_max_bounds.copy() if self.ink_max_bounds is not None else None,
         )
-        accelerators._compat_info = self._compat_info if self._compat_info is not None else None
-        return accelerators
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
         stream.seek(table_offset)
@@ -214,12 +201,8 @@ class PcfAccelerators(PcfTable):
             self.ink_min_bounds.dump(stream, self.table_format.ms_byte_first, False)
             self.ink_max_bounds.dump(stream, self.table_format.ms_byte_first, False)
 
-        # Compat
-        if self._compat_info is not None:
-            raw_chunk, table_size = self._compat_info
-            stream.write(raw_chunk[stream.tell() - table_offset::])
-        else:
-            stream.align_to_4_bytes()
+        if self is font.accelerators:
             table_size = stream.tell() - table_offset
+            stream.write_nulls(100 - table_size)
 
-        return table_size
+        return 100

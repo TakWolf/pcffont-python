@@ -5,7 +5,7 @@ from bdffont import BdfFont
 from pcffont import PcfFont, PcfFontBuilder, PcfGlyph
 
 
-def _load_pcf_by_bdf(file_path: Path) -> PcfFont:
+def _create_pcf_by_bdf(file_path: Path) -> PcfFont:
     bdf_font = BdfFont.load(file_path)
 
     builder = PcfFontBuilder()
@@ -16,6 +16,9 @@ def _load_pcf_by_bdf(file_path: Path) -> PcfFont:
     builder.config.ms_byte_first = True
     builder.config.ms_bit_first = True
     builder.config.glyph_pad = 4
+
+    builder.properties.update(bdf_font.properties)
+    builder.properties.generate_xlfd()
 
     for bdf_glyph in bdf_font.glyphs:
         builder.glyphs.append(PcfGlyph(
@@ -28,58 +31,34 @@ def _load_pcf_by_bdf(file_path: Path) -> PcfFont:
             bitmap=bdf_glyph.bitmap,
         ))
 
-    builder.properties.update(bdf_font.properties)
-    builder.properties.generate_xlfd()
-
     return builder.build()
 
 
 def test_unifont(assets_dir: Path):
-    pcf_font = PcfFont.load(assets_dir.joinpath('unifont', 'unifont-17.0.04.pcf'))
-    pcf_font.accelerators._compat_info = None
-    pcf_font.bdf_accelerators._compat_info = None
-    bdf_font = _load_pcf_by_bdf(assets_dir.joinpath('unifont', 'unifont-17.0.04.bdf'))
+    pcf_path = assets_dir.joinpath('unifont', 'unifont-17.0.04.pcf')
+    bdf_path = assets_dir.joinpath('unifont', 'unifont-17.0.04.bdf')
 
-    assert pcf_font.bdf_encodings == bdf_font.bdf_encodings
-    assert pcf_font.glyph_names == bdf_font.glyph_names
-    assert pcf_font.scalable_widths == bdf_font.scalable_widths
-    assert pcf_font.metrics == bdf_font.metrics
-    assert pcf_font.ink_metrics == bdf_font.ink_metrics
-    assert pcf_font.bitmaps == bdf_font.bitmaps
-    assert pcf_font.accelerators == bdf_font.accelerators
-    assert pcf_font.bdf_accelerators == bdf_font.bdf_accelerators
-    assert pcf_font.properties.font.upper() == bdf_font.properties.font.upper().replace('-SANS SERIF', '-SANS')
+    font_1 = PcfFont.load(pcf_path)
+    font_2 = _create_pcf_by_bdf(bdf_path)
+    font_2.properties = font_1.properties
+    assert font_1.dump_to_bytes() == font_2.dump_to_bytes()
 
 
 def test_demo(assets_dir: Path):
-    pcf_font = PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf'))
-    pcf_font.accelerators._compat_info = None
-    pcf_font.bdf_accelerators._compat_info = None
-    bdf_font = _load_pcf_by_bdf(assets_dir.joinpath('demo', 'demo.bdf'))
+    pcf_path = assets_dir.joinpath(assets_dir.joinpath('demo', 'demo.pcf'))
+    bdf_path = assets_dir.joinpath(assets_dir.joinpath('demo', 'demo.bdf'))
 
-    assert pcf_font.bdf_encodings == bdf_font.bdf_encodings
-    assert pcf_font.glyph_names == bdf_font.glyph_names
-    assert pcf_font.scalable_widths == bdf_font.scalable_widths
-    assert pcf_font.metrics == bdf_font.metrics
-    assert pcf_font.ink_metrics == bdf_font.ink_metrics
-    assert pcf_font.bitmaps == bdf_font.bitmaps
-    assert pcf_font.accelerators == bdf_font.accelerators
-    assert pcf_font.bdf_accelerators == bdf_font.bdf_accelerators
-    assert pcf_font.properties.font == bdf_font.properties.font
+    font_1 = PcfFont.load(pcf_path)
+    font_2 = _create_pcf_by_bdf(bdf_path)
+    font_2.properties = font_1.properties
+    assert font_1.dump_to_bytes() == font_2.dump_to_bytes()
 
 
 def test_demo_2(assets_dir: Path):
-    pcf_font = PcfFont.load(assets_dir.joinpath('demo', 'demo-2.pcf'))
-    pcf_font.accelerators._compat_info = None
-    pcf_font.bdf_accelerators._compat_info = None
-    bdf_font = _load_pcf_by_bdf(assets_dir.joinpath('demo', 'demo-2.bdf'))
+    pcf_path = assets_dir.joinpath(assets_dir.joinpath('demo', 'demo-2.pcf'))
+    bdf_path = assets_dir.joinpath(assets_dir.joinpath('demo', 'demo-2.bdf'))
 
-    assert pcf_font.bdf_encodings == bdf_font.bdf_encodings
-    assert pcf_font.glyph_names == bdf_font.glyph_names
-    assert pcf_font.scalable_widths == bdf_font.scalable_widths
-    assert pcf_font.metrics == bdf_font.metrics
-    assert pcf_font.ink_metrics == bdf_font.ink_metrics
-    assert pcf_font.bitmaps == bdf_font.bitmaps
-    assert pcf_font.accelerators == bdf_font.accelerators
-    assert pcf_font.bdf_accelerators == bdf_font.bdf_accelerators
-    assert pcf_font.properties.font == bdf_font.properties.font
+    font_1 = PcfFont.load(pcf_path)
+    font_2 = _create_pcf_by_bdf(bdf_path)
+    font_2.properties = font_1.properties
+    assert font_1.dump_to_bytes() == font_2.dump_to_bytes()

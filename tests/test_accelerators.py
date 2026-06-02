@@ -201,7 +201,6 @@ def test_copy():
         ink_min_bounds=PcfMetric(7, 8, 9, 10, 11, 12),
         ink_max_bounds=PcfMetric(12, 11, 10, 9, 8, 7),
     )
-    accelerators_1._compat_info = (b'1234', 10)
 
     accelerators_2 = accelerators_1.copy()
     assert accelerators_1 == accelerators_2
