@@ -11,14 +11,7 @@ def calculate_min_bounds(metrics: Iterable[PcfMetric]) -> PcfMetric:
     min_bounds = None
     for metric in metrics:
         if min_bounds is None:
-            min_bounds = PcfMetric(
-                metric.left_side_bearing,
-                metric.right_side_bearing,
-                metric.character_width,
-                metric.ascent,
-                metric.descent,
-                metric.attributes,
-            )
+            min_bounds = metric.copy()
         else:
             if metric.left_side_bearing != 0 or metric.right_side_bearing != 0 or metric.character_width != 0 or metric.ascent != 0 or metric.descent != 0:
                 min_bounds.left_side_bearing = min(min_bounds.left_side_bearing, metric.left_side_bearing)
@@ -36,14 +29,7 @@ def calculate_max_bounds(metrics: Iterable[PcfMetric]) -> PcfMetric:
     max_bounds = None
     for metric in metrics:
         if max_bounds is None:
-            max_bounds = PcfMetric(
-                metric.left_side_bearing,
-                metric.right_side_bearing,
-                metric.character_width,
-                metric.ascent,
-                metric.descent,
-                metric.attributes,
-            )
+            max_bounds = metric.copy()
         else:
             if metric.left_side_bearing != 0 or metric.right_side_bearing != 0 or metric.character_width != 0 or metric.ascent != 0 or metric.descent != 0:
                 max_bounds.left_side_bearing = max(max_bounds.left_side_bearing, metric.left_side_bearing)

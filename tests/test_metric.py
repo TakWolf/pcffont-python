@@ -1,3 +1,5 @@
+from copy import copy, deepcopy
+
 from pcffont import PcfMetric, PcfGlyph
 from pcffont.utils import calculate_util
 
@@ -83,6 +85,29 @@ def test_compressible():
     assert not metric.compressible
     metric.descent = 127
     assert metric.compressible
+
+
+def test_copy():
+    metric_1 = PcfMetric(
+        left_side_bearing=1,
+        right_side_bearing=2,
+        character_width=3,
+        ascent=4,
+        descent=5,
+        attributes=6,
+    )
+
+    metric_2 = metric_1.copy()
+    assert metric_1 == metric_2
+    assert metric_1 is not metric_2
+
+    metric_3 = copy(metric_1)
+    assert metric_1 == metric_3
+    assert metric_1 is not metric_3
+
+    metric_4 = deepcopy(metric_1)
+    assert metric_1 == metric_4
+    assert metric_1 is not metric_4
 
 
 def test_create_by_glyph():

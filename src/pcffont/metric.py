@@ -54,6 +54,12 @@ class PcfMetric:
         self.descent = descent
         self.attributes = attributes
 
+    def __copy__(self) -> PcfMetric:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfMetric:
+        return self.copy()
+
     def __repr__(self) -> str:
         return (f'PcfMetric('
                 f'left_side_bearing={self.left_side_bearing!r}, '
@@ -106,6 +112,16 @@ class PcfMetric:
                 -128 <= self.ascent <= 127 and
                 -128 <= self.descent <= 127 and
                 self.attributes == 0)
+
+    def copy(self) -> PcfMetric:
+        return PcfMetric(
+            self.left_side_bearing,
+            self.right_side_bearing,
+            self.character_width,
+            self.ascent,
+            self.descent,
+            self.attributes,
+        )
 
     def dump(self, stream: Stream, ms_byte_first: bool, compressed: bool):
         if compressed:
