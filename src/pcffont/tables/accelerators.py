@@ -138,6 +138,33 @@ class PcfAccelerators(PcfTable):
                 self.ink_max_bounds == other.ink_max_bounds and
                 self._compat_info == other._compat_info)
 
+    def calculate_bounds(self):
+        if self.min_bounds is None or self.max_bounds is None:
+            return
+
+        self.no_overlap = self.max_overlap <= self.min_bounds.left_side_bearing
+
+        if self.min_bounds == self.max_bounds:
+            self.constant_metrics = True
+            self.terminal_font = (
+                    self.min_bounds.left_side_bearing == 0 and
+                    self.min_bounds.right_side_bearing == self.min_bounds.character_width and
+                    self.min_bounds.ascent == self.font_ascent and
+                    self.min_bounds.descent == self.font_descent
+            )
+        else:
+            self.constant_metrics = False
+            self.terminal_font = False
+
+        self.constant_width = self.min_bounds.character_width == self.max_bounds.character_width
+        self.ink_inside = (
+                self.max_overlap <= 0 <= self.min_bounds.left_side_bearing and
+                self.min_bounds.ascent >= -self.font_descent and
+                self.max_bounds.ascent <= self.font_ascent and
+                -self.min_bounds.descent <= self.font_ascent and
+                self.max_bounds.descent <= self.font_descent
+        )
+
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
         stream.seek(table_offset)
         stream.write_uint32(self.table_format.value)
