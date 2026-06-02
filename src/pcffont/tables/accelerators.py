@@ -118,6 +118,12 @@ class PcfAccelerators(PcfTable):
         self.ink_max_bounds = ink_max_bounds
         self._compat_info = None
 
+    def __copy__(self) -> PcfAccelerators:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfAccelerators:
+        return self.copy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfAccelerators):
             return NotImplemented
@@ -164,6 +170,27 @@ class PcfAccelerators(PcfTable):
                 -self.min_bounds.descent <= self.font_ascent and
                 self.max_bounds.descent <= self.font_descent
         )
+
+    def copy(self) -> PcfAccelerators:
+        accelerators = PcfAccelerators(
+            self.table_format.copy(),
+            self.no_overlap,
+            self.constant_metrics,
+            self.terminal_font,
+            self.constant_width,
+            self.ink_inside,
+            self.ink_metrics,
+            self.draw_right_to_left,
+            self.font_ascent,
+            self.font_descent,
+            self.max_overlap,
+            self.min_bounds.copy() if self.min_bounds is not None else None,
+            self.max_bounds.copy() if self.max_bounds is not None else None,
+            self.ink_min_bounds.copy() if self.ink_min_bounds is not None else None,
+            self.ink_max_bounds.copy() if self.ink_max_bounds is not None else None,
+        )
+        accelerators._compat_info = self._compat_info if self._compat_info is not None else None
+        return accelerators
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
         stream.seek(table_offset)

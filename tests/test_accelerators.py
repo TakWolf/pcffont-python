@@ -1,4 +1,6 @@
-from pcffont import PcfMetric, PcfAccelerators
+from copy import copy, deepcopy
+
+from pcffont import PcfTableFormat, PcfMetric, PcfAccelerators
 
 
 def test_no_bounds():
@@ -179,3 +181,51 @@ def test_calculate_bounds_resets_when_different():
     accelerators.calculate_bounds()
     assert not accelerators.constant_metrics
     assert not accelerators.terminal_font
+
+
+def test_copy():
+    accelerators_1 = PcfAccelerators(
+        table_format=PcfTableFormat(True, True, True, 1, 2),
+        no_overlap=True,
+        constant_metrics=True,
+        terminal_font=True,
+        constant_width=True,
+        ink_inside=True,
+        ink_metrics=True,
+        draw_right_to_left=True,
+        font_ascent=1,
+        font_descent=2,
+        max_overlap=4,
+        min_bounds=PcfMetric(1, 2, 3, 4, 5, 6),
+        max_bounds=PcfMetric(6, 5, 4, 3, 2, 1),
+        ink_min_bounds=PcfMetric(7, 8, 9, 10, 11, 12),
+        ink_max_bounds=PcfMetric(12, 11, 10, 9, 8, 7),
+    )
+    accelerators_1._compat_info = (b'1234', 10)
+
+    accelerators_2 = accelerators_1.copy()
+    assert accelerators_1 == accelerators_2
+    assert accelerators_1 is not accelerators_2
+    assert accelerators_1.table_format is not accelerators_2.table_format
+    assert accelerators_1.min_bounds is not accelerators_2.min_bounds
+    assert accelerators_1.max_bounds is not accelerators_2.max_bounds
+    assert accelerators_1.ink_min_bounds is not accelerators_2.ink_min_bounds
+    assert accelerators_1.ink_max_bounds is not accelerators_2.ink_max_bounds
+
+    accelerators_3 = copy(accelerators_1)
+    assert accelerators_1 == accelerators_3
+    assert accelerators_1 is not accelerators_3
+    assert accelerators_1.table_format is not accelerators_3.table_format
+    assert accelerators_1.min_bounds is not accelerators_3.min_bounds
+    assert accelerators_1.max_bounds is not accelerators_3.max_bounds
+    assert accelerators_1.ink_min_bounds is not accelerators_3.ink_min_bounds
+    assert accelerators_1.ink_max_bounds is not accelerators_3.ink_max_bounds
+
+    accelerators_4 = deepcopy(accelerators_1)
+    assert accelerators_1 == accelerators_4
+    assert accelerators_1 is not accelerators_4
+    assert accelerators_1.table_format is not accelerators_4.table_format
+    assert accelerators_1.min_bounds is not accelerators_4.min_bounds
+    assert accelerators_1.max_bounds is not accelerators_4.max_bounds
+    assert accelerators_1.ink_min_bounds is not accelerators_4.ink_min_bounds
+    assert accelerators_1.ink_max_bounds is not accelerators_4.ink_max_bounds
