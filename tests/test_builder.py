@@ -41,7 +41,8 @@ def test_unifont(assets_dir: Path):
     font_1 = PcfFont.load(pcf_path)
     font_2 = _create_pcf_by_bdf(bdf_path)
     font_2.properties = font_1.properties
-    assert font_1.dump_to_bytes() == font_2.dump_to_bytes()
+    font_3 = PcfFontBuilder.modify(font_1).build()
+    assert font_1.dump_to_bytes() == font_2.dump_to_bytes() == font_3.dump_to_bytes()
 
 
 def test_demo(assets_dir: Path):
@@ -51,7 +52,8 @@ def test_demo(assets_dir: Path):
     font_1 = PcfFont.load(pcf_path)
     font_2 = _create_pcf_by_bdf(bdf_path)
     font_2.properties = font_1.properties
-    assert font_1.dump_to_bytes() == font_2.dump_to_bytes()
+    font_3 = PcfFontBuilder.modify(font_1).build()
+    assert font_1.dump_to_bytes() == font_2.dump_to_bytes() == font_3.dump_to_bytes()
 
 
 def test_demo_2(assets_dir: Path):
@@ -61,4 +63,5 @@ def test_demo_2(assets_dir: Path):
     font_1 = PcfFont.load(pcf_path)
     font_2 = _create_pcf_by_bdf(bdf_path)
     font_2.properties = font_1.properties
-    assert font_1.dump_to_bytes() == font_2.dump_to_bytes()
+    font_3 = PcfFontBuilder.modify(font_1).build()
+    assert font_1.dump_to_bytes() == font_2.dump_to_bytes() == font_3.dump_to_bytes()
