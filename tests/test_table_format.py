@@ -1,3 +1,5 @@
+from copy import copy, deepcopy
+
 import pytest
 
 from pcffont import PcfTableFormat
@@ -89,3 +91,25 @@ def test_scan_unit_2():
 
     with pytest.raises(ValueError):
         table_format.scan_unit = 8
+
+
+def test_copy():
+    table_format_1 = PcfTableFormat(
+        ms_byte_first=True,
+        ms_bit_first=True,
+        ink_bounds_or_compressed_metrics=True,
+        glyph_pad_index=1,
+        scan_unit_index=2,
+    )
+
+    table_format_2 = table_format_1.copy()
+    assert table_format_1 == table_format_2
+    assert table_format_1 is not table_format_2
+
+    table_format_3 = copy(table_format_1)
+    assert table_format_1 == table_format_3
+    assert table_format_1 is not table_format_3
+
+    table_format_4 = deepcopy(table_format_1)
+    assert table_format_1 == table_format_4
+    assert table_format_1 is not table_format_4

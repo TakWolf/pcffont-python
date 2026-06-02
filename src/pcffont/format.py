@@ -70,6 +70,12 @@ class PcfTableFormat:
         self.glyph_pad_index = glyph_pad_index
         self.scan_unit_index = scan_unit_index
 
+    def __copy__(self) -> PcfTableFormat:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfTableFormat:
+        return self.copy()
+
     def __repr__(self) -> str:
         value = self.value
         return f'{value}#{value:010b}'
@@ -127,3 +133,12 @@ class PcfTableFormat:
         value |= self.glyph_pad_index
         value |= self.scan_unit_index << 4
         return value
+
+    def copy(self) -> PcfTableFormat:
+        return PcfTableFormat(
+            self.ms_byte_first,
+            self.ms_bit_first,
+            self.ink_bounds_or_compressed_metrics,
+            self.glyph_pad_index,
+            self.scan_unit_index,
+        )
