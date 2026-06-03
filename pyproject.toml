@@ -26,7 +26,7 @@ classifiers = [
 [dependency-groups]
 dev = [
     "pytest>=9.0.3",
-    "bdffont>=0.0.37",
+    "bdffont>=0.0.38",
     "freetype-py>=2.5.1",
 ]
 
