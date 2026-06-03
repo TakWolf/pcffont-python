@@ -100,7 +100,7 @@ _XLFD_KEYS_ORDER = [
 def _check_xlfd_str_value(key: str, value: str):
     matched = re.search(r'[-?*,"]', value)
     if matched is not None:
-        raise ValueError(f'value of {repr(key)} contains illegal characters {repr(matched.group())}')
+        raise ValueError(f'value of {key!r} contains illegal characters {matched.group()!r}')
 
 
 class PcfProperties(UserDict[str, str | int], PcfTable):
