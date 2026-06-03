@@ -1,4 +1,5 @@
 import os
+import struct
 from io import BytesIO
 from typing import BinaryIO
 
@@ -14,97 +15,97 @@ class Stream:
         self.source = source
 
     def read(self, size: int, ignore_eof: bool = False) -> bytes:
-        values = self.source.read(size)
-        if len(values) < size and not ignore_eof:
+        data = self.source.read(size)
+        if len(data) < size and not ignore_eof:
             raise EOFError()
-        return values
+        return data
 
     def read_uint8(self) -> int:
-        return int.from_bytes(self.read(1), 'big', signed=False)
+        return self.read(1)[0]
 
     def read_uint8_list(self, count: int) -> list[int]:
-        return [self.read_uint8() for _ in range(count)]
+        return list(self.read(count))
 
     def read_int8(self) -> int:
         return int.from_bytes(self.read(1), 'big', signed=True)
 
     def read_int8_list(self, count: int) -> list[int]:
-        return [self.read_int8() for _ in range(count)]
+        return list(struct.unpack(f'{count}b', self.read(count)))
 
     def read_uint16(self, ms_byte_first: bool = False) -> int:
         return int.from_bytes(self.read(2), 'big' if ms_byte_first else 'little', signed=False)
 
     def read_uint16_list(self, count: int, ms_byte_first: bool = False) -> list[int]:
-        return [self.read_uint16(ms_byte_first) for _ in range(count)]
+        return list(struct.unpack(f"{'>' if ms_byte_first else '<'}{count}H", self.read(count * 2)))
 
     def read_int16(self, ms_byte_first: bool = False) -> int:
         return int.from_bytes(self.read(2), 'big' if ms_byte_first else 'little', signed=True)
 
     def read_int16_list(self, count: int, ms_byte_first: bool = False) -> list[int]:
-        return [self.read_int16(ms_byte_first) for _ in range(count)]
+        return list(struct.unpack(f"{'>' if ms_byte_first else '<'}{count}h", self.read(count * 2)))
 
     def read_uint32(self, ms_byte_first: bool = False) -> int:
         return int.from_bytes(self.read(4), 'big' if ms_byte_first else 'little', signed=False)
 
     def read_uint32_list(self, count: int, ms_byte_first: bool = False) -> list[int]:
-        return [self.read_uint32(ms_byte_first) for _ in range(count)]
+        return list(struct.unpack(f"{'>' if ms_byte_first else '<'}{count}I", self.read(count * 4)))
 
     def read_int32(self, ms_byte_first: bool = False) -> int:
         return int.from_bytes(self.read(4), 'big' if ms_byte_first else 'little', signed=True)
 
     def read_int32_list(self, count: int, ms_byte_first: bool = False) -> list[int]:
-        return [self.read_int32(ms_byte_first) for _ in range(count)]
+        return list(struct.unpack(f"{'>' if ms_byte_first else '<'}{count}i", self.read(count * 4)))
 
     def read_string(self) -> str:
-        values = bytearray()
+        data = bytearray()
         while True:
             b = self.read(1)
             if b == b'\x00':
                 break
-            values.extend(b)
-        return values.decode()
+            data.extend(b)
+        return data.decode()
 
     def read_bool(self) -> bool:
         return self.read(1) != b'\x00'
 
-    def write(self, values: bytes) -> int:
-        return self.source.write(values)
+    def write(self, data: bytes) -> int:
+        return self.source.write(data)
 
     def write_uint8(self, value: int) -> int:
         return self.write(value.to_bytes(1, 'big', signed=False))
 
     def write_uint8_list(self, values: list[int]) -> int:
-        return sum(self.write_uint8(value) for value in values)
+        return self.write(bytes(values))
 
     def write_int8(self, value: int) -> int:
         return self.write(value.to_bytes(1, 'big', signed=True))
 
     def write_int8_list(self, values: list[int]) -> int:
-        return sum(self.write_int8(value) for value in values)
+        return self.write(struct.pack(f'{len(values)}b', *values))
 
     def write_uint16(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(2, 'big' if ms_byte_first else 'little', signed=False))
 
     def write_uint16_list(self, values: list[int], ms_byte_first: bool = False) -> int:
-        return sum(self.write_uint16(value, ms_byte_first) for value in values)
+        return self.write(struct.pack(f"{'>' if ms_byte_first else '<'}{len(values)}H", *values))
 
     def write_int16(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(2, 'big' if ms_byte_first else 'little', signed=True))
 
     def write_int16_list(self, values: list[int], ms_byte_first: bool = False) -> int:
-        return sum(self.write_int16(value, ms_byte_first) for value in values)
+        return self.write(struct.pack(f"{'>' if ms_byte_first else '<'}{len(values)}h", *values))
 
     def write_uint32(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(4, 'big' if ms_byte_first else 'little', signed=False))
 
     def write_uint32_list(self, values: list[int], ms_byte_first: bool = False) -> int:
-        return sum(self.write_uint32(value, ms_byte_first) for value in values)
+        return self.write(struct.pack(f"{'>' if ms_byte_first else '<'}{len(values)}I", *values))
 
     def write_int32(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(4, 'big' if ms_byte_first else 'little', signed=True))
 
     def write_int32_list(self, values: list[int], ms_byte_first: bool = False) -> int:
-        return sum(self.write_int32(value, ms_byte_first) for value in values)
+        return self.write(struct.pack(f"{'>' if ms_byte_first else '<'}{len(values)}i", *values))
 
     def write_string(self, value: str) -> int:
         return self.write(value.encode()) + self.write_nulls(1)
