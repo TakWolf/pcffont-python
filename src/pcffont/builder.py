@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from os import PathLike
+from typing import Any
 
 from pcffont.font import PcfFont
 from pcffont.format import PcfTableFormat
@@ -44,6 +45,18 @@ class PcfFontConfig:
         self.ms_bit_first = ms_bit_first
         self.glyph_pad_index = glyph_pad_index
         self.scan_unit_index = scan_unit_index
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, PcfFontConfig):
+            return NotImplemented
+        return (self.font_ascent == other.font_ascent and
+                self.font_descent == other.font_descent and
+                self.default_char == other.default_char and
+                self.draw_right_to_left == other.draw_right_to_left and
+                self.ms_byte_first == other.ms_byte_first and
+                self.ms_bit_first == other.ms_bit_first and
+                self.glyph_pad_index == other.glyph_pad_index and
+                self.scan_unit_index == other.scan_unit_index)
 
     @property
     def glyph_pad(self) -> int:
@@ -113,6 +126,13 @@ class PcfFontBuilder:
         self.config = PcfFontConfig() if config is None else config
         self.properties = PcfProperties() if properties is None else properties
         self.glyphs = [] if glyphs is None else glyphs
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, PcfFontBuilder):
+            return NotImplemented
+        return (self.config == other.config and
+                self.properties == other.properties and
+                self.glyphs == other.glyphs)
 
     def build(self) -> PcfFont:
         bdf_encodings = PcfBdfEncodings(
