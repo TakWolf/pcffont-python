@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from collections import UserList
+from collections.abc import Iterable
 from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
@@ -63,7 +64,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
     def __init__(
             self,
             table_format: PcfTableFormat | None = None,
-            bitmaps: list[list[list[int]]] | None = None,
+            bitmaps: Iterable[list[list[int]]] | None = None,
     ):
         super().__init__(bitmaps)
         self.table_format = PcfTableFormat() if table_format is None else table_format

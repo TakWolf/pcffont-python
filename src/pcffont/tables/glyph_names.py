@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from collections import UserList
+from collections.abc import Iterable
 from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
@@ -36,7 +37,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
     def __init__(
             self,
             table_format: PcfTableFormat | None = None,
-            names: list[str] | None = None,
+            names: Iterable[str] | None = None,
     ):
         super().__init__(names)
         self.table_format = PcfTableFormat() if table_format is None else table_format

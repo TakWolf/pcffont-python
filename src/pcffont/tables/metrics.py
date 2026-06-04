@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import UserList
+from collections.abc import Iterable
 from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
@@ -35,7 +36,7 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
     def __init__(
             self,
             table_format: PcfTableFormat | None = None,
-            metrics: list[PcfMetric] | None = None,
+            metrics: Iterable[PcfMetric] | None = None,
     ):
         super().__init__(metrics)
         self.table_format = PcfTableFormat() if table_format is None else table_format

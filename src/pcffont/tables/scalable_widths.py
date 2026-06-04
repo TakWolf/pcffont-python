@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import UserList
+from collections.abc import Iterable
 from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
@@ -27,7 +28,7 @@ class PcfScalableWidths(UserList[int], PcfTable):
     def __init__(
             self,
             table_format: PcfTableFormat | None = None,
-            scalable_widths: list[int] | None = None,
+            scalable_widths: Iterable[int] | None = None,
     ):
         super().__init__(scalable_widths)
         self.table_format = PcfTableFormat() if table_format is None else table_format
