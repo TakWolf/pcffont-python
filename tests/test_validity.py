@@ -13,8 +13,9 @@ def test_demo(assets_dir: Path):
     pcf_font_0 = PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf'))
 
     pcf_file_paths = []
+    regex_font_name = re.compile(r'^demo-(lsbyte|msbyte)-(lsbit|msbit)-p([1248])-u([124])\.pcf$')
     for file_path in assets_dir.joinpath('demo').iterdir():
-        if re.match(r'^demo-(lsbyte|msbyte)-(lsbit|msbit)-p([1248])-u([124])\.pcf$', file_path.name) is None:
+        if regex_font_name.match(file_path.name) is None:
             continue
         pcf_file_paths.append(file_path)
     pcf_file_paths.sort()

@@ -14,8 +14,9 @@ def test_unifont(assets_dir: Path, tmp_path: Path):
 
 def test_spleen(assets_dir: Path, tmp_path: Path):
     load_paths = []
+    regex_font_name = re.compile(r'^spleen-.*\.pcf$')
     for load_path in assets_dir.joinpath('spleen').iterdir():
-        if re.match(r'^spleen-.*\.pcf$', load_path.name) is None:
+        if regex_font_name.match(load_path.name) is None:
             continue
         load_paths.append(load_path)
     load_paths.sort()
@@ -30,8 +31,9 @@ def test_spleen(assets_dir: Path, tmp_path: Path):
 
 def test_demo(assets_dir: Path, tmp_path: Path):
     load_paths = []
+    regex_font_name = re.compile(r'^demo.*\.pcf$')
     for load_path in assets_dir.joinpath('demo').iterdir():
-        if re.match(r'^demo.*\.pcf$', load_path.name) is None:
+        if regex_font_name.match(load_path.name) is None:
             continue
         load_paths.append(load_path)
     load_paths.sort()

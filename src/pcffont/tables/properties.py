@@ -96,9 +96,12 @@ _XLFD_KEYS_ORDER = [
     _KEY_CHARSET_ENCODING,
 ]
 
+_regex_prop_key = re.compile(r'^[a-zA-Z0-9_]*$')
+_regex_xlfd_value = re.compile(r'[-?*,"]')
+
 
 def _check_xlfd_str_value(key: str, value: str):
-    matched = re.search(r'[-?*,"]', value)
+    matched = _regex_xlfd_value.search(value)
     if matched is not None:
         raise ValueError(f'value of {key!r} contains illegal characters {matched.group()!r}')
 
@@ -163,7 +166,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
             raise KeyError(f"expected type 'str', got '{type(key).__name__}' instead")
         key = key.upper()
 
-        if not key.replace('_', '').isalnum():
+        if not _regex_prop_key.match(key):
             raise KeyError('contains illegal characters')
 
         if key in _STR_VALUE_KEYS:
