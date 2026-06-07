@@ -74,7 +74,7 @@ class PcfTableFormat:
         return self.copy()
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfTableFormat:
-        return self.copy()
+        return self.deepcopy()
 
     def __repr__(self) -> str:
         value = self.value
@@ -142,3 +142,6 @@ class PcfTableFormat:
             self.glyph_pad_index,
             self.scan_unit_index,
         )
+
+    def deepcopy(self) -> PcfTableFormat:
+        return self.copy()

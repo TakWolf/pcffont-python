@@ -97,7 +97,7 @@ def test_copy():
         attributes=6,
     )
 
-    metric_2 = metric_1.copy()
+    metric_2 = metric_1.deepcopy()
     assert metric_1 == metric_2
     assert metric_1 is not metric_2
 

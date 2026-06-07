@@ -74,6 +74,12 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
     def __repr__(self) -> str:
         return object.__repr__(self)
 
+    def __copy__(self) -> PcfFont:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfFont:
+        return self.deepcopy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfFont):
             return NotImplemented
@@ -170,3 +176,29 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
     def save(self, file_path: str | PathLike[str]):
         with open(file_path, 'wb') as file:
             self.dump(file)
+
+    def copy(self) -> PcfFont:
+        return PcfFont(
+            self.properties,
+            self.accelerators,
+            self.metrics,
+            self.bitmaps,
+            self.ink_metrics,
+            self.bdf_encodings,
+            self.scalable_widths,
+            self.glyph_names,
+            self.bdf_accelerators,
+        )
+
+    def deepcopy(self) -> PcfFont:
+        return PcfFont(
+            self.properties.deepcopy() if self.properties is not None else None,
+            self.accelerators.deepcopy() if self.accelerators is not None else None,
+            self.metrics.deepcopy() if self.metrics is not None else None,
+            self.bitmaps.deepcopy() if self.bitmaps is not None else None,
+            self.ink_metrics.deepcopy() if self.ink_metrics is not None else None,
+            self.bdf_encodings.deepcopy() if self.bdf_encodings is not None else None,
+            self.scalable_widths.deepcopy() if self.scalable_widths is not None else None,
+            self.glyph_names.deepcopy() if self.glyph_names is not None else None,
+            self.bdf_accelerators.deepcopy() if self.bdf_accelerators is not None else None,
+        )

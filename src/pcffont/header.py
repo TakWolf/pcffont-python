@@ -72,6 +72,12 @@ class PcfHeader:
         self.table_size = table_size
         self.table_offset = table_offset
 
+    def __copy__(self) -> PcfHeader:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfHeader:
+        return self.deepcopy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfHeader):
             return NotImplemented
@@ -86,3 +92,19 @@ class PcfHeader:
         if value != self.table_format.value:
             raise PcfParseError(f"inconsistent table format: '{self.table_type.name}'")
         return self.table_format
+
+    def copy(self) -> PcfHeader:
+        return PcfHeader(
+            self.table_type,
+            self.table_format,
+            self.table_size,
+            self.table_offset,
+        )
+
+    def deepcopy(self) -> PcfHeader:
+        return PcfHeader(
+            self.table_type,
+            self.table_format.deepcopy(),
+            self.table_size,
+            self.table_offset,
+        )

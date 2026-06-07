@@ -36,6 +36,12 @@ class PcfScalableWidths(UserList[int], PcfTable):
     def __repr__(self) -> str:
         return object.__repr__(self)
 
+    def __copy__(self) -> PcfScalableWidths:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfScalableWidths:
+        return self.deepcopy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfScalableWidths):
             return NotImplemented
@@ -53,3 +59,9 @@ class PcfScalableWidths(UserList[int], PcfTable):
 
         table_size = stream.tell() - table_offset
         return table_size
+
+    def copy(self) -> PcfScalableWidths:
+        return PcfScalableWidths(self.table_format, self.data)
+
+    def deepcopy(self) -> PcfScalableWidths:
+        return PcfScalableWidths(self.table_format.deepcopy(), self.data)

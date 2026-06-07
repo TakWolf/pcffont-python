@@ -72,6 +72,12 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
     def __repr__(self) -> str:
         return object.__repr__(self)
 
+    def __copy__(self) -> PcfBitmaps:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfBitmaps:
+        return self.deepcopy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfBitmaps):
             return NotImplemented
@@ -123,3 +129,12 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
 
         table_size = stream.tell() - table_offset
         return table_size
+
+    def copy(self) -> PcfBitmaps:
+        return PcfBitmaps(self.table_format, self)
+
+    def deepcopy(self) -> PcfBitmaps:
+        return PcfBitmaps(
+            self.table_format.deepcopy(),
+            ([bitmap_row.copy() for bitmap_row in bitmap] for bitmap in self),
+        )

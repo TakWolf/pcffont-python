@@ -202,7 +202,7 @@ def test_copy():
         ink_max_bounds=PcfMetric(12, 11, 10, 9, 8, 7),
     )
 
-    accelerators_2 = accelerators_1.copy()
+    accelerators_2 = accelerators_1.deepcopy()
     assert accelerators_1 == accelerators_2
     assert accelerators_1 is not accelerators_2
     assert accelerators_1.table_format is not accelerators_2.table_format
@@ -214,11 +214,11 @@ def test_copy():
     accelerators_3 = copy(accelerators_1)
     assert accelerators_1 == accelerators_3
     assert accelerators_1 is not accelerators_3
-    assert accelerators_1.table_format is not accelerators_3.table_format
-    assert accelerators_1.min_bounds is not accelerators_3.min_bounds
-    assert accelerators_1.max_bounds is not accelerators_3.max_bounds
-    assert accelerators_1.ink_min_bounds is not accelerators_3.ink_min_bounds
-    assert accelerators_1.ink_max_bounds is not accelerators_3.ink_max_bounds
+    assert accelerators_1.table_format is accelerators_3.table_format
+    assert accelerators_1.min_bounds is accelerators_3.min_bounds
+    assert accelerators_1.max_bounds is accelerators_3.max_bounds
+    assert accelerators_1.ink_min_bounds is accelerators_3.ink_min_bounds
+    assert accelerators_1.ink_max_bounds is accelerators_3.ink_max_bounds
 
     accelerators_4 = deepcopy(accelerators_1)
     assert accelerators_1 == accelerators_4

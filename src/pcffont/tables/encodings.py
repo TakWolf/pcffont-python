@@ -80,6 +80,12 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
     def __repr__(self) -> str:
         return object.__repr__(self)
 
+    def __copy__(self) -> PcfBdfEncodings:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfBdfEncodings:
+        return self.deepcopy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfBdfEncodings):
             return NotImplemented
@@ -127,3 +133,17 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
 
         table_size = stream.tell() - table_offset
         return table_size
+
+    def copy(self) -> PcfBdfEncodings:
+        return PcfBdfEncodings(
+            self.table_format,
+            self.default_char,
+            self.data,
+        )
+
+    def deepcopy(self) -> PcfBdfEncodings:
+        return PcfBdfEncodings(
+            self.table_format.deepcopy(),
+            self.default_char,
+            self.data,
+        )

@@ -44,6 +44,12 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
     def __repr__(self) -> str:
         return object.__repr__(self)
 
+    def __copy__(self) -> PcfMetrics:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfMetrics:
+        return self.deepcopy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfMetrics):
             return NotImplemented
@@ -65,3 +71,12 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
 
         table_size = stream.tell() - table_offset
         return table_size
+
+    def copy(self) -> PcfMetrics:
+        return PcfMetrics(self.table_format, self.data)
+
+    def deepcopy(self) -> PcfMetrics:
+        return PcfMetrics(
+            self.table_format.deepcopy(),
+            (metric.deepcopy() for metric in self),
+        )

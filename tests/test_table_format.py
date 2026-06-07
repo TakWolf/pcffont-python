@@ -102,7 +102,7 @@ def test_copy():
         scan_unit_index=2,
     )
 
-    table_format_2 = table_format_1.copy()
+    table_format_2 = table_format_1.deepcopy()
     assert table_format_1 == table_format_2
     assert table_format_1 is not table_format_2
 

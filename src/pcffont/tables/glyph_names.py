@@ -45,6 +45,12 @@ class PcfGlyphNames(UserList[str], PcfTable):
     def __repr__(self) -> str:
         return object.__repr__(self)
 
+    def __copy__(self) -> PcfGlyphNames:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfGlyphNames:
+        return self.deepcopy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfGlyphNames):
             return NotImplemented
@@ -72,3 +78,9 @@ class PcfGlyphNames(UserList[str], PcfTable):
 
         table_size = stream.tell() - table_offset
         return table_size
+
+    def copy(self) -> PcfGlyphNames:
+        return PcfGlyphNames(self.table_format, self.data)
+
+    def deepcopy(self) -> PcfGlyphNames:
+        return PcfGlyphNames(self.table_format.deepcopy(), self.data)

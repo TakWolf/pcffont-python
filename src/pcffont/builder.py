@@ -46,6 +46,12 @@ class PcfFontConfig:
         self.glyph_pad_index = glyph_pad_index
         self.scan_unit_index = scan_unit_index
 
+    def __copy__(self) -> PcfFontConfig:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfFontConfig:
+        return self.deepcopy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfFontConfig):
             return NotImplemented
@@ -81,6 +87,21 @@ class PcfFontConfig:
             glyph_pad_index=self.glyph_pad_index,
             scan_unit_index=self.scan_unit_index,
         )
+
+    def copy(self) -> PcfFontConfig:
+        return PcfFontConfig(
+            self.font_ascent,
+            self.font_descent,
+            self.default_char,
+            self.draw_right_to_left,
+            self.ms_byte_first,
+            self.ms_bit_first,
+            self.glyph_pad_index,
+            self.scan_unit_index,
+        )
+
+    def deepcopy(self) -> PcfFontConfig:
+        return self.copy()
 
 
 class PcfFontBuilder:
@@ -127,6 +148,12 @@ class PcfFontBuilder:
         self.properties = PcfProperties() if properties is None else properties
         self.glyphs = [] if glyphs is None else glyphs
 
+    def __copy__(self) -> PcfFontBuilder:
+        return self.copy()
+
+    def __deepcopy__(self, memo: dict[int, Any]) -> PcfFontBuilder:
+        return self.deepcopy()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PcfFontBuilder):
             return NotImplemented
@@ -169,7 +196,7 @@ class PcfFontBuilder:
         glyph_indices = set(bdf_encodings.values())
 
         if len(glyph_indices) == len(self.glyphs):
-            bdf_accelerators = accelerators.copy()
+            bdf_accelerators = accelerators.deepcopy()
         else:
             bdf_metrics = [metrics[glyph_index] for glyph_index in glyph_indices]
             bdf_accelerators = PcfAccelerators(
@@ -192,8 +219,8 @@ class PcfFontBuilder:
             accelerators.ink_metrics = True
 
             if len(glyph_indices) == len(self.glyphs):
-                bdf_accelerators.ink_min_bounds = accelerators.ink_min_bounds.copy()
-                bdf_accelerators.ink_max_bounds = accelerators.ink_max_bounds.copy()
+                bdf_accelerators.ink_min_bounds = accelerators.ink_min_bounds.deepcopy()
+                bdf_accelerators.ink_max_bounds = accelerators.ink_max_bounds.deepcopy()
             else:
                 bdf_ink_metrics = [ink_metrics[glyph_index] for glyph_index in glyph_indices]
                 bdf_accelerators.ink_min_bounds = calculate_util.calculate_min_bounds(bdf_ink_metrics)
@@ -227,3 +254,17 @@ class PcfFontBuilder:
 
     def save(self, file_path: str | PathLike[str]):
         self.build().save(file_path)
+
+    def copy(self) -> PcfFontBuilder:
+        return PcfFontBuilder(
+            self.config,
+            self.properties,
+            self.glyphs,
+        )
+
+    def deepcopy(self) -> PcfFontBuilder:
+        return PcfFontBuilder(
+            self.config.deepcopy(),
+            self.properties.deepcopy(),
+            [glyph.deepcopy() for glyph in self.glyphs],
+        )
