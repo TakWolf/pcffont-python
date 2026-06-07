@@ -383,13 +383,14 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         self[_KEY_NOTICE] = value
 
     def generate_xlfd(self):
-        parts = ['']
+        parts = []
         for key in _XLFD_KEYS_ORDER:
             value = str(self.get(key, ''))
             if key in _XLFD_STR_VALUE_KEYS:
                 _check_xlfd_str_value(key, value)
+            parts.append('-')
             parts.append(value)
-        self.font = '-'.join(parts)
+        self.font = ''.join(parts)
 
     def update_by_xlfd(self):
         if self.font is None:
