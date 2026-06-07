@@ -144,9 +144,9 @@ class PcfFontBuilder:
             properties: PcfProperties | None = None,
             glyphs: list[PcfGlyph] | None = None,
     ):
-        self.config = PcfFontConfig() if config is None else config
-        self.properties = PcfProperties() if properties is None else properties
-        self.glyphs = [] if glyphs is None else glyphs
+        self.config = config if config is not None else PcfFontConfig()
+        self.properties = properties if properties is not None else PcfProperties()
+        self.glyphs = glyphs if glyphs is not None else []
 
     def __copy__(self) -> PcfFontBuilder:
         return self.copy()

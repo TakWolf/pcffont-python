@@ -55,7 +55,7 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
             encodings: dict[int, int] | None = None,
     ):
         super().__init__(encodings)
-        self.table_format = PcfTableFormat() if table_format is None else table_format
+        self.table_format = table_format if table_format is not None else PcfTableFormat()
         self.default_char = default_char
 
     def __setitem__(self, encoding: Any, glyph_index: Any):

@@ -39,7 +39,7 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
             metrics: Iterable[PcfMetric] | None = None,
     ):
         super().__init__(metrics)
-        self.table_format = PcfTableFormat() if table_format is None else table_format
+        self.table_format = table_format if table_format is not None else PcfTableFormat()
 
     def __repr__(self) -> str:
         return object.__repr__(self)

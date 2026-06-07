@@ -150,7 +150,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
             properties: dict[str, str | int] | None = None,
     ):
         super().__init__(properties)
-        self.table_format = PcfTableFormat() if table_format is None else table_format
+        self.table_format = table_format if table_format is not None else PcfTableFormat()
 
     def __getitem__(self, key: Any) -> str | int:
         if isinstance(key, str):

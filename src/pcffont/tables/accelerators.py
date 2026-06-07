@@ -92,7 +92,7 @@ class PcfAccelerators(PcfTable):
             ink_min_bounds: PcfMetric | None = None,
             ink_max_bounds: PcfMetric | None = None,
     ):
-        self.table_format = PcfTableFormat() if table_format is None else table_format
+        self.table_format = table_format if table_format is not None else PcfTableFormat()
         self.no_overlap = no_overlap
         self.constant_metrics = constant_metrics
         self.terminal_font = terminal_font

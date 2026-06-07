@@ -34,7 +34,7 @@ class PcfGlyph:
         self.character_width = character_width
         self.width, self.height = dimensions
         self.offset_x, self.offset_y = offset
-        self.bitmap = [] if bitmap is None else bitmap
+        self.bitmap = bitmap if bitmap is not None else []
         self.attributes = attributes
 
     def __copy__(self) -> PcfGlyph:

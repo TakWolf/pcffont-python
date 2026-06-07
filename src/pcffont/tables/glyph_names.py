@@ -40,7 +40,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
             names: Iterable[str] | None = None,
     ):
         super().__init__(names)
-        self.table_format = PcfTableFormat() if table_format is None else table_format
+        self.table_format = table_format if table_format is not None else PcfTableFormat()
 
     def __repr__(self) -> str:
         return object.__repr__(self)
