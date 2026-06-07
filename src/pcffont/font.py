@@ -35,6 +35,29 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         with open(file_path, 'rb') as file:
             return PcfFont.parse(file)
 
+    def __init__(
+            self,
+            properties: PcfProperties | None = None,
+            accelerators: PcfAccelerators | None = None,
+            metrics: PcfMetrics | None = None,
+            bitmaps: PcfBitmaps | None = None,
+            ink_metrics: PcfMetrics | None = None,
+            bdf_encodings: PcfBdfEncodings | None = None,
+            scalable_widths: PcfScalableWidths | None = None,
+            glyph_names: PcfGlyphNames | None = None,
+            bdf_accelerators: PcfAccelerators | None = None,
+    ):
+        super().__init__()
+        self.properties = properties
+        self.accelerators = accelerators
+        self.metrics = metrics
+        self.bitmaps = bitmaps
+        self.ink_metrics = ink_metrics
+        self.bdf_encodings = bdf_encodings
+        self.scalable_widths = scalable_widths
+        self.glyph_names = glyph_names
+        self.bdf_accelerators = bdf_accelerators
+
     def __setitem__(self, table_type: Any, table: Any):
         if table is None:
             self.pop(table_type, None)

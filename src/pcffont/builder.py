@@ -213,17 +213,17 @@ class PcfFontBuilder:
         if ink_metrics is not None:
             ink_metrics.table_format.compressed_metrics = accelerators.ink_min_bounds.compressible and accelerators.ink_max_bounds.compressible
 
-        font = PcfFont()
-        font.properties = properties
-        font.accelerators = accelerators
-        font.metrics = metrics
-        font.bitmaps = bitmaps
-        font.ink_metrics = ink_metrics
-        font.bdf_encodings = bdf_encodings
-        font.scalable_widths = scalable_widths
-        font.glyph_names = glyph_names
-        font.bdf_accelerators = bdf_accelerators
-        return font
+        return PcfFont(
+            properties,
+            accelerators,
+            metrics,
+            bitmaps,
+            ink_metrics,
+            bdf_encodings,
+            scalable_widths,
+            glyph_names,
+            bdf_accelerators,
+        )
 
     def save(self, file_path: str | PathLike[str]):
         self.build().save(file_path)
