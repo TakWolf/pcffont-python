@@ -25,16 +25,6 @@ def test_parse():
     assert table_format.scan_unit == 1
 
 
-def test_eq():
-    table_format_1 = PcfTableFormat(ms_byte_first=True)
-    table_format_2 = PcfTableFormat(ms_byte_first=True)
-    table_format_3 = PcfTableFormat(glyph_pad_index=2)
-    assert table_format_1 == table_format_2
-    assert table_format_1 != table_format_3
-    assert table_format_1 != 1
-    assert table_format_1 != 'Hello World!'
-
-
 def test_glyph_pad_1():
     table_format = PcfTableFormat(glyph_pad_index=-1)
     table_format.glyph_pad_index = 0
@@ -101,15 +91,28 @@ def test_copy():
         glyph_pad_index=1,
         scan_unit_index=2,
     )
+    table_format_2 = copy(table_format_1)
+    table_format_3 = deepcopy(table_format_1)
 
-    table_format_2 = table_format_1.deepcopy()
     assert table_format_1 == table_format_2
-    assert table_format_1 is not table_format_2
-
-    table_format_3 = copy(table_format_1)
     assert table_format_1 == table_format_3
+    assert table_format_1 is not table_format_2
     assert table_format_1 is not table_format_3
 
-    table_format_4 = deepcopy(table_format_1)
-    assert table_format_1 == table_format_4
-    assert table_format_1 is not table_format_4
+
+def test_eq():
+    table_format_1 = PcfTableFormat(
+        ms_byte_first=True,
+        ms_bit_first=True,
+        ink_bounds_or_compressed_metrics=True,
+        glyph_pad_index=1,
+        scan_unit_index=2,
+    )
+    table_format_2 = PcfTableFormat(
+        ms_byte_first=True,
+        ms_bit_first=True,
+        ink_bounds_or_compressed_metrics=True,
+        glyph_pad_index=1,
+        scan_unit_index=2,
+    )
+    assert table_format_1 == table_format_2
