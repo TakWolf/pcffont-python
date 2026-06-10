@@ -86,37 +86,37 @@ class PcfGlyph:
         if not is_ink:
             return metric
 
-        # Top
-        for bitmap_row in self.bitmap:
-            if any(pixel != 0 for pixel in bitmap_row):
-                break
-            metric.ascent -= 1
+        first_row = self.height
+        last_row = -1
+        first_col = self.width
+        last_col = -1
 
-        # Empty
-        if metric.ascent + metric.descent == 0:
+        for y in range(self.height):
+            if y >= len(self.bitmap):
+                break
+            bitmap_row = self.bitmap[y]
+            width_limit = min(len(bitmap_row), self.width)
+            for x in range(width_limit):
+                if bitmap_row[x] != 0:
+                    if y < first_row:
+                        first_row = y
+                    if y > last_row:
+                        last_row = y
+                    if x < first_col:
+                        first_col = x
+                    if x > last_col:
+                        last_col = x
+
+        if first_row == self.height:
             metric.ascent = 0
             metric.descent = 0
             metric.right_side_bearing = metric.left_side_bearing
             return metric
 
-        # Bottom
-        for bitmap_row in reversed(self.bitmap):
-            if any(pixel != 0 for pixel in bitmap_row):
-                break
-            metric.descent -= 1
-
-        # Left
-        for i in range(self.width):
-            if any(bitmap_row[i] != 0 for bitmap_row in self.bitmap):
-                break
-            metric.left_side_bearing += 1
-
-        # Right
-        for i in range(self.width):
-            if any(bitmap_row[self.width - 1 - i] != 0 for bitmap_row in self.bitmap):
-                break
-            metric.right_side_bearing -= 1
-
+        metric.ascent -= first_row
+        metric.descent -= self.height - 1 - last_row if last_row != -1 else self.height
+        metric.left_side_bearing += first_col
+        metric.right_side_bearing -= self.width - 1 - last_col if last_col != -1 else self.width
         return metric
 
     def copy(self) -> PcfGlyph:

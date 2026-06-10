@@ -18,7 +18,7 @@ def test_glyph():
     assert glyph.offset == (3, 4)
 
 
-def test_create_metric():
+def test_create_metric_1():
     glyph = PcfGlyph(
         name='_',
         encoding=0,
@@ -43,6 +43,43 @@ def test_create_metric():
         character_width=5,
         ascent=6,
         descent=2,
+        attributes=1,
+    )
+    assert glyph.create_metric(True) == PcfMetric(
+        left_side_bearing=1,
+        right_side_bearing=4,
+        character_width=5,
+        ascent=5,
+        descent=1,
+        attributes=1,
+    )
+
+
+def test_create_metric_2():
+    glyph = PcfGlyph(
+        name='_',
+        encoding=0,
+        character_width=5,
+        dimensions=(7, 10),
+        offset=(0, -4),
+        bitmap=[
+            [0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0],
+        ],
+        attributes=1,
+    )
+    assert glyph.create_metric(False) == PcfMetric(
+        left_side_bearing=0,
+        right_side_bearing=7,
+        character_width=5,
+        ascent=6,
+        descent=4,
         attributes=1,
     )
     assert glyph.create_metric(True) == PcfMetric(
