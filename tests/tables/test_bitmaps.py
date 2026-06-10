@@ -5,11 +5,11 @@ from pcffont import PcfTableFormat, PcfBitmaps
 
 def test_copy():
     bitmaps_1 = PcfBitmaps(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        bitmaps=[
+        [
             [[1, 0, 0, 1]],
             [[0, 1, 1, 0]],
         ],
+        table_format=PcfTableFormat(True, True, True, 1, 2),
     )
     bitmaps_2 = copy(bitmaps_1)
 
@@ -23,11 +23,11 @@ def test_copy():
 
 def test_deepcopy():
     bitmaps_1 = PcfBitmaps(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        bitmaps=[
+        [
             [[1, 0, 0, 1]],
             [[0, 1, 1, 0]],
         ],
+        table_format=PcfTableFormat(True, True, True, 1, 2),
     )
     bitmaps_2 = deepcopy(bitmaps_1)
 
@@ -43,17 +43,17 @@ def test_deepcopy():
 
 def test_eq():
     bitmaps_1 = PcfBitmaps(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        bitmaps=[
+        [
             [[1, 0, 0, 1]],
             [[0, 1, 1, 0]],
         ],
+        table_format=PcfTableFormat(True, True, True, 1, 2),
     )
     bitmaps_2 = PcfBitmaps(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        bitmaps=[
+        [
             [[1, 0, 0, 1]],
             [[0, 1, 1, 0]],
         ],
+        table_format=PcfTableFormat(True, True, True, 1, 2),
     )
     assert bitmaps_1 == bitmaps_2

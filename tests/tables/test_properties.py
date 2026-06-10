@@ -7,7 +7,7 @@ from pcffont.error import PcfXlfdError
 
 
 def test_properties_1():
-    properties = PcfProperties(properties={
+    properties = PcfProperties({
         'PARAM_1': 1,
         'param_2': '2',
         'PARAM_3': None,
@@ -222,7 +222,9 @@ def test_properties_12():
 
 
 def test_copy():
-    properties_1 = PcfProperties(PcfTableFormat(True, True, True, 1, 2))
+    properties_1 = PcfProperties(
+        table_format=PcfTableFormat(True, True, True, 1, 2),
+    )
     properties_1.family_name = 'Demo Font'
     properties_1.point_size = 100
     properties_2 = copy(properties_1)
@@ -233,7 +235,9 @@ def test_copy():
 
 
 def test_deepcopy():
-    properties_1 = PcfProperties(PcfTableFormat(True, True, True, 1, 2))
+    properties_1 = PcfProperties(
+        table_format=PcfTableFormat(True, True, True, 1, 2),
+    )
     properties_1.family_name = 'Demo Font'
     properties_1.point_size = 100
     properties_2 = deepcopy(properties_1)
@@ -244,11 +248,15 @@ def test_deepcopy():
 
 
 def test_eq():
-    properties_1 = PcfProperties(PcfTableFormat(True, True, True, 1, 2))
+    properties_1 = PcfProperties(
+        table_format=PcfTableFormat(True, True, True, 1, 2),
+    )
     properties_1.family_name = 'Demo Font'
     properties_1.point_size = 100
 
-    properties_2 = PcfProperties(PcfTableFormat(True, True, True, 1, 2))
+    properties_2 = PcfProperties(
+        table_format=PcfTableFormat(True, True, True, 1, 2),
+    )
     properties_2.family_name = 'Demo Font'
     properties_2.point_size = 100
 

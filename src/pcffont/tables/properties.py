@@ -140,14 +140,14 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
                 value = stream.read_string()
             properties[key] = value
 
-        return PcfProperties(table_format, properties)
+        return PcfProperties(properties, table_format)
 
     table_format: PcfTableFormat
 
     def __init__(
             self,
-            table_format: PcfTableFormat | None = None,
             properties: dict[str, str | int] | None = None,
+            table_format: PcfTableFormat | None = None,
     ):
         super().__init__(properties)
         self.table_format = table_format if table_format is not None else PcfTableFormat()
@@ -449,7 +449,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return table_size
 
     def copy(self) -> PcfProperties:
-        return PcfProperties(self.table_format, self.data)
+        return PcfProperties(self.data, self.table_format)
 
     def deepcopy(self) -> PcfProperties:
-        return PcfProperties(self.table_format.deepcopy(), self.data)
+        return PcfProperties(self.data, self.table_format.deepcopy())

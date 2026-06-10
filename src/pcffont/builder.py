@@ -163,22 +163,30 @@ class PcfFontBuilder:
 
     def build(self) -> PcfFont:
         bdf_encodings = PcfBdfEncodings(
-            self.config.to_table_format(),
+            table_format=self.config.to_table_format(),
             default_char=self.config.default_char,
         )
-        glyph_names = PcfGlyphNames(self.config.to_table_format())
-        scalable_widths = PcfScalableWidths(self.config.to_table_format())
-        metrics = PcfMetrics(self.config.to_table_format())
-        bitmaps = PcfBitmaps(self.config.to_table_format())
+        glyph_names = PcfGlyphNames(
+            table_format=self.config.to_table_format(),
+        )
+        scalable_widths = PcfScalableWidths(
+            table_format=self.config.to_table_format(),
+        )
+        metrics = PcfMetrics(
+            table_format=self.config.to_table_format(),
+        )
+        bitmaps = PcfBitmaps(
+            table_format=self.config.to_table_format(),
+        )
         accelerators = PcfAccelerators(
-            self.config.to_table_format(),
+            table_format=self.config.to_table_format(),
             draw_right_to_left=self.config.draw_right_to_left,
             font_ascent=self.config.font_ascent,
             font_descent=self.config.font_descent,
         )
         properties = PcfProperties(
-            self.config.to_table_format(),
-            self.properties.data
+            self.properties.data,
+            table_format=self.config.to_table_format(),
         )
 
         for glyph_index, glyph in enumerate(self.glyphs):
@@ -200,7 +208,7 @@ class PcfFontBuilder:
         else:
             bdf_metrics = [metrics[glyph_index] for glyph_index in glyph_indices]
             bdf_accelerators = PcfAccelerators(
-                self.config.to_table_format(),
+                table_format=self.config.to_table_format(),
                 draw_right_to_left=self.config.draw_right_to_left,
                 font_ascent=self.config.font_ascent,
                 font_descent=self.config.font_descent,
@@ -211,7 +219,10 @@ class PcfFontBuilder:
             bdf_accelerators.calculate_bounds()
 
         if bdf_accelerators.constant_metrics:
-            ink_metrics = PcfMetrics(self.config.to_table_format(), (glyph.create_metric(True) for glyph in self.glyphs))
+            ink_metrics = PcfMetrics(
+                (glyph.create_metric(True) for glyph in self.glyphs),
+                table_format=self.config.to_table_format(),
+            )
 
             accelerators.ink_min_bounds = calculate_util.calculate_min_bounds(ink_metrics)
             accelerators.ink_max_bounds = calculate_util.calculate_max_bounds(ink_metrics)

@@ -5,8 +5,8 @@ from pcffont import PcfTableFormat, PcfGlyphNames
 
 def test_copy():
     names_1 = PcfGlyphNames(
+        ['A', 'B', 'C'],
         table_format=PcfTableFormat(True, True, True, 1, 2),
-        names=['A', 'B', 'C'],
     )
     names_2 = copy(names_1)
 
@@ -17,8 +17,8 @@ def test_copy():
 
 def test_deepcopy():
     names_1 = PcfGlyphNames(
+        ['A', 'B', 'C'],
         table_format=PcfTableFormat(True, True, True, 1, 2),
-        names=['A', 'B', 'C'],
     )
     names_2 = deepcopy(names_1)
 
@@ -29,11 +29,11 @@ def test_deepcopy():
 
 def test_eq():
     names_1 = PcfGlyphNames(
+        ['A', 'B', 'C'],
         table_format=PcfTableFormat(True, True, True, 1, 2),
-        names=['A', 'B', 'C'],
     )
     names_2 = PcfGlyphNames(
+        ['A', 'B', 'C'],
         table_format=PcfTableFormat(True, True, True, 1, 2),
-        names=['A', 'B', 'C'],
     )
     assert names_1 == names_2

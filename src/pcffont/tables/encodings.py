@@ -43,16 +43,16 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
                     glyph_index = glyph_indices[(byte_1 - min_byte_1) * (max_byte_2 - min_byte_2 + 1) + byte_2 - min_byte_2]
                     encodings[encoding] = glyph_index
 
-        return PcfBdfEncodings(table_format, default_char, encodings)
+        return PcfBdfEncodings(encodings, table_format, default_char)
 
     table_format: PcfTableFormat
     default_char: int
 
     def __init__(
             self,
+            encodings: dict[int, int] | None = None,
             table_format: PcfTableFormat | None = None,
             default_char: int = NO_ENCODING,
-            encodings: dict[int, int] | None = None,
     ):
         super().__init__(encodings)
         self.table_format = table_format if table_format is not None else PcfTableFormat()
@@ -136,14 +136,14 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
 
     def copy(self) -> PcfBdfEncodings:
         return PcfBdfEncodings(
+            self.data,
             self.table_format,
             self.default_char,
-            self.data,
         )
 
     def deepcopy(self) -> PcfBdfEncodings:
         return PcfBdfEncodings(
+            self.data,
             self.table_format.deepcopy(),
             self.default_char,
-            self.data,
         )

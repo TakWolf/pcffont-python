@@ -29,14 +29,14 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
             metric = PcfMetric.parse(stream, table_format.ms_byte_first, table_format.compressed_metrics)
             metrics.append(metric)
 
-        return PcfMetrics(table_format, metrics)
+        return PcfMetrics(metrics, table_format)
 
     table_format: PcfTableFormat
 
     def __init__(
             self,
-            table_format: PcfTableFormat | None = None,
             metrics: Iterable[PcfMetric] | None = None,
+            table_format: PcfTableFormat | None = None,
     ):
         super().__init__(metrics)
         self.table_format = table_format if table_format is not None else PcfTableFormat()
@@ -73,10 +73,10 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
         return table_size
 
     def copy(self) -> PcfMetrics:
-        return PcfMetrics(self.table_format, self.data)
+        return PcfMetrics(self.data, self.table_format)
 
     def deepcopy(self) -> PcfMetrics:
         return PcfMetrics(
-            self.table_format.deepcopy(),
             (metric.deepcopy() for metric in self),
+            self.table_format.deepcopy(),
         )

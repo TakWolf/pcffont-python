@@ -5,11 +5,11 @@ from pcffont import PcfTableFormat, PcfMetric, PcfMetrics
 
 def test_copy():
     metrics_1 = PcfMetrics(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        metrics=[
+        [
             PcfMetric(1, 2, 3, 4, 5, 6),
             PcfMetric(6, 5, 4, 3, 2, 1),
         ],
+        table_format=PcfTableFormat(True, True, True, 1, 2),
     )
     metrics_2 = copy(metrics_1)
 
@@ -23,11 +23,11 @@ def test_copy():
 
 def test_deepcopy():
     metrics_1 = PcfMetrics(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        metrics=[
+        [
             PcfMetric(1, 2, 3, 4, 5, 6),
             PcfMetric(6, 5, 4, 3, 2, 1),
         ],
+        table_format=PcfTableFormat(True, True, True, 1, 2),
     )
     metrics_2 = deepcopy(metrics_1)
 
@@ -41,17 +41,17 @@ def test_deepcopy():
 
 def test_eq():
     metrics_1 = PcfMetrics(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        metrics=[
+        [
             PcfMetric(1, 2, 3, 4, 5, 6),
             PcfMetric(6, 5, 4, 3, 2, 1),
         ],
+        table_format=PcfTableFormat(True, True, True, 1, 2),
     )
     metrics_2 = PcfMetrics(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        metrics=[
+        [
             PcfMetric(1, 2, 3, 4, 5, 6),
             PcfMetric(6, 5, 4, 3, 2, 1),
         ],
+        table_format=PcfTableFormat(True, True, True, 1, 2),
     )
     assert metrics_1 == metrics_2

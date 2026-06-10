@@ -15,13 +15,13 @@ def test_encodings():
 
 def test_copy():
     encodings_1 = PcfBdfEncodings(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        default_char=1,
-        encodings={
+        {
             1: 1,
             2: 2,
             3: 3,
         },
+        table_format=PcfTableFormat(True, True, True, 1, 2),
+        default_char=1,
     )
     encodings_2 = copy(encodings_1)
 
@@ -32,13 +32,13 @@ def test_copy():
 
 def test_deepcopy():
     encodings_1 = PcfBdfEncodings(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        default_char=1,
-        encodings={
+        {
             1: 1,
             2: 2,
             3: 3,
         },
+        table_format=PcfTableFormat(True, True, True, 1, 2),
+        default_char=1,
     )
     encodings_2 = deepcopy(encodings_1)
 
@@ -49,21 +49,21 @@ def test_deepcopy():
 
 def test_eq():
     encodings_1 = PcfBdfEncodings(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        default_char=1,
-        encodings={
+        {
             1: 1,
             2: 2,
             3: 3,
         },
+        table_format=PcfTableFormat(True, True, True, 1, 2),
+        default_char=1,
     )
     encodings_2 = PcfBdfEncodings(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        default_char=1,
-        encodings={
+        {
             1: 1,
             2: 2,
             3: 3,
         },
+        table_format=PcfTableFormat(True, True, True, 1, 2),
+        default_char=1,
     )
     assert encodings_1 == encodings_2

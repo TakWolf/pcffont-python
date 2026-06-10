@@ -57,14 +57,14 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
                 bitmap.append(bitmap_row)
             bitmaps.append(bitmap)
 
-        return PcfBitmaps(table_format, bitmaps)
+        return PcfBitmaps(bitmaps, table_format)
 
     table_format: PcfTableFormat
 
     def __init__(
             self,
-            table_format: PcfTableFormat | None = None,
             bitmaps: Iterable[list[list[int]]] | None = None,
+            table_format: PcfTableFormat | None = None,
     ):
         super().__init__(bitmaps)
         self.table_format = table_format if table_format is not None else PcfTableFormat()
@@ -132,10 +132,10 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         return table_size
 
     def copy(self) -> PcfBitmaps:
-        return PcfBitmaps(self.table_format, self)
+        return PcfBitmaps(self, self.table_format)
 
     def deepcopy(self) -> PcfBitmaps:
         return PcfBitmaps(
-            self.table_format.deepcopy(),
             ([bitmap_row.copy() for bitmap_row in bitmap] for bitmap in self),
+            self.table_format.deepcopy(),
         )

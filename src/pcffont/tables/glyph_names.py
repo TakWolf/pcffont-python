@@ -30,14 +30,14 @@ class PcfGlyphNames(UserList[str], PcfTable):
             name = stream.read_string()
             names.append(name)
 
-        return PcfGlyphNames(table_format, names)
+        return PcfGlyphNames(names, table_format)
 
     table_format: PcfTableFormat
 
     def __init__(
             self,
-            table_format: PcfTableFormat | None = None,
             names: Iterable[str] | None = None,
+            table_format: PcfTableFormat | None = None,
     ):
         super().__init__(names)
         self.table_format = table_format if table_format is not None else PcfTableFormat()
@@ -80,7 +80,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
         return table_size
 
     def copy(self) -> PcfGlyphNames:
-        return PcfGlyphNames(self.table_format, self.data)
+        return PcfGlyphNames(self.data, self.table_format)
 
     def deepcopy(self) -> PcfGlyphNames:
-        return PcfGlyphNames(self.table_format.deepcopy(), self.data)
+        return PcfGlyphNames(self.data, self.table_format.deepcopy())
