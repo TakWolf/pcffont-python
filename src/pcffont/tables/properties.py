@@ -131,7 +131,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         stream.seek(4, os.SEEK_CUR)  # strings_size
         strings_start = stream.tell()
 
-        properties = {}
+        properties = PcfProperties(table_format=table_format)
         for key_offset, is_string_prop, value in prop_infos:
             stream.seek(strings_start + key_offset)
             key = stream.read_string()
@@ -139,8 +139,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
                 stream.seek(strings_start + value)
                 value = stream.read_string()
             properties[key] = value
-
-        return PcfProperties(properties, table_format)
+        return properties
 
     table_format: PcfTableFormat
 

@@ -24,13 +24,12 @@ class PcfGlyphNames(UserList[str], PcfTable):
         stream.seek(4, os.SEEK_CUR)  # strings_size
         strings_start = stream.tell()
 
-        names = []
+        names = PcfGlyphNames(table_format=table_format)
         for name_offset in name_offsets:
             stream.seek(strings_start + name_offset)
             name = stream.read_string()
             names.append(name)
-
-        return PcfGlyphNames(names, table_format)
+        return names
 
     table_format: PcfTableFormat
 

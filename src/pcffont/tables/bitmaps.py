@@ -35,7 +35,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         stream.seek(16, os.SEEK_CUR)  # bitmaps_size_configs
         bitmaps_start = stream.tell()
 
-        bitmaps = []
+        bitmaps = PcfBitmaps(table_format=table_format)
         for bitmap_offset, metric in zip(bitmap_offsets, font.metrics):
             bitmap_row_size = (metric.width + table_format.glyph_pad * 8 - 1) // (table_format.glyph_pad * 8) * table_format.glyph_pad
 
@@ -56,8 +56,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
                     del bitmap_row[metric.width:]
                 bitmap.append(bitmap_row)
             bitmaps.append(bitmap)
-
-        return PcfBitmaps(bitmaps, table_format)
+        return bitmaps
 
     table_format: PcfTableFormat
 
