@@ -105,11 +105,12 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
                     continue
 
                 bitmap_row = bitmap[y]
+                width_limit = min(len(bitmap_row), metric.width)
                 for i in range(bitmap_row_size):
                     b = 0
                     for shift in (range(8) if self.table_format.ms_bit_first else range(7, -1, -1)):
                         pixel_index = i * 8 + shift
-                        pixel = 1 if pixel_index < min(len(bitmap_row), metric.width) and bitmap_row[pixel_index] != 0 else 0
+                        pixel = 1 if pixel_index < width_limit and bitmap_row[pixel_index] != 0 else 0
                         b = (b << 1) | pixel
                     bitmap_data.append(b)
 
