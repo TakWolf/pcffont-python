@@ -4,11 +4,11 @@ requires-python = ">=3.10"
 
 [[package]]
 name = "bdffont"
-version = "0.0.38"
+version = "0.0.39"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/01/af/5c25ff9577afd26e3cbbd7ac4db31be5eddb58755e7c2977e580d40a6a35/bdffont-0.0.38.tar.gz", hash = "sha256:32dca06e6fbecbb5fe2549f0a3da73b352696d3d284e6fc3a47386f86c687e5a", size = 9437, upload-time = "2026-06-10T06:08:59.38Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/28/88/84a2744a7eb509f416949cb9a0e28b6f661eb9c43a026d73ff234df6b048/bdffont-0.0.39.tar.gz", hash = "sha256:7cc1cc29d8140c5882e1572495b66926ea6e837b823650c913db116a5c37d368", size = 9522, upload-time = "2026-06-11T03:32:37.766Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c6/c1/2201a704932b548edbfe624f8bedbd1e8ebb2d727e643be06df9aac42f96/bdffont-0.0.38-py3-none-any.whl", hash = "sha256:a1492b4ed9ff73a464b3fdcf9b89ddb48e6df29c4f303c8d57c2de0fc7be3196", size = 11923, upload-time = "2026-06-10T06:08:58.586Z" },
+    { url = "https://files.pythonhosted.org/packages/03/9a/7592d0a0c02ee9cb05d96716e24400532c90860abb296b223b8ee07fa522/bdffont-0.0.39-py3-none-any.whl", hash = "sha256:176c35f4b32c8dbbd67cc904829e9cae0c8e40c78e63dd9183e0bd0ef03444cb", size = 12007, upload-time = "2026-06-11T03:32:36.759Z" },
 ]
 
 [[package]]
@@ -80,7 +80,7 @@ dev = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "bdffont", specifier = ">=0.0.38" },
+    { name = "bdffont", specifier = ">=0.0.39" },
     { name = "freetype-py", specifier = ">=2.5.1" },
     { name = "pytest", specifier = ">=9.0.3" },
 ]
