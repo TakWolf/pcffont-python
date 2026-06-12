@@ -396,9 +396,9 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         if self.font is None:
             raise PcfXlfdError(f"'{_KEY_FONT}' not set")
         if not self.font.startswith('-'):
-            raise PcfXlfdError("not starts with '-'")
-        if self.font.count('-') != 14:
-            raise PcfXlfdError("must be 14 '-'")
+            raise PcfXlfdError("must starts with '-'")
+        if self.font.count('-') != len(_XLFD_KEYS_ORDER):
+            raise PcfXlfdError(f'must contains {len(_XLFD_KEYS_ORDER)} XLFD fields')
         parts = self.font.removeprefix('-').split('-')
         for key, part in zip(_XLFD_KEYS_ORDER, parts):
             if part == '':

@@ -130,7 +130,7 @@ def test_properties_5():
     properties.font = 'Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1'
     with pytest.raises(PcfXlfdError) as info:
         properties.update_by_xlfd()
-    assert info.value.args[0] == "not starts with '-'"
+    assert info.value.args[0] == "must starts with '-'"
 
 
 def test_properties_6():
@@ -139,7 +139,7 @@ def test_properties_6():
     properties.font = '-Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1-'
     with pytest.raises(PcfXlfdError) as info:
         properties.update_by_xlfd()
-    assert info.value.args[0] == "must be 14 '-'"
+    assert info.value.args[0] == 'must contains 14 XLFD fields'
 
 
 def test_properties_7():
