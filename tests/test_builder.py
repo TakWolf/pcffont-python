@@ -41,6 +41,7 @@ def test_builder(assets_dir: Path, font_dir: str, font_file_name: str):
             dimensions=bdf_glyph.dimensions,
             offset=bdf_glyph.offset,
             bitmap=bdf_glyph.bitmap,
+            attributes=bdf_glyph.attributes,
         ))
 
     font_3 = builder.build()

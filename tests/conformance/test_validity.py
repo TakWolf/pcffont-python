@@ -121,6 +121,7 @@ def test_with_freetype(demo_bdf: BdfFont, ms_byte_first: bool, ms_bit_first: boo
             dimensions=bdf_glyph.dimensions,
             offset=bdf_glyph.offset,
             bitmap=bdf_glyph.bitmap,
+            attributes=bdf_glyph.attributes,
         ))
 
     builder.properties.update(demo_bdf.properties)
