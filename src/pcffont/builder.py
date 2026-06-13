@@ -128,8 +128,8 @@ class PcfFontBuilder:
                 character_width=metric.character_width,
                 dimensions=metric.dimensions,
                 offset=metric.offset,
-                bitmap=bitmap,
                 attributes=metric.attributes,
+                bitmap=bitmap,
             ))
 
         return builder

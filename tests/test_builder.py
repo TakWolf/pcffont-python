@@ -40,8 +40,8 @@ def test_builder(assets_dir: Path, font_dir: str, font_file_name: str):
             character_width=bdf_glyph.device_width_x,
             dimensions=bdf_glyph.dimensions,
             offset=bdf_glyph.offset,
-            bitmap=bdf_glyph.bitmap,
             attributes=bdf_glyph.attributes,
+            bitmap=bdf_glyph.bitmap,
         ))
 
     font_3 = builder.build()

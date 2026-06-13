@@ -25,6 +25,7 @@ def test_create_metric_1():
         character_width=5,
         dimensions=(5, 8),
         offset=(0, -2),
+        attributes=1,
         bitmap=[
             [0, 0, 0, 0, 0],
             [0, 1, 1, 1, 0],
@@ -35,7 +36,6 @@ def test_create_metric_1():
             [0, 1, 1, 1, 0],
             [0, 0, 0, 0, 0],
         ],
-        attributes=1,
     )
     assert glyph.create_metric(False) == PcfMetric(
         left_side_bearing=0,
@@ -62,6 +62,7 @@ def test_create_metric_2():
         character_width=5,
         dimensions=(7, 10),
         offset=(0, -4),
+        attributes=1,
         bitmap=[
             [0, 0, 0, 0, 0],
             [0, 1, 1, 1, 0],
@@ -72,7 +73,6 @@ def test_create_metric_2():
             [0, 1, 1, 1, 0],
             [0, 0, 0, 0, 0],
         ],
-        attributes=1,
     )
     assert glyph.create_metric(False) == PcfMetric(
         left_side_bearing=0,
@@ -99,8 +99,8 @@ def test_copy():
         character_width=1,
         dimensions=(2, 3),
         offset=(4, 5),
-        bitmap=[[1, 0, 0, 1]],
         attributes=1,
+        bitmap=[[1, 0, 0, 1]],
     )
     glyph_2 = copy(glyph_1)
 
@@ -116,8 +116,8 @@ def test_deepcopy():
         character_width=1,
         dimensions=(2, 3),
         offset=(4, 5),
-        bitmap=[[1, 0, 0, 1]],
         attributes=1,
+        bitmap=[[1, 0, 0, 1]],
     )
     glyph_2 = deepcopy(glyph_1)
 
@@ -136,8 +136,8 @@ def test_eq():
         character_width=1,
         dimensions=(2, 3),
         offset=(4, 5),
-        bitmap=[[1, 0, 0, 1]],
         attributes=1,
+        bitmap=[[1, 0, 0, 1]],
     )
     glyph_2 = PcfGlyph(
         name='_',
@@ -145,7 +145,7 @@ def test_eq():
         character_width=1,
         dimensions=(2, 3),
         offset=(4, 5),
-        bitmap=[[1, 0, 0, 1]],
         attributes=1,
+        bitmap=[[1, 0, 0, 1]],
     )
     assert glyph_1 == glyph_2

@@ -14,8 +14,8 @@ class PcfGlyph:
     height: int
     offset_x: int
     offset_y: int
-    bitmap: list[list[int]]
     attributes: int
+    bitmap: list[list[int]]
 
     def __init__(
             self,
@@ -25,8 +25,8 @@ class PcfGlyph:
             character_width: int = 0,
             dimensions: tuple[int, int] = (0, 0),
             offset: tuple[int, int] = (0, 0),
-            bitmap: list[list[int]] | None = None,
             attributes: int = 0,
+            bitmap: list[list[int]] | None = None,
     ):
         self.name = name
         self.encoding = encoding
@@ -34,8 +34,8 @@ class PcfGlyph:
         self.character_width = character_width
         self.width, self.height = dimensions
         self.offset_x, self.offset_y = offset
-        self.bitmap = bitmap if bitmap is not None else []
         self.attributes = attributes
+        self.bitmap = bitmap if bitmap is not None else []
 
     def __copy__(self) -> PcfGlyph:
         return self.copy()
@@ -127,8 +127,8 @@ class PcfGlyph:
             self.character_width,
             self.dimensions,
             self.offset,
-            self.bitmap,
             self.attributes,
+            self.bitmap,
         )
 
     def deepcopy(self) -> PcfGlyph:
@@ -139,6 +139,6 @@ class PcfGlyph:
             self.character_width,
             self.dimensions,
             self.offset,
-            [bitmap_row.copy() for bitmap_row in self.bitmap],
             self.attributes,
+            [bitmap_row.copy() for bitmap_row in self.bitmap],
         )
