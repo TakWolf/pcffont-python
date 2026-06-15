@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/python-3.10-brightgreen?style=flat-square)](https://www.python.org)
 [![PyPI](https://img.shields.io/pypi/v/pcffont?style=flat-square)](https://pypi.org/project/pcffont/)
 
-PcfFont is a library for manipulating [Portable Compiled Format (PCF) Fonts](https://en.wikipedia.org/wiki/Portable_Compiled_Format).
+A library for handling [Portable Compiled Format (PCF) Fonts](https://en.wikipedia.org/wiki/Portable_Compiled_Format).
 
 ## Installation
 
