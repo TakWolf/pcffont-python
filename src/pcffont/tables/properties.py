@@ -101,9 +101,8 @@ _regex_xlfd_value = re.compile(r'[-?*,"]')
 
 
 def _check_xlfd_str_value(key: str, value: str):
-    matched = _regex_xlfd_value.search(value)
-    if matched is not None:
-        raise ValueError(f'value of {key!r} contains illegal characters {matched.group()!r}')
+    if _regex_xlfd_value.search(value) is not None:
+        raise ValueError(f'value of {key!r} contains illegal characters')
 
 
 class PcfProperties(UserDict[str, str | int], PcfTable):

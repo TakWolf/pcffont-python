@@ -66,13 +66,13 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
             return
 
         if not isinstance(encoding, int):
-            raise KeyError(f"expected type 'int', got '{type(encoding).__name__}' instead")
+            raise KeyError(f"key must be 'int'")
 
         if encoding < 0 or encoding > _UINT16_MAX_VALUE:
             raise KeyError(f'encoding must between [0, {_UINT16_MAX_VALUE}]')
 
         if not isinstance(glyph_index, int):
-            raise ValueError(f"expected type 'int', got '{type(glyph_index).__name__}' instead")
+            raise ValueError(f"value must be 'int'")
 
         if glyph_index < 0 or glyph_index > _UINT16_MAX_VALUE:
             raise ValueError(f'glyph index must between [0, {_UINT16_MAX_VALUE}]')

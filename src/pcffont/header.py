@@ -28,7 +28,7 @@ class PcfHeader:
     def parse(stream: Stream) -> list[PcfHeader]:
         stream.seek(0)
         if stream.read(4) != _FILE_VERSION:
-            raise PcfParseError('data format not support')
+            raise PcfParseError('not a valid PCF font')
 
         headers = {}
         tables_count = stream.read_uint32()
