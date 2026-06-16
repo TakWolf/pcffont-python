@@ -17,9 +17,9 @@ class PcfTableFormat:
 
     @staticmethod
     def parse(value: int) -> PcfTableFormat:
-        ms_byte_first = (value & _MASK_BYTE_ORDER) > 0
-        ms_bit_first = (value & _MASK_BIT_ORDER) > 0
-        ink_bounds_or_compressed_metrics = (value & _FLAG_INK_BOUNDS_OR_COMPRESSED_METRICS) > 0
+        ms_byte_first = bool(value & _MASK_BYTE_ORDER)
+        ms_bit_first = bool(value & _MASK_BIT_ORDER)
+        ink_bounds_or_compressed_metrics = bool(value & _FLAG_INK_BOUNDS_OR_COMPRESSED_METRICS)
         glyph_pad_index = value & _MASK_GLYPH_PAD
         scan_unit_index = (value & _MASK_SCAN_UNIT) >> 4
         return PcfTableFormat(
