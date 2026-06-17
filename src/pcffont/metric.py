@@ -22,6 +22,7 @@ class PcfMetric:
             ascent = stream.read_int16(ms_byte_first)
             descent = stream.read_int16(ms_byte_first)
             attributes = stream.read_uint16(ms_byte_first)
+
         return PcfMetric(
             left_side_bearing,
             right_side_bearing,
