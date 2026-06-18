@@ -46,7 +46,7 @@ class PcfTableFormat:
         """
         :param ms_byte_first:
             If true, sets the font byte order to MSB first.
-            All multi-byte data in the file (metrics, bitmaps and everything else) will be written most significant
+            All multi-bytes data in the file (metrics, bitmaps and everything else) will be written most significant
             byte first.
         :param ms_bit_first:
             If true, sets the font bit order to MSB first.
