@@ -2,12 +2,11 @@ from __future__ import annotations
 
 from typing import Any, Final
 
-_DEFAULT_VALUE = 0b_0000_0000_0000
-_FLAG_INK_BOUNDS_OR_COMPRESSED_METRICS = 0b_0001_0000_0000
+_FLAG_MS_BYTE_FIRST = 0b_00_01_00
+_FLAG_MS_BIT_FIRST = 0b_00_10_00
+_FLAG_INK_BOUNDS_OR_COMPRESSED_METRICS = 0b_01_0000_0000
 
 _MASK_GLYPH_PAD = 0b_00_00_11
-_MASK_BYTE_ORDER = 0b_00_01_00
-_MASK_BIT_ORDER = 0b_00_10_00
 _MASK_SCAN_UNIT = 0b_11_00_00
 
 
@@ -17,8 +16,8 @@ class PcfTableFormat:
 
     @staticmethod
     def parse(value: int) -> PcfTableFormat:
-        ms_byte_first = bool(value & _MASK_BYTE_ORDER)
-        ms_bit_first = bool(value & _MASK_BIT_ORDER)
+        ms_byte_first = bool(value & _FLAG_MS_BYTE_FIRST)
+        ms_bit_first = bool(value & _FLAG_MS_BIT_FIRST)
         ink_bounds_or_compressed_metrics = bool(value & _FLAG_INK_BOUNDS_OR_COMPRESSED_METRICS)
         glyph_pad_index = value & _MASK_GLYPH_PAD
         scan_unit_index = (value & _MASK_SCAN_UNIT) >> 4
@@ -123,11 +122,11 @@ class PcfTableFormat:
 
     @property
     def value(self) -> int:
-        value = _DEFAULT_VALUE
+        value = 0
         if self.ms_byte_first:
-            value |= _MASK_BYTE_ORDER
+            value |= _FLAG_MS_BYTE_FIRST
         if self.ms_bit_first:
-            value |= _MASK_BIT_ORDER
+            value |= _FLAG_MS_BIT_FIRST
         if self.ink_bounds_or_compressed_metrics:
             value |= _FLAG_INK_BOUNDS_OR_COMPRESSED_METRICS
         value |= self.glyph_pad_index
