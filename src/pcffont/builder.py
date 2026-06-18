@@ -4,7 +4,7 @@ from os import PathLike
 from typing import Any
 
 from pcffont.font import PcfFont
-from pcffont.format import PcfTableFormat
+from pcffont.format import PcfTableFormat, GlyphPad, ScanUnit
 from pcffont.glyph import PcfGlyph
 from pcffont.tables.accelerators import PcfAccelerators
 from pcffont.tables.bitmaps import PcfBitmaps
@@ -23,8 +23,8 @@ class PcfFontConfig:
     draw_right_to_left: bool
     ms_byte_first: bool
     ms_bit_first: bool
-    glyph_pad_index: int
-    scan_unit_index: int
+    glyph_pad: GlyphPad
+    scan_unit: ScanUnit
 
     def __init__(
             self,
@@ -34,8 +34,8 @@ class PcfFontConfig:
             draw_right_to_left: bool = False,
             ms_byte_first: bool = False,
             ms_bit_first: bool = False,
-            glyph_pad_index: int = 0,
-            scan_unit_index: int = 0,
+            glyph_pad: GlyphPad = 1,
+            scan_unit: ScanUnit = 1,
     ):
         self.font_ascent = font_ascent
         self.font_descent = font_descent
@@ -43,8 +43,8 @@ class PcfFontConfig:
         self.draw_right_to_left = draw_right_to_left
         self.ms_byte_first = ms_byte_first
         self.ms_bit_first = ms_bit_first
-        self.glyph_pad_index = glyph_pad_index
-        self.scan_unit_index = scan_unit_index
+        self.glyph_pad = glyph_pad
+        self.scan_unit = scan_unit
 
     def __copy__(self) -> PcfFontConfig:
         return self.copy()
@@ -61,31 +61,15 @@ class PcfFontConfig:
                 self.draw_right_to_left == other.draw_right_to_left and
                 self.ms_byte_first == other.ms_byte_first and
                 self.ms_bit_first == other.ms_bit_first and
-                self.glyph_pad_index == other.glyph_pad_index and
-                self.scan_unit_index == other.scan_unit_index)
-
-    @property
-    def glyph_pad(self) -> int:
-        return PcfTableFormat.GLYPH_PAD_OPTIONS[self.glyph_pad_index]
-
-    @glyph_pad.setter
-    def glyph_pad(self, value: int):
-        self.glyph_pad_index = PcfTableFormat.GLYPH_PAD_OPTIONS.index(value)
-
-    @property
-    def scan_unit(self) -> int:
-        return PcfTableFormat.SCAN_UNIT_OPTIONS[self.scan_unit_index]
-
-    @scan_unit.setter
-    def scan_unit(self, value: int):
-        self.scan_unit_index = PcfTableFormat.SCAN_UNIT_OPTIONS.index(value)
+                self.glyph_pad == other.glyph_pad and
+                self.scan_unit == other.scan_unit)
 
     def to_table_format(self) -> PcfTableFormat:
-        return PcfTableFormat(
+        return PcfTableFormat.of(
             ms_byte_first=self.ms_byte_first,
             ms_bit_first=self.ms_bit_first,
-            glyph_pad_index=self.glyph_pad_index,
-            scan_unit_index=self.scan_unit_index,
+            glyph_pad=self.glyph_pad,
+            scan_unit=self.scan_unit,
         )
 
     def copy(self) -> PcfFontConfig:
@@ -96,8 +80,8 @@ class PcfFontConfig:
             self.draw_right_to_left,
             self.ms_byte_first,
             self.ms_bit_first,
-            self.glyph_pad_index,
-            self.scan_unit_index,
+            self.glyph_pad,
+            self.scan_unit,
         )
 
     def deepcopy(self) -> PcfFontConfig:
@@ -114,8 +98,8 @@ class PcfFontBuilder:
         builder.config.draw_right_to_left = font.accelerators.draw_right_to_left
         builder.config.ms_byte_first = font.bitmaps.table_format.ms_byte_first
         builder.config.ms_bit_first = font.bitmaps.table_format.ms_bit_first
-        builder.config.glyph_pad_index = font.bitmaps.table_format.glyph_pad_index
-        builder.config.scan_unit_index = font.bitmaps.table_format.scan_unit_index
+        builder.config.glyph_pad = font.bitmaps.table_format.glyph_pad
+        builder.config.scan_unit = font.bitmaps.table_format.scan_unit
 
         builder.properties = font.properties
 
@@ -162,31 +146,33 @@ class PcfFontBuilder:
                 self.glyphs == other.glyphs)
 
     def build(self) -> PcfFont:
+        table_format = self.config.to_table_format()
+
         bdf_encodings = PcfBdfEncodings(
-            table_format=self.config.to_table_format(),
+            table_format=table_format,
             default_char=self.config.default_char,
         )
         glyph_names = PcfGlyphNames(
-            table_format=self.config.to_table_format(),
+            table_format=table_format,
         )
         scalable_widths = PcfScalableWidths(
-            table_format=self.config.to_table_format(),
+            table_format=table_format,
         )
         metrics = PcfMetrics(
-            table_format=self.config.to_table_format(),
+            table_format=table_format,
         )
         bitmaps = PcfBitmaps(
-            table_format=self.config.to_table_format(),
+            table_format=table_format,
         )
         accelerators = PcfAccelerators(
-            table_format=self.config.to_table_format(),
+            table_format=table_format,
             draw_right_to_left=self.config.draw_right_to_left,
             font_ascent=self.config.font_ascent,
             font_descent=self.config.font_descent,
         )
         properties = PcfProperties(
             self.properties.data,
-            table_format=self.config.to_table_format(),
+            table_format=table_format,
         )
 
         for glyph_index, glyph in enumerate(self.glyphs):
@@ -208,7 +194,7 @@ class PcfFontBuilder:
         else:
             bdf_metrics = [metrics[glyph_index] for glyph_index in glyph_indices]
             bdf_accelerators = PcfAccelerators(
-                table_format=self.config.to_table_format(),
+                table_format=table_format,
                 draw_right_to_left=self.config.draw_right_to_left,
                 font_ascent=self.config.font_ascent,
                 font_descent=self.config.font_descent,
@@ -221,12 +207,12 @@ class PcfFontBuilder:
         if bdf_accelerators.constant_metrics:
             ink_metrics = PcfMetrics(
                 (glyph.create_metric(True) for glyph in self.glyphs),
-                table_format=self.config.to_table_format(),
+                table_format=table_format,
             )
 
             accelerators.ink_min_bounds = calculate_util.calculate_min_bounds(ink_metrics)
             accelerators.ink_max_bounds = calculate_util.calculate_max_bounds(ink_metrics)
-            accelerators.table_format.ink_bounds = True
+            accelerators.table_format = accelerators.table_format.with_ink_bounds(True)
             accelerators.ink_metrics = True
 
             if len(glyph_indices) == len(self.glyphs):
@@ -236,20 +222,20 @@ class PcfFontBuilder:
                 bdf_ink_metrics = [ink_metrics[glyph_index] for glyph_index in glyph_indices]
                 bdf_accelerators.ink_min_bounds = calculate_util.calculate_min_bounds(bdf_ink_metrics)
                 bdf_accelerators.ink_max_bounds = calculate_util.calculate_max_bounds(bdf_ink_metrics)
-            bdf_accelerators.table_format.ink_bounds = True
+            bdf_accelerators.table_format = bdf_accelerators.table_format.with_ink_bounds(True)
             bdf_accelerators.ink_metrics = True
         else:
             ink_metrics = None
 
-            accelerators.table_format.ink_bounds = False
+            accelerators.table_format = accelerators.table_format.with_ink_bounds(False)
             accelerators.ink_metrics = False
 
-            bdf_accelerators.table_format.ink_bounds = False
+            bdf_accelerators.table_format = bdf_accelerators.table_format.with_ink_bounds(False)
             bdf_accelerators.ink_metrics = False
 
-        metrics.table_format.compressed_metrics = accelerators.min_bounds.compressible and accelerators.max_bounds.compressible
+        metrics.table_format = metrics.table_format.with_compressed_metrics(accelerators.min_bounds.compressible and accelerators.max_bounds.compressible)
         if ink_metrics is not None:
-            ink_metrics.table_format.compressed_metrics = accelerators.ink_min_bounds.compressible and accelerators.ink_max_bounds.compressible
+            ink_metrics.table_format = ink_metrics.table_format.with_compressed_metrics(accelerators.ink_min_bounds.compressible and accelerators.ink_max_bounds.compressible)
 
         return PcfFont(
             properties,

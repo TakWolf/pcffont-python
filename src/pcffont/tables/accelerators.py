@@ -76,7 +76,7 @@ class PcfAccelerators(PcfTable):
 
     def __init__(
             self,
-            table_format: PcfTableFormat | None = None,
+            table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
             no_overlap: bool = False,
             constant_metrics: bool = False,
             terminal_font: bool = False,
@@ -92,7 +92,7 @@ class PcfAccelerators(PcfTable):
             ink_min_bounds: PcfMetric | None = None,
             ink_max_bounds: PcfMetric | None = None,
     ):
-        self.table_format = table_format if table_format is not None else PcfTableFormat()
+        self.table_format = table_format
         self.no_overlap = no_overlap
         self.constant_metrics = constant_metrics
         self.terminal_font = terminal_font
@@ -162,7 +162,7 @@ class PcfAccelerators(PcfTable):
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
         stream.seek(table_offset)
-        stream.write_uint32(self.table_format.value)
+        stream.write_uint32(self.table_format)
         stream.write_bool(self.no_overlap)
         stream.write_bool(self.constant_metrics)
         stream.write_bool(self.terminal_font)
@@ -209,7 +209,7 @@ class PcfAccelerators(PcfTable):
 
     def deepcopy(self) -> PcfAccelerators:
         return PcfAccelerators(
-            self.table_format.deepcopy(),
+            self.table_format,
             self.no_overlap,
             self.constant_metrics,
             self.terminal_font,

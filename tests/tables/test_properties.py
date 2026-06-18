@@ -223,39 +223,28 @@ def test_properties_12():
 
 def test_copy():
     properties_1 = PcfProperties(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
     )
     properties_1.family_name = 'Demo Font'
     properties_1.point_size = 100
     properties_2 = copy(properties_1)
+    properties_3 = deepcopy(properties_1)
 
     assert properties_1 == properties_2
+    assert properties_1 == properties_3
     assert properties_1 is not properties_2
-    assert properties_1.table_format is properties_2.table_format
-
-
-def test_deepcopy():
-    properties_1 = PcfProperties(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-    )
-    properties_1.family_name = 'Demo Font'
-    properties_1.point_size = 100
-    properties_2 = deepcopy(properties_1)
-
-    assert properties_1 == properties_2
-    assert properties_1 is not properties_2
-    assert properties_1.table_format is not properties_2.table_format
+    assert properties_1 is not properties_3
 
 
 def test_eq():
     properties_1 = PcfProperties(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
     )
     properties_1.family_name = 'Demo Font'
     properties_1.point_size = 100
 
     properties_2 = PcfProperties(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
     )
     properties_2.family_name = 'Demo Font'
     properties_2.point_size = 100

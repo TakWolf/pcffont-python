@@ -35,10 +35,10 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
     def __init__(
             self,
             metrics: Iterable[PcfMetric] | None = None,
-            table_format: PcfTableFormat | None = None,
+            table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
     ):
         super().__init__(metrics)
-        self.table_format = table_format if table_format is not None else PcfTableFormat()
+        self.table_format = table_format
 
     def __repr__(self) -> str:
         return object.__repr__(self)
@@ -59,7 +59,7 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
         glyphs_count = len(self)
 
         stream.seek(table_offset)
-        stream.write_uint32(self.table_format.value)
+        stream.write_uint32(self.table_format)
         if self.table_format.compressed_metrics:
             stream.write_uint16(glyphs_count, self.table_format.ms_byte_first)
         else:
@@ -77,5 +77,5 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
     def deepcopy(self) -> PcfMetrics:
         return PcfMetrics(
             (metric.deepcopy() for metric in self),
-            self.table_format.deepcopy(),
+            self.table_format,
         )

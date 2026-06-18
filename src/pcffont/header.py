@@ -36,7 +36,7 @@ class PcfHeader:
             table_type = PcfTableType(stream.read_uint32())
             if table_type in headers:
                 raise PcfParseError(f"duplicate table '{table_type.name}'")
-            table_format = PcfTableFormat.parse(stream.read_uint32())
+            table_format = PcfTableFormat(stream.read_uint32())
             table_size = stream.read_uint32()
             table_offset = stream.read_uint32()
             headers[table_type] = PcfHeader(table_type, table_format, table_size, table_offset)
@@ -51,7 +51,7 @@ class PcfHeader:
         stream.write_uint32(len(headers))
         for header in headers:
             stream.write_uint32(header.table_type)
-            stream.write_uint32(header.table_format.value)
+            stream.write_uint32(header.table_format)
             stream.write_uint32(header.table_size)
             stream.write_uint32(header.table_offset)
 
@@ -88,8 +88,8 @@ class PcfHeader:
 
     def read_and_check_table_format(self, stream: Stream) -> PcfTableFormat:
         stream.seek(self.table_offset)
-        value = stream.read_uint32()
-        if value != self.table_format.value:
+        value = PcfTableFormat(stream.read_uint32())
+        if value != self.table_format:
             raise PcfParseError(f"inconsistent table format: '{self.table_type.name}'")
         return self.table_format
 
@@ -102,9 +102,4 @@ class PcfHeader:
         )
 
     def deepcopy(self) -> PcfHeader:
-        return PcfHeader(
-            self.table_type,
-            self.table_format.deepcopy(),
-            self.table_size,
-            self.table_offset,
-        )
+        return self.copy()

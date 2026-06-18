@@ -1,6 +1,6 @@
 from pcffont.builder import PcfFontConfig, PcfFontBuilder
 from pcffont.font import PcfFont
-from pcffont.format import PcfTableFormat
+from pcffont.format import PcfTableFormat, GlyphPad, ScanUnit, GLYPH_PAD_OPTIONS, SCAN_UNIT_OPTIONS
 from pcffont.glyph import PcfGlyph
 from pcffont.header import PcfTableType
 from pcffont.metric import PcfMetric

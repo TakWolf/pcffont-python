@@ -5,7 +5,7 @@ from collections import UserList
 from collections.abc import Iterable
 from typing import Any, TYPE_CHECKING
 
-from pcffont.format import PcfTableFormat
+from pcffont.format import PcfTableFormat, GLYPH_PAD_OPTIONS
 from pcffont.header import PcfHeader
 from pcffont.table import PcfTable
 from pcffont.utils.stream import Stream
@@ -63,10 +63,10 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
     def __init__(
             self,
             bitmaps: Iterable[list[list[int]]] | None = None,
-            table_format: PcfTableFormat | None = None,
+            table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
     ):
         super().__init__(bitmaps)
-        self.table_format = table_format if table_format is not None else PcfTableFormat()
+        self.table_format = table_format
 
     def __repr__(self) -> str:
         return object.__repr__(self)
@@ -92,7 +92,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         bitmaps_size_configs = [0, 0, 0, 0]
         stream.seek(bitmaps_start)
         for bitmap, metric in zip(self, font.metrics):
-            for glyph_pad_index, glyph_pad in enumerate(PcfTableFormat.GLYPH_PAD_OPTIONS):
+            for glyph_pad_index, glyph_pad in enumerate(GLYPH_PAD_OPTIONS):
                 bitmaps_size_configs[glyph_pad_index] += (metric.width + glyph_pad * 8 - 1) // (glyph_pad * 8) * glyph_pad * metric.height
 
             bitmap_row_size = (metric.width + self.table_format.glyph_pad * 8 - 1) // (self.table_format.glyph_pad * 8) * self.table_format.glyph_pad
@@ -120,7 +120,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
             bitmaps_size += stream.write(bitmap_data)
 
         stream.seek(table_offset)
-        stream.write_uint32(self.table_format.value)
+        stream.write_uint32(self.table_format)
         stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
         stream.write_uint32_list(bitmap_offsets, self.table_format.ms_byte_first)
         stream.write_uint32_list(bitmaps_size_configs, self.table_format.ms_byte_first)
@@ -136,5 +136,5 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
     def deepcopy(self) -> PcfBitmaps:
         return PcfBitmaps(
             ([bitmap_row.copy() for bitmap_row in bitmap] for bitmap in self),
-            self.table_format.deepcopy(),
+            self.table_format,
         )

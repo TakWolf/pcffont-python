@@ -20,31 +20,16 @@ def test_copy():
             2: 2,
             3: 3,
         },
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
         default_char=1,
     )
     encodings_2 = copy(encodings_1)
+    encodings_3 = deepcopy(encodings_1)
 
     assert encodings_1 == encodings_2
+    assert encodings_1 == encodings_3
     assert encodings_1 is not encodings_2
-    assert encodings_1.table_format is encodings_2.table_format
-
-
-def test_deepcopy():
-    encodings_1 = PcfBdfEncodings(
-        {
-            1: 1,
-            2: 2,
-            3: 3,
-        },
-        table_format=PcfTableFormat(True, True, True, 1, 2),
-        default_char=1,
-    )
-    encodings_2 = deepcopy(encodings_1)
-
-    assert encodings_1 == encodings_2
-    assert encodings_1 is not encodings_2
-    assert encodings_1.table_format is not encodings_2.table_format
+    assert encodings_1 is not encodings_3
 
 
 def test_eq():
@@ -54,7 +39,7 @@ def test_eq():
             2: 2,
             3: 3,
         },
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
         default_char=1,
     )
     encodings_2 = PcfBdfEncodings(
@@ -63,7 +48,7 @@ def test_eq():
             2: 2,
             3: 3,
         },
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
         default_char=1,
     )
     assert encodings_1 == encodings_2

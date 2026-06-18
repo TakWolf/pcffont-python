@@ -28,10 +28,10 @@ class PcfScalableWidths(UserList[int], PcfTable):
     def __init__(
             self,
             scalable_widths: Iterable[int] | None = None,
-            table_format: PcfTableFormat | None = None,
+            table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
     ):
         super().__init__(scalable_widths)
-        self.table_format = table_format if table_format is not None else PcfTableFormat()
+        self.table_format = table_format
 
     def __repr__(self) -> str:
         return object.__repr__(self)
@@ -52,7 +52,7 @@ class PcfScalableWidths(UserList[int], PcfTable):
         glyphs_count = len(self)
 
         stream.seek(table_offset)
-        stream.write_uint32(self.table_format.value)
+        stream.write_uint32(self.table_format)
         stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
         stream.write_int32_list(self.data, self.table_format.ms_byte_first)
         stream.align_to_4_bytes()
@@ -64,4 +64,4 @@ class PcfScalableWidths(UserList[int], PcfTable):
         return PcfScalableWidths(self.data, self.table_format)
 
     def deepcopy(self) -> PcfScalableWidths:
-        return PcfScalableWidths(self.data, self.table_format.deepcopy())
+        return self.copy()

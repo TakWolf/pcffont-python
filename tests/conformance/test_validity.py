@@ -5,7 +5,7 @@ import freetype
 import pytest
 from bdffont import BdfFont
 
-from pcffont import PcfFont, PcfFontBuilder, PcfGlyph, PcfTableFormat
+from pcffont import PcfFont, PcfFontBuilder, PcfGlyph, GlyphPad, ScanUnit, GLYPH_PAD_OPTIONS, SCAN_UNIT_OPTIONS
 
 
 @pytest.fixture(scope='module')
@@ -101,9 +101,9 @@ def test_unifont(assets_dir: Path):
 
 @pytest.mark.parametrize("ms_byte_first", [False, True])
 @pytest.mark.parametrize("ms_bit_first", [False, True])
-@pytest.mark.parametrize('glyph_pad', PcfTableFormat.GLYPH_PAD_OPTIONS)
-@pytest.mark.parametrize('scan_unit', PcfTableFormat.SCAN_UNIT_OPTIONS)
-def test_with_freetype(demo_bdf: BdfFont, ms_byte_first: bool, ms_bit_first: bool, glyph_pad: int, scan_unit: int):
+@pytest.mark.parametrize('glyph_pad', GLYPH_PAD_OPTIONS)
+@pytest.mark.parametrize('scan_unit', SCAN_UNIT_OPTIONS)
+def test_with_freetype(demo_bdf: BdfFont, ms_byte_first: bool, ms_bit_first: bool, glyph_pad: GlyphPad, scan_unit: ScanUnit):
     builder = PcfFontBuilder()
     builder.config.font_ascent = demo_bdf.properties.font_ascent
     builder.config.font_descent = demo_bdf.properties.font_descent

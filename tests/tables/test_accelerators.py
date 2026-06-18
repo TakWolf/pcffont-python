@@ -185,7 +185,7 @@ def test_calculate_bounds_13():
 
 def test_copy():
     accelerators_1 = PcfAccelerators(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
         no_overlap=True,
         constant_metrics=True,
         terminal_font=True,
@@ -205,7 +205,6 @@ def test_copy():
 
     assert accelerators_1 == accelerators_2
     assert accelerators_1 is not accelerators_2
-    assert accelerators_1.table_format is accelerators_2.table_format
     assert accelerators_1.min_bounds is accelerators_2.min_bounds
     assert accelerators_1.max_bounds is accelerators_2.max_bounds
     assert accelerators_1.ink_min_bounds is accelerators_2.ink_min_bounds
@@ -214,7 +213,7 @@ def test_copy():
 
 def test_deepcopy():
     accelerators_1 = PcfAccelerators(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
         no_overlap=True,
         constant_metrics=True,
         terminal_font=True,
@@ -234,7 +233,6 @@ def test_deepcopy():
 
     assert accelerators_1 == accelerators_2
     assert accelerators_1 is not accelerators_2
-    assert accelerators_1.table_format is not accelerators_2.table_format
     assert accelerators_1.min_bounds is not accelerators_2.min_bounds
     assert accelerators_1.max_bounds is not accelerators_2.max_bounds
     assert accelerators_1.ink_min_bounds is not accelerators_2.ink_min_bounds
@@ -243,7 +241,7 @@ def test_deepcopy():
 
 def test_eq():
     accelerators_1 = PcfAccelerators(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
         no_overlap=True,
         constant_metrics=True,
         terminal_font=True,
@@ -260,7 +258,7 @@ def test_eq():
         ink_max_bounds=PcfMetric(12, 11, 10, 9, 8, 7),
     )
     accelerators_2 = PcfAccelerators(
-        table_format=PcfTableFormat(True, True, True, 1, 2),
+        table_format=PcfTableFormat.of(True, True, True, 2, 4),
         no_overlap=True,
         constant_metrics=True,
         terminal_font=True,
