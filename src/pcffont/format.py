@@ -59,24 +59,24 @@ class PcfTableFormat(IntFlag):
 
     @property
     def ms_byte_first(self) -> bool:
-        return bool(self & PcfTableFormat.MS_BYTE_FIRST)
+        return bool(self.value & PcfTableFormat.MS_BYTE_FIRST.value)
 
     def with_ms_byte_first(self, enabled: bool) -> PcfTableFormat:
-        return self | PcfTableFormat.MS_BYTE_FIRST if enabled else self & ~PcfTableFormat.MS_BYTE_FIRST
+        return PcfTableFormat(self.value | PcfTableFormat.MS_BYTE_FIRST.value if enabled else self.value & ~PcfTableFormat.MS_BYTE_FIRST.value)
 
     @property
     def ms_bit_first(self) -> bool:
-        return bool(self & PcfTableFormat.MS_BIT_FIRST)
+        return bool(self.value & PcfTableFormat.MS_BIT_FIRST.value)
 
     def with_ms_bit_first(self, enabled: bool) -> PcfTableFormat:
-        return self | PcfTableFormat.MS_BIT_FIRST if enabled else self & ~PcfTableFormat.MS_BIT_FIRST
+        return PcfTableFormat(self.value | PcfTableFormat.MS_BIT_FIRST.value if enabled else self.value & ~PcfTableFormat.MS_BIT_FIRST.value)
 
     @property
     def ink_bounds(self) -> bool:
-        return bool(self & PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS)
+        return bool(self.value & PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS.value)
 
     def with_ink_bounds(self, enabled: bool) -> PcfTableFormat:
-        return self | PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS if enabled else self & ~PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS
+        return PcfTableFormat(self.value | PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS.value if enabled else self.value & ~PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS.value)
 
     @property
     def compressed_metrics(self) -> bool:
