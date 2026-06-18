@@ -130,7 +130,7 @@ def test_properties_5():
     properties.font = 'Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1'
     with pytest.raises(PcfXlfdError) as info:
         properties.update_by_xlfd()
-    assert info.value.args[0] == "must starts with '-'"
+    assert info.value.args[0] == "must start with '-'"
 
 
 def test_properties_6():
@@ -139,7 +139,7 @@ def test_properties_6():
     properties.font = '-Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1-'
     with pytest.raises(PcfXlfdError) as info:
         properties.update_by_xlfd()
-    assert info.value.args[0] == 'must contains 14 XLFD fields'
+    assert info.value.args[0] == 'must contain 14 XLFD fields'
 
 
 def test_properties_7():
@@ -195,7 +195,7 @@ def test_properties_10():
 
     with pytest.raises(KeyError) as info:
         properties['abc-def'] = 'abcdef'
-    assert info.value.args[0] == 'key contains illegal characters'
+    assert info.value.args[0] == 'key contain illegal characters'
 
 
 def test_properties_11():
