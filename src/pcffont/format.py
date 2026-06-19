@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from enum import IntFlag
+from enum import IntFlag, unique
 from typing import Final, Literal, get_args
 
 GlyphPad = Literal[1, 2, 4, 8]
@@ -13,6 +13,7 @@ _GLYPH_PAD_MASK = 0b_00_00_11
 _SCAN_UNIT_MASK = 0b_11_00_00
 
 
+@unique
 class PcfTableFormat(IntFlag):
     DEFAULT = 0
     MS_BYTE_FIRST = 0b_01_00
