@@ -6,8 +6,8 @@ from typing import Final, Literal, get_args
 GlyphPad = Literal[1, 2, 4, 8]
 ScanUnit = Literal[1, 2, 4]
 
-GLYPH_PAD_OPTIONS: Final = get_args(GlyphPad)
-SCAN_UNIT_OPTIONS: Final = get_args(ScanUnit)
+GLYPH_PAD_OPTIONS: Final[tuple[GlyphPad]] = get_args(GlyphPad)
+SCAN_UNIT_OPTIONS: Final[tuple[ScanUnit]] = get_args(ScanUnit)
 
 _GLYPH_PAD_MASK = 0b_00_00_11
 _SCAN_UNIT_MASK = 0b_11_00_00
