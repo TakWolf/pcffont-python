@@ -108,7 +108,7 @@ class Stream:
         return self.write(struct.pack(f"{'>' if ms_byte_first else '<'}{len(values)}i", *values))
 
     def write_string(self, value: str) -> int:
-        return self.write(value.encode()) + self.write_nulls(1)
+        return self.write(value.encode()) + self.write(b'\x00')
 
     def write_bool(self, value: bool) -> int:
         return self.write(b'\x01' if value else b'\x00')
