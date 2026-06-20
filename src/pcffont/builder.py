@@ -148,32 +148,18 @@ class PcfFontBuilder:
     def build(self) -> PcfFont:
         table_format = self.config.to_table_format()
 
-        bdf_encodings = PcfBdfEncodings(
-            table_format=table_format,
-            default_char=self.config.default_char,
-        )
-        glyph_names = PcfGlyphNames(
-            table_format=table_format,
-        )
-        scalable_widths = PcfScalableWidths(
-            table_format=table_format,
-        )
-        metrics = PcfMetrics(
-            table_format=table_format,
-        )
-        bitmaps = PcfBitmaps(
-            table_format=table_format,
-        )
+        bdf_encodings = PcfBdfEncodings(table_format=table_format, default_char=self.config.default_char)
+        glyph_names = PcfGlyphNames(table_format=table_format)
+        scalable_widths = PcfScalableWidths(table_format=table_format)
+        metrics = PcfMetrics(table_format=table_format)
+        bitmaps = PcfBitmaps(table_format=table_format)
         accelerators = PcfAccelerators(
             table_format=table_format,
             draw_right_to_left=self.config.draw_right_to_left,
             font_ascent=self.config.font_ascent,
             font_descent=self.config.font_descent,
         )
-        properties = PcfProperties(
-            self.properties.data,
-            table_format=table_format,
-        )
+        properties = PcfProperties(self.properties.data, table_format=table_format)
 
         for glyph_index, glyph in enumerate(self.glyphs):
             bdf_encodings[glyph.encoding] = glyph_index
