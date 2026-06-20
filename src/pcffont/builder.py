@@ -204,7 +204,7 @@ class PcfFontBuilder:
             bdf_accelerators.max_bounds = calculate_util.calculate_max_bounds(bdf_metrics)
             bdf_accelerators.calculate_bounds()
 
-        if bdf_accelerators.constant_metrics:
+        if accelerators.constant_metrics:
             ink_metrics = PcfMetrics(
                 (glyph.create_metric(True) for glyph in self.glyphs),
                 table_format=table_format,
