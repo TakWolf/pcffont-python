@@ -1,6 +1,6 @@
 [project]
 name = "pcffont"
-version = "0.0.31"
+version = "0.0.32"
 description = "A library for handling Portable Compiled Format (PCF) Fonts"
 readme = "README.md"
 license = "MIT"
