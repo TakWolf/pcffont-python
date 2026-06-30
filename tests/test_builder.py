@@ -11,7 +11,7 @@ from pcffont import PcfFont, PcfFontBuilder, PcfGlyph
     'font_dir, font_file_name', [
         ('demo', 'demo'),
         ('demo', 'demo-2'),
-        ('unifont', 'unifont-17.0.04'),
+        ('unifont', 'unifont-17.0.05'),
     ],
 )
 def test_builder(assets_dir: Path, font_dir: str, font_file_name: str):

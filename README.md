@@ -133,7 +133,7 @@ def main():
         shutil.rmtree(outputs_dir)
     outputs_dir.mkdir(parents=True)
 
-    font = PcfFont.load(assets_dir.joinpath('unifont', 'unifont-17.0.04.pcf'))
+    font = PcfFont.load(assets_dir.joinpath('unifont', 'unifont-17.0.05.pcf'))
     print(f'name: {font.properties.font}')
     print(f'size: {font.properties.pixel_size}')
     print(f'ascent: {font.accelerators.font_ascent}')
@@ -152,7 +152,7 @@ def main():
             text = ''.join('  ' if pixel == 0 else '██' for pixel in bitmap_row)
             print(f'{text}*')
         print()
-    font.save(outputs_dir.joinpath('unifont-17.0.04.pcf'))
+    font.save(outputs_dir.joinpath('unifont-17.0.05.pcf'))
 
 
 if __name__ == '__main__':
