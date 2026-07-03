@@ -185,7 +185,7 @@ def test_calculate_bounds_13():
 
 def test_copy():
     accelerators_1 = PcfAccelerators(
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         no_overlap=True,
         constant_metrics=True,
         terminal_font=True,
@@ -213,7 +213,7 @@ def test_copy():
 
 def test_deepcopy():
     accelerators_1 = PcfAccelerators(
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         no_overlap=True,
         constant_metrics=True,
         terminal_font=True,
@@ -241,7 +241,7 @@ def test_deepcopy():
 
 def test_eq():
     accelerators_1 = PcfAccelerators(
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         no_overlap=True,
         constant_metrics=True,
         terminal_font=True,
@@ -258,7 +258,7 @@ def test_eq():
         ink_max_bounds=PcfMetric(12, 11, 10, 9, 8, 7),
     )
     accelerators_2 = PcfAccelerators(
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         no_overlap=True,
         constant_metrics=True,
         terminal_font=True,

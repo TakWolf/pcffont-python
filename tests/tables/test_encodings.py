@@ -20,7 +20,7 @@ def test_copy():
             2: 2,
             3: 3,
         },
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         default_char=1,
     )
     encodings_2 = copy(encodings_1)
@@ -39,7 +39,7 @@ def test_eq():
             2: 2,
             3: 3,
         },
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         default_char=1,
     )
     encodings_2 = PcfBdfEncodings(
@@ -48,7 +48,7 @@ def test_eq():
             2: 2,
             3: 3,
         },
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         default_char=1,
     )
     assert encodings_1 == encodings_2

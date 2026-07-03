@@ -9,7 +9,7 @@ def test_copy():
             [[1, 0, 0, 1]],
             [[0, 1, 1, 0]],
         ],
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     bitmaps_2 = copy(bitmaps_1)
 
@@ -26,7 +26,7 @@ def test_deepcopy():
             [[1, 0, 0, 1]],
             [[0, 1, 1, 0]],
         ],
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     bitmaps_2 = deepcopy(bitmaps_1)
 
@@ -45,13 +45,13 @@ def test_eq():
             [[1, 0, 0, 1]],
             [[0, 1, 1, 0]],
         ],
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     bitmaps_2 = PcfBitmaps(
         [
             [[1, 0, 0, 1]],
             [[0, 1, 1, 0]],
         ],
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     assert bitmaps_1 == bitmaps_2

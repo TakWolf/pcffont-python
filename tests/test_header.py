@@ -7,7 +7,7 @@ from pcffont.header import PcfHeader
 def test_copy():
     header_1 = PcfHeader(
         table_type=PcfTableType.ACCELERATORS,
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         table_size=10,
         table_offset=20,
     )
@@ -23,13 +23,13 @@ def test_copy():
 def test_eq():
     header_1 = PcfHeader(
         table_type=PcfTableType.ACCELERATORS,
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         table_size=10,
         table_offset=20,
     )
     header_2 = PcfHeader(
         table_type=PcfTableType.ACCELERATORS,
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
         table_size=10,
         table_offset=20,
     )

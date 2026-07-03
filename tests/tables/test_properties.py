@@ -223,7 +223,7 @@ def test_properties_12():
 
 def test_copy():
     properties_1 = PcfProperties(
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     properties_1.family_name = 'Demo Font'
     properties_1.point_size = 100
@@ -238,13 +238,13 @@ def test_copy():
 
 def test_eq():
     properties_1 = PcfProperties(
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     properties_1.family_name = 'Demo Font'
     properties_1.point_size = 100
 
     properties_2 = PcfProperties(
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     properties_2.family_name = 'Demo Font'
     properties_2.point_size = 100

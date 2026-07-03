@@ -20,9 +20,8 @@ class PcfTableFormat(IntFlag):
     MS_BIT_FIRST = 0b_10_00
     INK_BOUNDS_OR_COMPRESSED_METRICS = 0b_01_0000_0000
 
-    @classmethod
-    def of(
-            cls,
+    @staticmethod
+    def create(
             ms_byte_first: bool = False,
             ms_bit_first: bool = False,
             ink_bounds_or_compressed_metrics: bool = False,
@@ -47,73 +46,63 @@ class PcfTableFormat(IntFlag):
             The font scanline unit. When the font bit order is different from the font byte order, the scanline unit
             n describes what unit of data (in bytes) are to be swapped.
         """
-        value = cls.DEFAULT.value
-        if ms_byte_first:
-            value |= cls.MS_BYTE_FIRST.value
-        if ms_bit_first:
-            value |= cls.MS_BIT_FIRST.value
-        if ink_bounds_or_compressed_metrics:
-            value |= cls.INK_BOUNDS_OR_COMPRESSED_METRICS.value
-        value |= GLYPH_PAD_OPTIONS.index(glyph_pad)
-        value |= SCAN_UNIT_OPTIONS.index(scan_unit) << 4
-        return cls(value)
+        return PcfTableFormat.DEFAULT.replace(
+            ms_byte_first,
+            ms_bit_first,
+            ink_bounds_or_compressed_metrics,
+            glyph_pad,
+            scan_unit,
+        )
 
     @property
     def ms_byte_first(self) -> bool:
         return bool(self.value & PcfTableFormat.MS_BYTE_FIRST.value)
 
-    def with_ms_byte_first(self, enabled: bool) -> PcfTableFormat:
-        return PcfTableFormat(self.value | PcfTableFormat.MS_BYTE_FIRST.value if enabled else self.value & ~PcfTableFormat.MS_BYTE_FIRST.value)
-
     @property
     def ms_bit_first(self) -> bool:
         return bool(self.value & PcfTableFormat.MS_BIT_FIRST.value)
-
-    def with_ms_bit_first(self, enabled: bool) -> PcfTableFormat:
-        return PcfTableFormat(self.value | PcfTableFormat.MS_BIT_FIRST.value if enabled else self.value & ~PcfTableFormat.MS_BIT_FIRST.value)
 
     @property
     def ink_bounds(self) -> bool:
         return bool(self.value & PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS.value)
 
-    def with_ink_bounds(self, enabled: bool) -> PcfTableFormat:
-        return PcfTableFormat(self.value | PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS.value if enabled else self.value & ~PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS.value)
-
     @property
     def compressed_metrics(self) -> bool:
         return self.ink_bounds
-
-    def with_compressed_metrics(self, enabled: bool) -> PcfTableFormat:
-        return self.with_ink_bounds(enabled)
 
     @property
     def glyph_pad_index(self) -> int:
         return self.value & _GLYPH_PAD_MASK
 
-    def with_glyph_pad_index(self, index: int) -> PcfTableFormat:
-        if index < 0 or index >= len(GLYPH_PAD_OPTIONS):
-            raise IndexError('glyph_pad_index out of range')
-        return PcfTableFormat((self.value & ~_GLYPH_PAD_MASK) | index)
-
     @property
     def glyph_pad(self) -> GlyphPad:
         return GLYPH_PAD_OPTIONS[self.glyph_pad_index]
-
-    def with_glyph_pad(self, glyph_pad: GlyphPad) -> PcfTableFormat:
-        return self.with_glyph_pad_index(GLYPH_PAD_OPTIONS.index(glyph_pad))
 
     @property
     def scan_unit_index(self) -> int:
         return (self.value & _SCAN_UNIT_MASK) >> 4
 
-    def with_scan_unit_index(self, index: int) -> PcfTableFormat:
-        if index < 0 or index >= len(SCAN_UNIT_OPTIONS):
-            raise IndexError('scan_unit_index out of range')
-        return PcfTableFormat((self.value & ~_SCAN_UNIT_MASK) | (index << 4))
-
     @property
     def scan_unit(self) -> ScanUnit:
         return SCAN_UNIT_OPTIONS[self.scan_unit_index]
 
-    def with_scan_unit(self, scan_unit: ScanUnit) -> PcfTableFormat:
-        return self.with_scan_unit_index(SCAN_UNIT_OPTIONS.index(scan_unit))
+    def replace(
+            self,
+            ms_byte_first: bool | None = None,
+            ms_bit_first: bool | None = None,
+            ink_bounds_or_compressed_metrics: bool | None = None,
+            glyph_pad: GlyphPad | None = None,
+            scan_unit: ScanUnit | None = None,
+    ) -> PcfTableFormat:
+        value = self.value
+        if ms_byte_first is not None:
+            value = value | PcfTableFormat.MS_BYTE_FIRST.value if ms_byte_first else value & ~PcfTableFormat.MS_BYTE_FIRST.value
+        if ms_bit_first is not None:
+            value = value | PcfTableFormat.MS_BIT_FIRST.value if ms_bit_first else value & ~PcfTableFormat.MS_BIT_FIRST.value
+        if ink_bounds_or_compressed_metrics is not None:
+            value = value | PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS.value if ink_bounds_or_compressed_metrics else value & ~PcfTableFormat.INK_BOUNDS_OR_COMPRESSED_METRICS.value
+        if glyph_pad is not None:
+            value = (value & ~_GLYPH_PAD_MASK) | GLYPH_PAD_OPTIONS.index(glyph_pad)
+        if scan_unit is not None:
+            value = (value & ~_SCAN_UNIT_MASK) | (SCAN_UNIT_OPTIONS.index(scan_unit) << 4)
+        return PcfTableFormat(value)

@@ -10,7 +10,7 @@ def test_to_table_format():
         ms_bit_first=True,
         glyph_pad=2,
         scan_unit=4,
-    ).to_table_format() == PcfTableFormat.of(
+    ).to_table_format() == PcfTableFormat.create(
         ms_byte_first=True,
         ms_bit_first=True,
         glyph_pad=2,

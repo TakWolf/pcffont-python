@@ -9,7 +9,7 @@ def test_copy():
             PcfMetric(1, 2, 3, 4, 5, 6),
             PcfMetric(6, 5, 4, 3, 2, 1),
         ],
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     metrics_2 = copy(metrics_1)
 
@@ -26,7 +26,7 @@ def test_deepcopy():
             PcfMetric(1, 2, 3, 4, 5, 6),
             PcfMetric(6, 5, 4, 3, 2, 1),
         ],
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     metrics_2 = deepcopy(metrics_1)
 
@@ -43,13 +43,13 @@ def test_eq():
             PcfMetric(1, 2, 3, 4, 5, 6),
             PcfMetric(6, 5, 4, 3, 2, 1),
         ],
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     metrics_2 = PcfMetrics(
         [
             PcfMetric(1, 2, 3, 4, 5, 6),
             PcfMetric(6, 5, 4, 3, 2, 1),
         ],
-        table_format=PcfTableFormat.of(True, True, True, 2, 4),
+        table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
     assert metrics_1 == metrics_2

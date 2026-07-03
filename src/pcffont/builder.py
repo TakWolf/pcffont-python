@@ -65,7 +65,7 @@ class PcfFontConfig:
                 self.scan_unit == other.scan_unit)
 
     def to_table_format(self) -> PcfTableFormat:
-        return PcfTableFormat.of(
+        return PcfTableFormat.create(
             ms_byte_first=self.ms_byte_first,
             ms_bit_first=self.ms_bit_first,
             glyph_pad=self.glyph_pad,
@@ -190,6 +190,7 @@ class PcfFontBuilder:
             bdf_accelerators.max_bounds = calculate_util.calculate_max_bounds(bdf_metrics)
             bdf_accelerators.calculate_bounds()
 
+        # ink_bounds
         if accelerators.constant_metrics:
             ink_metrics = PcfMetrics(
                 (glyph.create_metric(True) for glyph in self.glyphs),
@@ -198,7 +199,7 @@ class PcfFontBuilder:
 
             accelerators.ink_min_bounds = calculate_util.calculate_min_bounds(ink_metrics)
             accelerators.ink_max_bounds = calculate_util.calculate_max_bounds(ink_metrics)
-            accelerators.table_format = accelerators.table_format.with_ink_bounds(True)
+            accelerators.table_format = accelerators.table_format.replace(ink_bounds_or_compressed_metrics=True)
             accelerators.ink_metrics = True
 
             if len(glyph_indices) == len(self.glyphs):
@@ -208,20 +209,21 @@ class PcfFontBuilder:
                 bdf_ink_metrics = [ink_metrics[glyph_index] for glyph_index in glyph_indices]
                 bdf_accelerators.ink_min_bounds = calculate_util.calculate_min_bounds(bdf_ink_metrics)
                 bdf_accelerators.ink_max_bounds = calculate_util.calculate_max_bounds(bdf_ink_metrics)
-            bdf_accelerators.table_format = bdf_accelerators.table_format.with_ink_bounds(True)
+            bdf_accelerators.table_format = bdf_accelerators.table_format.replace(ink_bounds_or_compressed_metrics=True)
             bdf_accelerators.ink_metrics = True
         else:
             ink_metrics = None
 
-            accelerators.table_format = accelerators.table_format.with_ink_bounds(False)
+            accelerators.table_format = accelerators.table_format.replace(ink_bounds_or_compressed_metrics=False)
             accelerators.ink_metrics = False
 
-            bdf_accelerators.table_format = bdf_accelerators.table_format.with_ink_bounds(False)
+            bdf_accelerators.table_format = bdf_accelerators.table_format.replace(ink_bounds_or_compressed_metrics=False)
             bdf_accelerators.ink_metrics = False
 
-        metrics.table_format = metrics.table_format.with_compressed_metrics(accelerators.min_bounds.compressible and accelerators.max_bounds.compressible)
+        # compressed_metrics
+        metrics.table_format = metrics.table_format.replace(ink_bounds_or_compressed_metrics=accelerators.min_bounds.compressible and accelerators.max_bounds.compressible)
         if ink_metrics is not None:
-            ink_metrics.table_format = ink_metrics.table_format.with_compressed_metrics(accelerators.ink_min_bounds.compressible and accelerators.ink_max_bounds.compressible)
+            ink_metrics.table_format = ink_metrics.table_format.replace(ink_bounds_or_compressed_metrics=accelerators.ink_min_bounds.compressible and accelerators.ink_max_bounds.compressible)
 
         return PcfFont(
             properties,
