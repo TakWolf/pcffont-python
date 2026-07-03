@@ -4,11 +4,11 @@ requires-python = ">=3.10"
 
 [[package]]
 name = "bdffont"
-version = "0.0.40"
+version = "0.0.41"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/d7/59/45b90dd0cad11154a1e162ace6e583694ba82270e6f59e4f6e60932b2aac/bdffont-0.0.40.tar.gz", hash = "sha256:6112d9a99eed7c95135dfd7144c17819d845d149ae8c18f2b1b1a67326a55d4e", size = 9711, upload-time = "2026-06-13T14:08:57.759Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/05/55/4829452dcd0111b93e8f8c64189b4851f5498e96d93a8ccd06390e79e328/bdffont-0.0.41.tar.gz", hash = "sha256:1f815e5c405a32f814800a1b226816cf556d0c9f707df146e0a5b7ba91561977", size = 9722, upload-time = "2026-07-27T07:00:33.598Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/51/bf/16733bbf6f2885a1902b0efd0c5fc62ca10bc1a94b0344ce4fd66f4f7e29/bdffont-0.0.40-py3-none-any.whl", hash = "sha256:5fafd9555e4014c81114037c1b761575ab5506d3bd408df3a6f79649c9ddf8ea", size = 12190, upload-time = "2026-06-13T14:08:56.924Z" },
+    { url = "https://files.pythonhosted.org/packages/40/c6/c43eaa6cece78bad88099926f6bd7ca86c0768cf86c08a80b854f0f72d95/bdffont-0.0.41-py3-none-any.whl", hash = "sha256:b9291f34967dc94c42847617b6af741fc0516398f97ba8c2825de26f0725efb9", size = 12180, upload-time = "2026-07-27T07:00:32.531Z" },
 ]
 
 [[package]]
@@ -25,7 +25,7 @@ name = "exceptiongroup"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "typing-extensions" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/50/79/66800aadf48771f6b62f7eb014e352e5d06856655206165d775e675a02c9/exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219", size = 30371, upload-time = "2025-11-21T23:01:54.787Z" }
 wheels = [
@@ -80,7 +80,7 @@ dev = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "bdffont", specifier = ">=0.0.40" },
+    { name = "bdffont", specifier = ">=0.0.41" },
     { name = "freetype-py", specifier = ">=2.5.1" },
     { name = "pytest", specifier = ">=9.1.1" },
 ]
@@ -177,9 +177,9 @@ wheels = [
 
 [[package]]
 name = "typing-extensions"
-version = "4.15.0"
+version = "4.16.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/72/94/1a15dd82efb362ac84269196e94cf00f187f7ed21c242792a923cdb1c61f/typing_extensions-4.15.0.tar.gz", hash = "sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466", size = 109391, upload-time = "2025-08-25T13:49:26.313Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f6/cc/6253133b5bb138fc3306cebfbda2c520f545d36b5be2c7255cc528bb45d6/typing_extensions-4.16.0.tar.gz", hash = "sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5", size = 113555, upload-time = "2026-07-02T08:40:05.92Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/18/67/36e9267722cc04a6b9f15c7f3441c2363321a3ea07da7ae0c0707beb2a9c/typing_extensions-4.15.0-py3-none-any.whl", hash = "sha256:f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548", size = 44614, upload-time = "2025-08-25T13:49:24.86Z" },
+    { url = "https://files.pythonhosted.org/packages/49/d3/b8441a820a491ddfc024b0b0cf0393375b75ea13866d9c66727e54c2fc80/typing_extensions-4.16.0-py3-none-any.whl", hash = "sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8", size = 45571, upload-time = "2026-07-02T08:40:04.659Z" },
 ]
