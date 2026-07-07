@@ -4,8 +4,8 @@ from pcffont.format import PcfTableFormat, GlyphPad, ScanUnit, GLYPH_PAD_OPTIONS
 from pcffont.glyph import PcfGlyph
 from pcffont.header import PcfTableType
 from pcffont.metric import PcfMetric
-from pcffont.table import PcfTable
 from pcffont.tables.accelerators import PcfAccelerators
+from pcffont.tables.base import PcfTable
 from pcffont.tables.bitmaps import PcfBitmaps
 from pcffont.tables.encodings import PcfBdfEncodings
 from pcffont.tables.glyph_names import PcfGlyphNames

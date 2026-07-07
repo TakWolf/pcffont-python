@@ -6,8 +6,8 @@ from os import PathLike
 from typing import Any, BinaryIO, cast
 
 from pcffont.header import PcfTableType, PcfHeader
-from pcffont.table import PcfTable
 from pcffont.tables.accelerators import PcfAccelerators
+from pcffont.tables.base import PcfTable
 from pcffont.tables.bitmaps import PcfBitmaps
 from pcffont.tables.encodings import PcfBdfEncodings
 from pcffont.tables.factory import TABLE_TYPE_REGISTRY

@@ -7,7 +7,7 @@ from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat, GLYPH_PAD_OPTIONS
 from pcffont.header import PcfHeader
-from pcffont.table import PcfTable
+from pcffont.tables.base import PcfTable
 from pcffont.utils.stream import Stream
 
 if TYPE_CHECKING:
