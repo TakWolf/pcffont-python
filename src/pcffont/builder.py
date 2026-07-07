@@ -52,7 +52,7 @@ class PcfFontConfig:
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfFontConfig:
         return self.deepcopy()
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfFontConfig):
             return NotImplemented
         return (self.font_ascent == other.font_ascent and
@@ -138,7 +138,7 @@ class PcfFontBuilder:
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfFontBuilder:
         return self.deepcopy()
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfFontBuilder):
             return NotImplemented
         return (self.config == other.config and

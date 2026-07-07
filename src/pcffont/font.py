@@ -80,7 +80,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfFont:
         return self.deepcopy()
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfFont):
             return NotImplemented
         return super().__eq__(other)

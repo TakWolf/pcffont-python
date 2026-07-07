@@ -71,7 +71,7 @@ class PcfMetric:
                 f'attributes={self.attributes!r}'
                 f')')
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfMetric):
             return NotImplemented
         return (self.left_side_bearing == other.left_side_bearing and

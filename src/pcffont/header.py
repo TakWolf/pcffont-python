@@ -78,7 +78,7 @@ class PcfHeader:
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfHeader:
         return self.deepcopy()
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfHeader):
             return NotImplemented
         return (self.table_type == other.table_type and

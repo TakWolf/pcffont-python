@@ -199,7 +199,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfProperties:
         return self.deepcopy()
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfProperties):
             return NotImplemented
         return (self.table_format == other.table_format and

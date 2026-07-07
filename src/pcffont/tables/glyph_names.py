@@ -50,7 +50,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfGlyphNames:
         return self.deepcopy()
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfGlyphNames):
             return NotImplemented
         return (self.table_format == other.table_format and
