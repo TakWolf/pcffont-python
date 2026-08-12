@@ -8,7 +8,8 @@ from pcffont import PcfFont, PcfFontBuilder, PcfGlyph
 
 
 @pytest.mark.parametrize(
-    'font_dir, font_file_name', [
+    'font_dir, font_file_name',
+    [
         ('demo', 'demo'),
         ('demo', 'demo-2'),
         ('unifont', 'unifont-17.0.05'),
