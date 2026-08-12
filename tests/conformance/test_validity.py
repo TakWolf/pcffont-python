@@ -19,7 +19,8 @@ def demo_pcf(assets_dir: Path) -> PcfFont:
 
 
 @pytest.mark.parametrize(
-    'font_file_name', [
+    'font_file_name',
+    [
         'demo-lsbyte-lsbit-p1-u1.pcf',
         'demo-lsbyte-lsbit-p1-u2.pcf',
         'demo-lsbyte-lsbit-p1-u4.pcf',

@@ -6,7 +6,8 @@ from pcffont import PcfFont
 
 
 @pytest.mark.parametrize(
-    'font_dir, font_file_name', [
+    ('font_dir', 'font_file_name'),
+    [
         ('demo', 'demo.pcf'),
         ('demo', 'demo-lsbyte-lsbit-p1-u1.pcf'),
         ('demo', 'demo-lsbyte-lsbit-p1-u2.pcf'),
