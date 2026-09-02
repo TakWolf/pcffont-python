@@ -7,7 +7,7 @@ from pcffont.metric import PcfMetric
 
 class PcfGlyph:
     name: str
-    encoding: int
+    encodings: set[int]
     scalable_width: int
     character_width: int
     width: int
@@ -20,7 +20,7 @@ class PcfGlyph:
     def __init__(
             self,
             name: str,
-            encoding: int,
+            encodings: set[int] | None = None,
             scalable_width: int = 0,
             character_width: int = 0,
             dimensions: tuple[int, int] = (0, 0),
@@ -29,7 +29,7 @@ class PcfGlyph:
             bitmap: list[list[int]] | None = None,
     ):
         self.name = name
-        self.encoding = encoding
+        self.encodings = encodings if encodings is not None else set()
         self.scalable_width = scalable_width
         self.character_width = character_width
         self.width, self.height = dimensions
@@ -47,7 +47,7 @@ class PcfGlyph:
         if not isinstance(other, PcfGlyph):
             return NotImplemented
         return (self.name == other.name and
-                self.encoding == other.encoding and
+                self.encodings == other.encodings and
                 self.scalable_width == other.scalable_width and
                 self.character_width == other.character_width and
                 self.width == other.width and
@@ -122,7 +122,7 @@ class PcfGlyph:
     def copy(self) -> PcfGlyph:
         return PcfGlyph(
             self.name,
-            self.encoding,
+            self.encodings,
             self.scalable_width,
             self.character_width,
             self.dimensions,
@@ -134,7 +134,7 @@ class PcfGlyph:
     def deepcopy(self) -> PcfGlyph:
         return PcfGlyph(
             self.name,
-            self.encoding,
+            self.encodings.copy(),
             self.scalable_width,
             self.character_width,
             self.dimensions,

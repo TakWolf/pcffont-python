@@ -36,7 +36,7 @@ def test_builder(assets_dir: Path, font_dir: str, font_file_name: str):
     for bdf_glyph in bdf_font.glyphs:
         builder.glyphs.append(PcfGlyph(
             name=bdf_glyph.name,
-            encoding=bdf_glyph.encoding,
+            encodings={bdf_glyph.encoding},
             scalable_width=bdf_glyph.scalable_width_x,
             character_width=bdf_glyph.device_width_x,
             dimensions=bdf_glyph.dimensions,

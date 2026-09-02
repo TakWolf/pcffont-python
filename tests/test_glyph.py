@@ -6,7 +6,7 @@ from pcffont import PcfGlyph, PcfMetric
 def test_glyph():
     glyph = PcfGlyph(
         name='_',
-        encoding=0,
+        encodings={0},
         dimensions=(1, 2),
         offset=(3, 4),
     )
@@ -21,7 +21,7 @@ def test_glyph():
 def test_create_metric_1():
     glyph = PcfGlyph(
         name='_',
-        encoding=0,
+        encodings={0},
         character_width=5,
         dimensions=(5, 8),
         offset=(0, -2),
@@ -58,7 +58,7 @@ def test_create_metric_1():
 def test_create_metric_2():
     glyph = PcfGlyph(
         name='_',
-        encoding=0,
+        encodings={0},
         character_width=5,
         dimensions=(7, 10),
         offset=(0, -4),
@@ -95,7 +95,7 @@ def test_create_metric_2():
 def test_copy():
     glyph_1 = PcfGlyph(
         name='_',
-        encoding=0,
+        encodings={0},
         character_width=1,
         dimensions=(2, 3),
         offset=(4, 5),
@@ -112,7 +112,7 @@ def test_copy():
 def test_deepcopy():
     glyph_1 = PcfGlyph(
         name='_',
-        encoding=0,
+        encodings={0},
         character_width=1,
         dimensions=(2, 3),
         offset=(4, 5),
@@ -132,7 +132,7 @@ def test_deepcopy():
 def test_eq():
     glyph_1 = PcfGlyph(
         name='_',
-        encoding=0,
+        encodings={0},
         character_width=1,
         dimensions=(2, 3),
         offset=(4, 5),
@@ -141,7 +141,7 @@ def test_eq():
     )
     glyph_2 = PcfGlyph(
         name='_',
-        encoding=0,
+        encodings={0},
         character_width=1,
         dimensions=(2, 3),
         offset=(4, 5),

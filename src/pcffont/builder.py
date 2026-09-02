@@ -3,6 +3,7 @@ from __future__ import annotations
 from os import PathLike
 from typing import Any
 
+from pcffont.error import PcfError
 from pcffont.font import PcfFont
 from pcffont.format import PcfTableFormat, GlyphPad, ScanUnit
 from pcffont.glyph import PcfGlyph
@@ -102,11 +103,19 @@ class PcfFontBuilder:
         builder.config.glyph_pad = font.bitmaps.table_format.glyph_pad
         builder.config.scan_unit = font.bitmaps.table_format.scan_unit
 
-        glyph_index_to_encoding = {glyph_index: encoding for encoding, glyph_index in font.bdf_encodings.items()}
+        glyph_index_to_encodings = {}
+        for encoding, glyph_index in font.bdf_encodings.items():
+            if glyph_index in glyph_index_to_encodings:
+                encodings = glyph_index_to_encodings[glyph_index]
+            else:
+                encodings = set()
+                glyph_index_to_encodings[glyph_index] = encodings
+            encodings.add(encoding)
+
         for glyph_index, (glyph_name, scalable_width, metric, bitmap) in enumerate(zip(font.glyph_names, font.scalable_widths, font.metrics, font.bitmaps)):
             builder.glyphs.append(PcfGlyph(
                 name=glyph_name,
-                encoding=glyph_index_to_encoding.get(glyph_index, PcfBdfEncodings.NO_ENCODING),
+                encodings=glyph_index_to_encodings[glyph_index] if glyph_index in glyph_index_to_encodings else set(),
                 scalable_width=scalable_width,
                 character_width=metric.character_width,
                 dimensions=metric.dimensions,
@@ -161,11 +170,15 @@ class PcfFontBuilder:
         properties = PcfProperties(self.properties.data, table_format=table_format)
 
         for glyph_index, glyph in enumerate(self.glyphs):
-            bdf_encodings[glyph.encoding] = glyph_index
             glyph_names.append(glyph.name)
             scalable_widths.append(glyph.scalable_width)
             metrics.append(glyph.create_metric(False))
             bitmaps.append(glyph.bitmap)
+
+            for encoding in glyph.encodings:
+                if encoding in bdf_encodings:
+                    raise PcfError(f'duplicate glyph encoding: 0x{encoding:04X}')
+                bdf_encodings[encoding] = glyph_index
 
         accelerators.max_overlap = calculate_util.calculate_max_overlap(metrics)
         accelerators.min_bounds = calculate_util.calculate_min_bounds(metrics)

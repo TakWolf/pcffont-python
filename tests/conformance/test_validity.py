@@ -116,7 +116,7 @@ def test_with_freetype(demo_bdf: BdfFont, ms_byte_first: bool, ms_bit_first: boo
     for bdf_glyph in demo_bdf.glyphs[:10]:
         builder.glyphs.append(PcfGlyph(
             name=bdf_glyph.name,
-            encoding=bdf_glyph.encoding,
+            encodings={bdf_glyph.encoding},
             scalable_width=bdf_glyph.scalable_width_x,
             character_width=bdf_glyph.device_width_x,
             dimensions=bdf_glyph.dimensions,

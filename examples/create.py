@@ -18,7 +18,7 @@ def main():
 
     builder.glyphs.append(PcfGlyph(
         name='.notdef',
-        encoding=0xFFFE,
+        encodings={0xFFFE},
         scalable_width=500,
         character_width=8,
         dimensions=(8, 16),
@@ -45,7 +45,7 @@ def main():
 
     builder.glyphs.append(PcfGlyph(
         name='LATIN_CAPITAL_LETTER_A',
-        encoding=0x0041,
+        encodings={0x0041},
         scalable_width=500,
         character_width=8,
         dimensions=(8, 16),
