@@ -91,7 +91,8 @@ class PcfFontConfig:
 class PcfFontBuilder:
     @staticmethod
     def modify(font: PcfFont) -> PcfFontBuilder:
-        builder = PcfFontBuilder()
+        builder = PcfFontBuilder(properties=font.properties)
+
         builder.config.font_ascent = font.accelerators.font_ascent
         builder.config.font_descent = font.accelerators.font_descent
         builder.config.default_char = font.bdf_encodings.default_char
@@ -100,8 +101,6 @@ class PcfFontBuilder:
         builder.config.ms_bit_first = font.bitmaps.table_format.ms_bit_first
         builder.config.glyph_pad = font.bitmaps.table_format.glyph_pad
         builder.config.scan_unit = font.bitmaps.table_format.scan_unit
-
-        builder.properties = font.properties
 
         glyph_index_to_encoding = {glyph_index: encoding for encoding, glyph_index in font.bdf_encodings.items()}
         for glyph_index, (glyph_name, scalable_width, metric, bitmap) in enumerate(zip(font.glyph_names, font.scalable_widths, font.metrics, font.bitmaps)):
