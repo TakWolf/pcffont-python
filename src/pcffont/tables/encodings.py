@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import UserDict
 from typing import Any, Final, TYPE_CHECKING
 
+from pcffont.error import PcfParseError
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
 from pcffont.tables.base import PcfTable
@@ -27,6 +28,11 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
         min_byte_1 = stream.read_uint16(table_format.ms_byte_first)
         max_byte_1 = stream.read_uint16(table_format.ms_byte_first)
         default_char = stream.read_uint16(table_format.ms_byte_first)
+
+        if min_byte_2 > max_byte_2 or min_byte_1 > max_byte_1:
+            raise PcfParseError('invalid encoding range')
+        if max_byte_2 > 0xFF or max_byte_1 > 0xFF:
+            raise PcfParseError('encoding range exceeds 0xFF')
 
         glyphs_count = (max_byte_2 - min_byte_2 + 1) * (max_byte_1 - min_byte_1 + 1)
         glyph_indices = stream.read_uint16_list(glyphs_count, table_format.ms_byte_first)
@@ -96,9 +102,9 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
                 super().__eq__(other))
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
-        min_byte_2 = 0xFF
+        min_byte_2 = 0 if len(self) == 0 else 0xFF
         max_byte_2 = 0
-        min_byte_1 = 0xFF
+        min_byte_1 = 0 if len(self) == 0 else 0xFF
         max_byte_1 = 0
         for encoding in self:
             byte_1 = encoding >> 8
