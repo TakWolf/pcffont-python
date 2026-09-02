@@ -20,7 +20,7 @@ import shutil
 import statistics
 
 from examples import build_dir
-from pcffont import PcfFontBuilder, PcfGlyph, PcfBdfEncodings
+from pcffont import PcfFontBuilder, PcfGlyph
 
 
 def main():
@@ -32,10 +32,11 @@ def main():
     builder = PcfFontBuilder()
     builder.config.font_ascent = 14
     builder.config.font_descent = 2
+    builder.config.default_char = 0xFFFE
 
     builder.glyphs.append(PcfGlyph(
         name='.notdef',
-        encoding=PcfBdfEncodings.NO_ENCODING,
+        encoding=0xFFFE,
         scalable_width=500,
         character_width=8,
         dimensions=(8, 16),
@@ -61,8 +62,8 @@ def main():
     ))
 
     builder.glyphs.append(PcfGlyph(
-        name='CAP_LETTER_A',
-        encoding=65,
+        name='LATIN_CAPITAL_LETTER_A',
+        encoding=0x0041,
         scalable_width=500,
         character_width=8,
         dimensions=(8, 16),
