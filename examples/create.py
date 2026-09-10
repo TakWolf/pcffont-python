@@ -1,12 +1,12 @@
 import shutil
 import statistics
 
-from examples import build_dir
+from examples import BUILD_DIR
 from pcffont import PcfFontBuilder, PcfGlyph
 
 
 def main():
-    outputs_dir = build_dir.joinpath('create')
+    outputs_dir = BUILD_DIR.joinpath('create')
     if outputs_dir.exists():
         shutil.rmtree(outputs_dir)
     outputs_dir.mkdir(parents=True)

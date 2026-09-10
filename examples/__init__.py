@@ -1,5 +1,5 @@
 from pathlib import Path
 
-project_root_dir = Path(__file__).parent.joinpath('..').resolve()
-assets_dir = project_root_dir.joinpath('assets')
-build_dir = project_root_dir.joinpath('build')
+PROJECT_ROOT_DIR = Path(__file__).parent.joinpath('..').resolve()
+ASSETS_DIR = PROJECT_ROOT_DIR.joinpath('assets')
+BUILD_DIR = PROJECT_ROOT_DIR.joinpath('build')

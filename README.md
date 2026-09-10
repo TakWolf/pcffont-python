@@ -19,12 +19,12 @@ pip install pcffont
 import shutil
 import statistics
 
-from examples import build_dir
+from examples import BUILD_DIR
 from pcffont import PcfFontBuilder, PcfGlyph
 
 
 def main():
-    outputs_dir = build_dir.joinpath('create')
+    outputs_dir = BUILD_DIR.joinpath('create')
     if outputs_dir.exists():
         shutil.rmtree(outputs_dir)
     outputs_dir.mkdir(parents=True)
@@ -124,17 +124,17 @@ if __name__ == '__main__':
 ```python
 import shutil
 
-from examples import assets_dir, build_dir
+from examples import ASSETS_DIR, BUILD_DIR
 from pcffont import PcfFont
 
 
 def main():
-    outputs_dir = build_dir.joinpath('load')
+    outputs_dir = BUILD_DIR.joinpath('load')
     if outputs_dir.exists():
         shutil.rmtree(outputs_dir)
     outputs_dir.mkdir(parents=True)
 
-    font = PcfFont.load(assets_dir.joinpath('unifont', 'unifont-17.0.05.pcf'))
+    font = PcfFont.load(ASSETS_DIR.joinpath('unifont', 'unifont-17.0.05.pcf'))
     print(f'name: {font.properties.font}')
     print(f'size: {font.properties.pixel_size}')
     print(f'ascent: {font.accelerators.font_ascent}')
