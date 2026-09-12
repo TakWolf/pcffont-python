@@ -6,7 +6,7 @@ from pcffont import PcfTableFormat, PcfProperties
 from pcffont.error import PcfXlfdError
 
 
-def test_properties_1():
+def test_properties_1() -> None:
     properties = PcfProperties({
         'PARAM_1': 1,
         'param_2': '2',
@@ -18,7 +18,7 @@ def test_properties_1():
     assert properties['PARAM_2'] == '2'
 
 
-def test_properties_2():
+def test_properties_2() -> None:
     properties = PcfProperties()
 
     properties.foundry = 'TakWolf Studio'
@@ -82,7 +82,7 @@ def test_properties_2():
     assert properties.font == '-TakWolf Studio-Demo Pixel-Medium-R-Normal-Sans Serif-16-160-75-240-M-85-ISO8859-1'
 
 
-def test_properties_3():
+def test_properties_3() -> None:
     properties = PcfProperties()
 
     properties.font = '-Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1'
@@ -103,7 +103,7 @@ def test_properties_3():
     assert properties.charset_encoding == '1'
 
 
-def test_properties_4():
+def test_properties_4() -> None:
     properties = PcfProperties()
 
     properties.font = '--------------'
@@ -124,7 +124,7 @@ def test_properties_4():
     assert properties.charset_encoding is None
 
 
-def test_properties_5():
+def test_properties_5() -> None:
     properties = PcfProperties()
 
     properties.font = 'Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1'
@@ -133,7 +133,7 @@ def test_properties_5():
     assert info.value.args[0] == "must start with '-'"
 
 
-def test_properties_6():
+def test_properties_6() -> None:
     properties = PcfProperties()
 
     properties.font = '-Bitstream-Charter-Medium-R-Normal--12-120-75-75-P-68-ISO8859-1-'
@@ -142,7 +142,7 @@ def test_properties_6():
     assert info.value.args[0] == 'must contain 14 XLFD fields'
 
 
-def test_properties_7():
+def test_properties_7() -> None:
     properties = PcfProperties()
 
     properties.x_height = 5
@@ -164,7 +164,7 @@ def test_properties_7():
     assert len(properties) == 4
 
 
-def test_properties_8():
+def test_properties_8() -> None:
     properties = PcfProperties()
 
     properties.font_version = '1.0.0'
@@ -182,7 +182,7 @@ def test_properties_8():
     assert len(properties) == 3
 
 
-def test_properties_9():
+def test_properties_9() -> None:
     properties = PcfProperties()
 
     properties['abc'] = 'abc'
@@ -190,7 +190,7 @@ def test_properties_9():
     assert properties['abc'] == 'abc'
 
 
-def test_properties_10():
+def test_properties_10() -> None:
     properties = PcfProperties()
 
     with pytest.raises(KeyError) as info:
@@ -198,14 +198,14 @@ def test_properties_10():
     assert info.value.args[0] == 'key contain illegal characters'
 
 
-def test_properties_11():
+def test_properties_11() -> None:
     properties = PcfProperties()
 
     properties['NONE_PARAM'] = None
     assert 'NONE_PARAM' not in properties
 
 
-def test_properties_12():
+def test_properties_12() -> None:
     properties = PcfProperties()
 
     with pytest.raises(ValueError) as info:
@@ -221,7 +221,7 @@ def test_properties_12():
     assert info.value.args[0] == "value must be 'str' or 'int'"
 
 
-def test_copy():
+def test_copy() -> None:
     properties_1 = PcfProperties(
         table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )
@@ -236,7 +236,7 @@ def test_copy():
     assert properties_1 is not properties_3
 
 
-def test_eq():
+def test_eq() -> None:
     properties_1 = PcfProperties(
         table_format=PcfTableFormat.create(True, True, True, 2, 4),
     )

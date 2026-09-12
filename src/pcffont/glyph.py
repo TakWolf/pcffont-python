@@ -27,7 +27,7 @@ class PcfGlyph:
             offset: tuple[int, int] = (0, 0),
             attributes: int = 0,
             bitmap: list[list[int]] | None = None,
-    ):
+    ) -> None:
         self.name = name
         self.encodings = encodings if encodings is not None else set()
         self.scalable_width = scalable_width
@@ -62,7 +62,7 @@ class PcfGlyph:
         return self.width, self.height
 
     @dimensions.setter
-    def dimensions(self, value: tuple[int, int]):
+    def dimensions(self, value: tuple[int, int]) -> None:
         self.width, self.height = value
 
     @property
@@ -70,7 +70,7 @@ class PcfGlyph:
         return self.offset_x, self.offset_y
 
     @offset.setter
-    def offset(self, value: tuple[int, int]):
+    def offset(self, value: tuple[int, int]) -> None:
         self.offset_x, self.offset_y = value
 
     def create_metric(self, is_ink: bool) -> PcfMetric:

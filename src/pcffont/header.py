@@ -44,7 +44,7 @@ class PcfHeader:
         return headers
 
     @staticmethod
-    def dump(stream: Stream, headers: list[PcfHeader]):
+    def dump(stream: Stream, headers: list[PcfHeader]) -> None:
         stream.seek(0)
         stream.write(_FILE_VERSION)
 
@@ -66,7 +66,7 @@ class PcfHeader:
             table_format: PcfTableFormat,
             table_size: int,
             table_offset: int,
-    ):
+    ) -> None:
         self.table_type = table_type
         self.table_format = table_format
         self.table_size = table_size

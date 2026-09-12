@@ -47,7 +47,7 @@ class PcfMetric:
             ascent: int = 0,
             descent: int = 0,
             attributes: int = 0,
-    ):
+    ) -> None:
         self.left_side_bearing = left_side_bearing
         self.right_side_bearing = right_side_bearing
         self.character_width = character_width
@@ -114,7 +114,7 @@ class PcfMetric:
                 -128 <= self.descent <= 127 and
                 self.attributes == 0)
 
-    def dump(self, stream: Stream, ms_byte_first: bool, compressed: bool):
+    def dump(self, stream: Stream, ms_byte_first: bool, compressed: bool) -> None:
         if compressed:
             stream.write_uint8(self.left_side_bearing + 0x80)
             stream.write_uint8(self.right_side_bearing + 0x80)

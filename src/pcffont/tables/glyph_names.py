@@ -37,7 +37,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
             self,
             names: Iterable[str] | None = None,
             table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
-    ):
+    ) -> None:
         super().__init__(names)
         self.table_format = table_format
 

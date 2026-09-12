@@ -100,7 +100,7 @@ _REGEX_PROP_KEY = re.compile(r'^[a-zA-Z0-9_]*$')
 _REGEX_XLFD_VALUE = re.compile(r'[-?*,"]')
 
 
-def _check_xlfd_str_value(key: str, value: str):
+def _check_xlfd_str_value(key: str, value: str) -> None:
     if _REGEX_XLFD_VALUE.search(value) is not None:
         raise ValueError(f'value of {key!r} contain illegal characters')
 
@@ -146,7 +146,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
             self,
             properties: dict[str, str | int] | None = None,
             table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
-    ):
+    ) -> None:
         super().__init__(properties)
         self.table_format = table_format
 
@@ -155,7 +155,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
             key = key.upper()
         return super().__getitem__(key)
 
-    def __setitem__(self, key: Any, value: Any):
+    def __setitem__(self, key: Any, value: Any) -> None:
         if value is None:
             self.pop(key, None)
             return
@@ -180,7 +180,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
 
         super().__setitem__(key, value)
 
-    def __delitem__(self, key: Any):
+    def __delitem__(self, key: Any) -> None:
         if isinstance(key, str):
             key = key.upper()
         super().__delitem__(key)
@@ -210,7 +210,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_FOUNDRY, None)
 
     @foundry.setter
-    def foundry(self, value: str | None):
+    def foundry(self, value: str | None) -> None:
         self[_KEY_FOUNDRY] = value
 
     @property
@@ -218,7 +218,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_FAMILY_NAME, None)
 
     @family_name.setter
-    def family_name(self, value: str | None):
+    def family_name(self, value: str | None) -> None:
         self[_KEY_FAMILY_NAME] = value
 
     @property
@@ -226,7 +226,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_WEIGHT_NAME, None)
 
     @weight_name.setter
-    def weight_name(self, value: str | None):
+    def weight_name(self, value: str | None) -> None:
         self[_KEY_WEIGHT_NAME] = value
 
     @property
@@ -234,7 +234,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_SLANT, None)
 
     @slant.setter
-    def slant(self, value: str | None):
+    def slant(self, value: str | None) -> None:
         self[_KEY_SLANT] = value
 
     @property
@@ -242,7 +242,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_SETWIDTH_NAME, None)
 
     @setwidth_name.setter
-    def setwidth_name(self, value: str | None):
+    def setwidth_name(self, value: str | None) -> None:
         self[_KEY_SETWIDTH_NAME] = value
 
     @property
@@ -250,7 +250,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_ADD_STYLE_NAME, None)
 
     @add_style_name.setter
-    def add_style_name(self, value: str | None):
+    def add_style_name(self, value: str | None) -> None:
         self[_KEY_ADD_STYLE_NAME] = value
 
     @property
@@ -258,7 +258,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_PIXEL_SIZE, None)
 
     @pixel_size.setter
-    def pixel_size(self, value: int | None):
+    def pixel_size(self, value: int | None) -> None:
         self[_KEY_PIXEL_SIZE] = value
 
     @property
@@ -266,7 +266,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_POINT_SIZE, None)
 
     @point_size.setter
-    def point_size(self, value: int | None):
+    def point_size(self, value: int | None) -> None:
         self[_KEY_POINT_SIZE] = value
 
     @property
@@ -274,7 +274,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_RESOLUTION_X, None)
 
     @resolution_x.setter
-    def resolution_x(self, value: int | None):
+    def resolution_x(self, value: int | None) -> None:
         self[_KEY_RESOLUTION_X] = value
 
     @property
@@ -282,7 +282,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_RESOLUTION_Y, None)
 
     @resolution_y.setter
-    def resolution_y(self, value: int | None):
+    def resolution_y(self, value: int | None) -> None:
         self[_KEY_RESOLUTION_Y] = value
 
     @property
@@ -290,7 +290,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_SPACING, None)
 
     @spacing.setter
-    def spacing(self, value: str | None):
+    def spacing(self, value: str | None) -> None:
         self[_KEY_SPACING] = value
 
     @property
@@ -298,7 +298,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_AVERAGE_WIDTH, None)
 
     @average_width.setter
-    def average_width(self, value: int | None):
+    def average_width(self, value: int | None) -> None:
         self[_KEY_AVERAGE_WIDTH] = value
 
     @property
@@ -306,7 +306,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_CHARSET_REGISTRY, None)
 
     @charset_registry.setter
-    def charset_registry(self, value: str | None):
+    def charset_registry(self, value: str | None) -> None:
         self[_KEY_CHARSET_REGISTRY] = value
 
     @property
@@ -314,7 +314,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_CHARSET_ENCODING, None)
 
     @charset_encoding.setter
-    def charset_encoding(self, value: str | None):
+    def charset_encoding(self, value: str | None) -> None:
         self[_KEY_CHARSET_ENCODING] = value
 
     @property
@@ -322,7 +322,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_X_HEIGHT, None)
 
     @x_height.setter
-    def x_height(self, value: int | None):
+    def x_height(self, value: int | None) -> None:
         self[_KEY_X_HEIGHT] = value
 
     @property
@@ -330,7 +330,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_CAP_HEIGHT, None)
 
     @cap_height.setter
-    def cap_height(self, value: int | None):
+    def cap_height(self, value: int | None) -> None:
         self[_KEY_CAP_HEIGHT] = value
 
     @property
@@ -338,7 +338,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_UNDERLINE_POSITION, None)
 
     @underline_position.setter
-    def underline_position(self, value: int | None):
+    def underline_position(self, value: int | None) -> None:
         self[_KEY_UNDERLINE_POSITION] = value
 
     @property
@@ -346,7 +346,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_UNDERLINE_THICKNESS, None)
 
     @underline_thickness.setter
-    def underline_thickness(self, value: int | None):
+    def underline_thickness(self, value: int | None) -> None:
         self[_KEY_UNDERLINE_THICKNESS] = value
 
     @property
@@ -354,7 +354,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_FONT, None)
 
     @font.setter
-    def font(self, value: str | None):
+    def font(self, value: str | None) -> None:
         self[_KEY_FONT] = value
 
     @property
@@ -362,7 +362,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_FONT_VERSION, None)
 
     @font_version.setter
-    def font_version(self, value: str | None):
+    def font_version(self, value: str | None) -> None:
         self[_KEY_FONT_VERSION] = value
 
     @property
@@ -370,7 +370,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_COPYRIGHT, None)
 
     @copyright.setter
-    def copyright(self, value: str | None):
+    def copyright(self, value: str | None) -> None:
         self[_KEY_COPYRIGHT] = value
 
     @property
@@ -378,10 +378,10 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return self.get(_KEY_NOTICE, None)
 
     @notice.setter
-    def notice(self, value: str | None):
+    def notice(self, value: str | None) -> None:
         self[_KEY_NOTICE] = value
 
-    def generate_xlfd(self):
+    def generate_xlfd(self) -> None:
         parts = []
         for key in _XLFD_KEYS_ORDER:
             value = str(self.get(key, ''))
@@ -391,7 +391,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
             parts.append(value)
         self.font = ''.join(parts)
 
-    def update_by_xlfd(self):
+    def update_by_xlfd(self) -> None:
         if self.font is None:
             raise PcfXlfdError(f"'{_KEY_FONT}' not set")
         if not self.font.startswith('-'):

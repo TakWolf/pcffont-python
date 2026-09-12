@@ -4,7 +4,7 @@ from examples import ASSETS_DIR, BUILD_DIR
 from pcffont import PcfFont
 
 
-def main():
+def main() -> None:
     outputs_dir = BUILD_DIR.joinpath('load')
     if outputs_dir.exists():
         shutil.rmtree(outputs_dir)

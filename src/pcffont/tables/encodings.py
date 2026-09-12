@@ -61,12 +61,12 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
             encodings: dict[int, int] | None = None,
             table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
             default_char: int = NO_ENCODING,
-    ):
+    ) -> None:
         super().__init__(encodings)
         self.table_format = table_format
         self.default_char = default_char
 
-    def __setitem__(self, encoding: Any, glyph_index: Any):
+    def __setitem__(self, encoding: Any, glyph_index: Any) -> None:
         if glyph_index is None or glyph_index == PcfBdfEncodings.NO_GLYPH_INDEX:
             self.pop(encoding, None)
             return

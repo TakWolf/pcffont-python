@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from pcffont import PcfTableFormat, PcfMetric, PcfAccelerators
 
 
-def test_calculate_bounds_1():
+def test_calculate_bounds_1() -> None:
     accelerators = PcfAccelerators(
         no_overlap=True,
         constant_metrics=True,
@@ -19,7 +19,7 @@ def test_calculate_bounds_1():
     assert accelerators.ink_inside
 
 
-def test_calculate_bounds_2():
+def test_calculate_bounds_2() -> None:
     accelerators = PcfAccelerators(
         max_overlap=5,
         min_bounds=PcfMetric(left_side_bearing=-2),
@@ -29,7 +29,7 @@ def test_calculate_bounds_2():
     assert not accelerators.no_overlap
 
 
-def test_calculate_bounds_3():
+def test_calculate_bounds_3() -> None:
     accelerators = PcfAccelerators(
         max_overlap=-1,
         min_bounds=PcfMetric(),
@@ -39,7 +39,7 @@ def test_calculate_bounds_3():
     assert accelerators.no_overlap
 
 
-def test_calculate_bounds_4():
+def test_calculate_bounds_4() -> None:
     accelerators = PcfAccelerators(
         font_ascent=12,
         font_descent=4,
@@ -64,7 +64,7 @@ def test_calculate_bounds_4():
     assert accelerators.constant_width
 
 
-def test_calculate_bounds_5():
+def test_calculate_bounds_5() -> None:
     accelerators = PcfAccelerators(
         font_ascent=8,
         font_descent=2,
@@ -87,7 +87,7 @@ def test_calculate_bounds_5():
     assert accelerators.constant_width
 
 
-def test_calculate_bounds_6():
+def test_calculate_bounds_6() -> None:
     accelerators = PcfAccelerators(
         min_bounds=PcfMetric(character_width=5),
         max_bounds=PcfMetric(character_width=7),
@@ -96,7 +96,7 @@ def test_calculate_bounds_6():
     assert not accelerators.constant_width
 
 
-def test_calculate_bounds_7():
+def test_calculate_bounds_7() -> None:
     accelerators = PcfAccelerators(
         min_bounds=PcfMetric(character_width=5),
         max_bounds=PcfMetric(character_width=5),
@@ -105,7 +105,7 @@ def test_calculate_bounds_7():
     assert accelerators.constant_width
 
 
-def test_calculate_bounds_8():
+def test_calculate_bounds_8() -> None:
     accelerators = PcfAccelerators(
         font_ascent=12,
         font_descent=5,
@@ -122,7 +122,7 @@ def test_calculate_bounds_8():
     assert accelerators.ink_inside
 
 
-def test_calculate_bounds_9():
+def test_calculate_bounds_9() -> None:
     accelerators = PcfAccelerators(
         max_overlap=1,
         min_bounds=PcfMetric(),
@@ -132,7 +132,7 @@ def test_calculate_bounds_9():
     assert not accelerators.ink_inside
 
 
-def test_calculate_bounds_10():
+def test_calculate_bounds_10() -> None:
     accelerators = PcfAccelerators(
         font_ascent=10,
         font_descent=5,
@@ -143,7 +143,7 @@ def test_calculate_bounds_10():
     assert not accelerators.ink_inside
 
 
-def test_calculate_bounds_11():
+def test_calculate_bounds_11() -> None:
     accelerators = PcfAccelerators(
         font_ascent=10,
         font_descent=5,
@@ -160,7 +160,7 @@ def test_calculate_bounds_11():
     assert not accelerators.ink_inside
 
 
-def test_calculate_bounds_12():
+def test_calculate_bounds_12() -> None:
     accelerators = PcfAccelerators(
         font_ascent=10,
         font_descent=5,
@@ -171,7 +171,7 @@ def test_calculate_bounds_12():
     assert not accelerators.ink_inside
 
 
-def test_calculate_bounds_13():
+def test_calculate_bounds_13() -> None:
     accelerators = PcfAccelerators(
         constant_metrics=True,
         terminal_font=True,
@@ -183,7 +183,7 @@ def test_calculate_bounds_13():
     assert not accelerators.terminal_font
 
 
-def test_copy():
+def test_copy() -> None:
     accelerators_1 = PcfAccelerators(
         table_format=PcfTableFormat.create(True, True, True, 2, 4),
         no_overlap=True,
@@ -211,7 +211,7 @@ def test_copy():
     assert accelerators_1.ink_max_bounds is accelerators_2.ink_max_bounds
 
 
-def test_deepcopy():
+def test_deepcopy() -> None:
     accelerators_1 = PcfAccelerators(
         table_format=PcfTableFormat.create(True, True, True, 2, 4),
         no_overlap=True,
@@ -239,7 +239,7 @@ def test_deepcopy():
     assert accelerators_1.ink_max_bounds is not accelerators_2.ink_max_bounds
 
 
-def test_eq():
+def test_eq() -> None:
     accelerators_1 = PcfAccelerators(
         table_format=PcfTableFormat.create(True, True, True, 2, 4),
         no_overlap=True,

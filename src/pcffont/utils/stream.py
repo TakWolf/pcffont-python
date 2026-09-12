@@ -7,7 +7,7 @@ from typing import BinaryIO
 class Stream:
     source: BinaryIO
 
-    def __init__(self, source: bytes | bytearray | BinaryIO | None = None):
+    def __init__(self, source: bytes | bytearray | BinaryIO | None = None) -> None:
         if source is None:
             source = BytesIO()
         elif isinstance(source, (bytes, bytearray)):
@@ -121,7 +121,7 @@ class Stream:
     def align_to_4_bytes(self) -> int:
         return self.write_nulls(3 - (self.tell() + 3) % 4)
 
-    def seek(self, offset: int, whence: int = os.SEEK_SET):
+    def seek(self, offset: int, whence: int = os.SEEK_SET) -> None:
         self.source.seek(offset, whence)
 
     def tell(self) -> int:

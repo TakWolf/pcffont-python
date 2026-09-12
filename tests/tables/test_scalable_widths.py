@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from pcffont import PcfTableFormat, PcfScalableWidths
 
 
-def test_copy():
+def test_copy() -> None:
     scalable_widths_1 = PcfScalableWidths(
         [1, 2, 3, 4],
         table_format=PcfTableFormat.create(True, True, True, 2, 4),
@@ -17,7 +17,7 @@ def test_copy():
     assert scalable_widths_1 is not scalable_widths_3
 
 
-def test_eq():
+def test_eq() -> None:
     scalable_widths_1 = PcfScalableWidths(
         [1, 2, 3, 4],
         table_format=PcfTableFormat.create(True, True, True, 2, 4),

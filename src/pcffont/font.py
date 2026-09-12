@@ -46,7 +46,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
             scalable_widths: PcfScalableWidths | None = None,
             glyph_names: PcfGlyphNames | None = None,
             bdf_accelerators: PcfAccelerators | None = None,
-    ):
+    ) -> None:
         super().__init__()
         self.properties = properties
         self.accelerators = accelerators
@@ -58,7 +58,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         self.glyph_names = glyph_names
         self.bdf_accelerators = bdf_accelerators
 
-    def __setitem__(self, table_type: Any, table: Any):
+    def __setitem__(self, table_type: Any, table: Any) -> None:
         if table is None:
             self.pop(table_type, None)
             return
@@ -90,7 +90,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         return cast(PcfProperties | None, self.get(PcfTableType.PROPERTIES, None))
 
     @properties.setter
-    def properties(self, table: PcfProperties | None):
+    def properties(self, table: PcfProperties | None) -> None:
         self[PcfTableType.PROPERTIES] = table
 
     @property
@@ -98,7 +98,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         return cast(PcfAccelerators | None, self.get(PcfTableType.ACCELERATORS, None))
 
     @accelerators.setter
-    def accelerators(self, table: PcfAccelerators | None):
+    def accelerators(self, table: PcfAccelerators | None) -> None:
         self[PcfTableType.ACCELERATORS] = table
 
     @property
@@ -106,7 +106,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         return cast(PcfMetrics | None, self.get(PcfTableType.METRICS, None))
 
     @metrics.setter
-    def metrics(self, table: PcfMetrics | None):
+    def metrics(self, table: PcfMetrics | None) -> None:
         self[PcfTableType.METRICS] = table
 
     @property
@@ -114,7 +114,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         return cast(PcfBitmaps | None, self.get(PcfTableType.BITMAPS, None))
 
     @bitmaps.setter
-    def bitmaps(self, table: PcfBitmaps | None):
+    def bitmaps(self, table: PcfBitmaps | None) -> None:
         self[PcfTableType.BITMAPS] = table
 
     @property
@@ -122,7 +122,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         return cast(PcfMetrics | None, self.get(PcfTableType.INK_METRICS, None))
 
     @ink_metrics.setter
-    def ink_metrics(self, table: PcfMetrics | None):
+    def ink_metrics(self, table: PcfMetrics | None) -> None:
         self[PcfTableType.INK_METRICS] = table
 
     @property
@@ -130,7 +130,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         return cast(PcfBdfEncodings | None, self.get(PcfTableType.BDF_ENCODINGS, None))
 
     @bdf_encodings.setter
-    def bdf_encodings(self, table: PcfBdfEncodings | None):
+    def bdf_encodings(self, table: PcfBdfEncodings | None) -> None:
         self[PcfTableType.BDF_ENCODINGS] = table
 
     @property
@@ -138,7 +138,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         return cast(PcfScalableWidths | None, self.get(PcfTableType.SCALABLE_WIDTHS, None))
 
     @scalable_widths.setter
-    def scalable_widths(self, table: PcfScalableWidths | None):
+    def scalable_widths(self, table: PcfScalableWidths | None) -> None:
         self[PcfTableType.SCALABLE_WIDTHS] = table
 
     @property
@@ -146,7 +146,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         return cast(PcfGlyphNames | None, self.get(PcfTableType.GLYPH_NAMES, None))
 
     @glyph_names.setter
-    def glyph_names(self, table: PcfGlyphNames | None):
+    def glyph_names(self, table: PcfGlyphNames | None) -> None:
         self[PcfTableType.GLYPH_NAMES] = table
 
     @property
@@ -154,10 +154,10 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         return cast(PcfAccelerators | None, self.get(PcfTableType.BDF_ACCELERATORS, None))
 
     @bdf_accelerators.setter
-    def bdf_accelerators(self, table: PcfAccelerators | None):
+    def bdf_accelerators(self, table: PcfAccelerators | None) -> None:
         self[PcfTableType.BDF_ACCELERATORS] = table
 
-    def dump(self, stream: BinaryIO):
+    def dump(self, stream: BinaryIO) -> None:
         stream = Stream(stream)
 
         headers = []
@@ -173,7 +173,7 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
         self.dump(stream)
         return stream.getvalue()
 
-    def save(self, file_path: str | PathLike[str]):
+    def save(self, file_path: str | PathLike[str]) -> None:
         with open(file_path, 'wb') as file:
             self.dump(file)
 

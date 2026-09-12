@@ -36,7 +36,7 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
             self,
             metrics: Iterable[PcfMetric] | None = None,
             table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
-    ):
+    ) -> None:
         super().__init__(metrics)
         self.table_format = table_format
 

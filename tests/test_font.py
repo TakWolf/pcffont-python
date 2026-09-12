@@ -4,7 +4,7 @@ from pathlib import Path
 from pcffont import PcfFont
 
 
-def test_copy(assets_dir: Path):
+def test_copy(assets_dir: Path) -> None:
     font_1 = PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf'))
     font_2 = copy(font_1)
 
@@ -21,7 +21,7 @@ def test_copy(assets_dir: Path):
     assert font_1.bdf_accelerators is font_2.bdf_accelerators
 
 
-def test_deepcopy(assets_dir: Path):
+def test_deepcopy(assets_dir: Path) -> None:
     font_1 = PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf'))
     font_2 = deepcopy(font_1)
 
@@ -38,7 +38,7 @@ def test_deepcopy(assets_dir: Path):
     assert font_1.bdf_accelerators is not font_2.bdf_accelerators
 
 
-def test_eq(assets_dir: Path):
+def test_eq(assets_dir: Path) -> None:
     file_path = assets_dir.joinpath('demo', 'demo.pcf')
     font_1 = PcfFont.load(file_path)
     font_2 = PcfFont.load(file_path)

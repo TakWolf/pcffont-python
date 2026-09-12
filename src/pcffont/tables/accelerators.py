@@ -91,7 +91,7 @@ class PcfAccelerators(PcfTable):
             max_bounds: PcfMetric | None = None,
             ink_min_bounds: PcfMetric | None = None,
             ink_max_bounds: PcfMetric | None = None,
-    ):
+    ) -> None:
         self.table_format = table_format
         self.no_overlap = no_overlap
         self.constant_metrics = constant_metrics
@@ -133,7 +133,7 @@ class PcfAccelerators(PcfTable):
                 self.ink_min_bounds == other.ink_min_bounds and
                 self.ink_max_bounds == other.ink_max_bounds)
 
-    def calculate_bounds(self):
+    def calculate_bounds(self) -> None:
         if self.min_bounds is None or self.max_bounds is None:
             return
 

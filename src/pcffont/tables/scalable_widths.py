@@ -29,7 +29,7 @@ class PcfScalableWidths(UserList[int], PcfTable):
             self,
             scalable_widths: Iterable[int] | None = None,
             table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
-    ):
+    ) -> None:
         super().__init__(scalable_widths)
         self.table_format = table_format
 

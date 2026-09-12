@@ -37,7 +37,7 @@ class PcfFontConfig:
             ms_bit_first: bool = False,
             glyph_pad: GlyphPad = 1,
             scan_unit: ScanUnit = 1,
-    ):
+    ) -> None:
         self.font_ascent = font_ascent
         self.font_descent = font_descent
         self.default_char = default_char
@@ -135,7 +135,7 @@ class PcfFontBuilder:
             config: PcfFontConfig | None = None,
             properties: PcfProperties | None = None,
             glyphs: list[PcfGlyph] | None = None,
-    ):
+    ) -> None:
         self.config = config if config is not None else PcfFontConfig()
         self.properties = properties if properties is not None else PcfProperties()
         self.glyphs = glyphs if glyphs is not None else []
@@ -249,7 +249,7 @@ class PcfFontBuilder:
             bdf_accelerators,
         )
 
-    def save(self, file_path: str | PathLike[str]):
+    def save(self, file_path: str | PathLike[str]) -> None:
         self.build().save(file_path)
 
     def copy(self) -> PcfFontBuilder:

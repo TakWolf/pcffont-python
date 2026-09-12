@@ -3,7 +3,7 @@ import pytest
 from pcffont.utils.stream import Stream
 
 
-def test_bytes():
+def test_bytes() -> None:
     stream = Stream()
     assert stream.write(b'Hello World') == 11
     assert stream.tell() == 11
@@ -12,7 +12,7 @@ def test_bytes():
     assert stream.tell() == 11
 
 
-def test_eof():
+def test_eof() -> None:
     stream = Stream()
     stream.write(b'ABC')
     with pytest.raises(EOFError):
@@ -21,7 +21,7 @@ def test_eof():
     assert stream.read(4, ignore_eof=True) == b'ABC'
 
 
-def test_uint8():
+def test_uint8() -> None:
     stream = Stream()
     assert stream.write_uint8(0x00) == 1
     assert stream.write_uint8(0xFF) == 1
@@ -32,7 +32,7 @@ def test_uint8():
     assert stream.tell() == 2
 
 
-def test_uint8_list():
+def test_uint8_list() -> None:
     stream = Stream()
     assert stream.write_uint8_list([0x00, 0xFF]) == 2
     assert stream.tell() == 2
@@ -41,7 +41,7 @@ def test_uint8_list():
     assert stream.tell() == 2
 
 
-def test_int8():
+def test_int8() -> None:
     stream = Stream()
     assert stream.write_int8(-0x80) == 1
     assert stream.write_int8(0x7F) == 1
@@ -52,7 +52,7 @@ def test_int8():
     assert stream.tell() == 2
 
 
-def test_int8_list():
+def test_int8_list() -> None:
     stream = Stream()
     assert stream.write_int8_list([-0x80, 0x7F]) == 2
     assert stream.tell() == 2
@@ -61,7 +61,7 @@ def test_int8_list():
     assert stream.tell() == 2
 
 
-def test_uint16():
+def test_uint16() -> None:
     stream = Stream()
     assert stream.write_uint16(0x0000, False) == 2
     assert stream.write_uint16(0xFFFF, False) == 2
@@ -76,7 +76,7 @@ def test_uint16():
     assert stream.tell() == 8
 
 
-def test_uint16_list():
+def test_uint16_list() -> None:
     stream = Stream()
     assert stream.write_uint16_list([0x0000, 0xFFFF], False) == 4
     assert stream.write_uint16_list([0x0000, 0xFFFF], True) == 4
@@ -87,7 +87,7 @@ def test_uint16_list():
     assert stream.tell() == 8
 
 
-def test_int16():
+def test_int16() -> None:
     stream = Stream()
     assert stream.write_int16(-0x8000, False) == 2
     assert stream.write_int16(0x7FFF, False) == 2
@@ -102,7 +102,7 @@ def test_int16():
     assert stream.tell() == 8
 
 
-def test_int16_list():
+def test_int16_list() -> None:
     stream = Stream()
     assert stream.write_int16_list([-0x8000, 0x7FFF], False) == 4
     assert stream.write_int16_list([-0x8000, 0x7FFF], True) == 4
@@ -113,7 +113,7 @@ def test_int16_list():
     assert stream.tell() == 8
 
 
-def test_uint32():
+def test_uint32() -> None:
     stream = Stream()
     assert stream.write_uint32(0x00000000, False) == 4
     assert stream.write_uint32(0xFFFFFFFF, False) == 4
@@ -128,7 +128,7 @@ def test_uint32():
     assert stream.tell() == 16
 
 
-def test_uint32_list():
+def test_uint32_list() -> None:
     stream = Stream()
     assert stream.write_uint32_list([0x00000000, 0xFFFFFFFF], False) == 8
     assert stream.write_uint32_list([0x00000000, 0xFFFFFFFF], True) == 8
@@ -139,7 +139,7 @@ def test_uint32_list():
     assert stream.tell() == 16
 
 
-def test_int32():
+def test_int32() -> None:
     stream = Stream()
     assert stream.write_int32(-0x80000000, False) == 4
     assert stream.write_int32(0x7FFFFFFF, False) == 4
@@ -154,7 +154,7 @@ def test_int32():
     assert stream.tell() == 16
 
 
-def test_int32_list():
+def test_int32_list() -> None:
     stream = Stream()
     assert stream.write_int32_list([-0x80000000, 0x7FFFFFFF], False) == 8
     assert stream.write_int32_list([-0x80000000, 0x7FFFFFFF], True) == 8
@@ -165,7 +165,7 @@ def test_int32_list():
     assert stream.tell() == 16
 
 
-def test_string():
+def test_string() -> None:
     stream = Stream()
     assert stream.write_string('ABC') == 4
     assert stream.write_string('12345') == 6
@@ -176,7 +176,7 @@ def test_string():
     assert stream.tell() == 10
 
 
-def test_bool():
+def test_bool() -> None:
     stream = Stream()
     assert stream.write_bool(True) == 1
     assert stream.write_bool(False) == 1
@@ -187,7 +187,7 @@ def test_bool():
     assert stream.tell() == 2
 
 
-def test_align_to_4_bytes():
+def test_align_to_4_bytes() -> None:
     stream = Stream()
     stream.write(b'abc')
     assert stream.align_to_4_bytes() == 1

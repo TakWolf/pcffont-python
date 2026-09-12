@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from pcffont import PcfTableFormat, PcfGlyphNames
 
 
-def test_copy():
+def test_copy() -> None:
     names_1 = PcfGlyphNames(
         ['A', 'B', 'C'],
         table_format=PcfTableFormat.create(True, True, True, 2, 4),
@@ -17,7 +17,7 @@ def test_copy():
     assert names_1 is not names_3
 
 
-def test_eq():
+def test_eq() -> None:
     names_1 = PcfGlyphNames(
         ['A', 'B', 'C'],
         table_format=PcfTableFormat.create(True, True, True, 2, 4),

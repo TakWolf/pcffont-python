@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from pcffont import PcfGlyph, PcfMetric
 
 
-def test_glyph():
+def test_glyph() -> None:
     glyph = PcfGlyph(
         name='_',
         encodings={0},
@@ -18,7 +18,7 @@ def test_glyph():
     assert glyph.offset == (3, 4)
 
 
-def test_create_metric_1():
+def test_create_metric_1() -> None:
     glyph = PcfGlyph(
         name='_',
         encodings={0},
@@ -55,7 +55,7 @@ def test_create_metric_1():
     )
 
 
-def test_create_metric_2():
+def test_create_metric_2() -> None:
     glyph = PcfGlyph(
         name='_',
         encodings={0},
@@ -92,7 +92,7 @@ def test_create_metric_2():
     )
 
 
-def test_copy():
+def test_copy() -> None:
     glyph_1 = PcfGlyph(
         name='_',
         encodings={0},
@@ -109,7 +109,7 @@ def test_copy():
     assert glyph_1.bitmap is glyph_2.bitmap
 
 
-def test_deepcopy():
+def test_deepcopy() -> None:
     glyph_1 = PcfGlyph(
         name='_',
         encodings={0},
@@ -129,7 +129,7 @@ def test_deepcopy():
         assert bitmap_row_1 is not bitmap_row_2
 
 
-def test_eq():
+def test_eq() -> None:
     glyph_1 = PcfGlyph(
         name='_',
         encodings={0},

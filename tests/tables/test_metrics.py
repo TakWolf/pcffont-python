@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from pcffont import PcfTableFormat, PcfMetric, PcfMetrics
 
 
-def test_copy():
+def test_copy() -> None:
     metrics_1 = PcfMetrics(
         [
             PcfMetric(1, 2, 3, 4, 5, 6),
@@ -20,7 +20,7 @@ def test_copy():
         assert metric_1 is metric_2
 
 
-def test_deepcopy():
+def test_deepcopy() -> None:
     metrics_1 = PcfMetrics(
         [
             PcfMetric(1, 2, 3, 4, 5, 6),
@@ -37,7 +37,7 @@ def test_deepcopy():
         assert metric_1 is not metric_2
 
 
-def test_eq():
+def test_eq() -> None:
     metrics_1 = PcfMetrics(
         [
             PcfMetric(1, 2, 3, 4, 5, 6),

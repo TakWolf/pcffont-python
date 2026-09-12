@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from pcffont import PcfTableFormat, PcfBitmaps
 
 
-def test_copy():
+def test_copy() -> None:
     bitmaps_1 = PcfBitmaps(
         [
             [[1, 0, 0, 1]],
@@ -20,7 +20,7 @@ def test_copy():
         assert bitmap_1 is bitmap_2
 
 
-def test_deepcopy():
+def test_deepcopy() -> None:
     bitmaps_1 = PcfBitmaps(
         [
             [[1, 0, 0, 1]],
@@ -39,7 +39,7 @@ def test_deepcopy():
             assert bitmap_row_1 is not bitmap_row_2
 
 
-def test_eq():
+def test_eq() -> None:
     bitmaps_1 = PcfBitmaps(
         [
             [[1, 0, 0, 1]],

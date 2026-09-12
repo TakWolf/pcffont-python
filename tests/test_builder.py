@@ -15,7 +15,7 @@ from pcffont import PcfFont, PcfFontBuilder, PcfGlyph
         ('unifont', 'unifont-17.0.05'),
     ],
 )
-def test_builder(assets_dir: Path, font_dir: str, font_file_name: str):
+def test_builder(assets_dir: Path, font_dir: str, font_file_name: str) -> None:
     font_1 = PcfFont.load(assets_dir.joinpath(font_dir, f'{font_file_name}.pcf'))
     font_2 = PcfFontBuilder.modify(font_1).build()
 
@@ -51,7 +51,7 @@ def test_builder(assets_dir: Path, font_dir: str, font_file_name: str):
     assert font_1.dump_to_bytes() == font_2.dump_to_bytes() == font_3.dump_to_bytes()
 
 
-def test_copy(assets_dir: Path):
+def test_copy(assets_dir: Path) -> None:
     builder_1 = PcfFontBuilder.modify(PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf')))
     builder_2 = copy(builder_1)
 
@@ -62,7 +62,7 @@ def test_copy(assets_dir: Path):
     assert builder_1.glyphs is builder_2.glyphs
 
 
-def test_deepcopy(assets_dir: Path):
+def test_deepcopy(assets_dir: Path) -> None:
     builder_1 = PcfFontBuilder.modify(PcfFont.load(assets_dir.joinpath('demo', 'demo.pcf')))
     builder_2 = deepcopy(builder_1)
 
@@ -76,7 +76,7 @@ def test_deepcopy(assets_dir: Path):
         assert glyph_1 is not glyph_2
 
 
-def test_eq(assets_dir: Path):
+def test_eq(assets_dir: Path) -> None:
     file_path = assets_dir.joinpath('demo', 'demo.pcf')
     builder_1 = PcfFontBuilder.modify(PcfFont.load(file_path))
     builder_2 = PcfFontBuilder.modify(PcfFont.load(file_path))

@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from pcffont.font import PcfFont
 
 
-def _swap_bytes(data: bytearray, scan_unit: int):
+def _swap_bytes(data: bytearray, scan_unit: int) -> None:
     if scan_unit <= 1:
         return
 
@@ -64,7 +64,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
             self,
             bitmaps: Iterable[list[list[int]]] | None = None,
             table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
-    ):
+    ) -> None:
         super().__init__(bitmaps)
         self.table_format = table_format
 

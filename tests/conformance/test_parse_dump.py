@@ -55,7 +55,7 @@ from pcffont import PcfFont
         ('unifont', 'unifont-17.0.05.pcf'),
     ],
 )
-def test_parse_dump(assets_dir: Path, font_dir: str, font_file_name: str):
+def test_parse_dump(assets_dir: Path, font_dir: str, font_file_name: str) -> None:
     data = assets_dir.joinpath(font_dir, font_file_name).read_bytes()
     font = PcfFont.parse(data)
     assert font.dump_to_bytes() == data

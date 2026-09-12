@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from pcffont import PcfFontConfig, PcfTableFormat
 
 
-def test_to_table_format():
+def test_to_table_format() -> None:
     assert PcfFontConfig().to_table_format() == PcfTableFormat.DEFAULT
     assert PcfFontConfig(
         ms_byte_first=True,
@@ -18,7 +18,7 @@ def test_to_table_format():
     )
 
 
-def test_copy():
+def test_copy() -> None:
     config_1 = PcfFontConfig(
         font_ascent=1,
         font_descent=2,
@@ -38,7 +38,7 @@ def test_copy():
     assert config_1 is not config_3
 
 
-def test_eq():
+def test_eq() -> None:
     config_1 = PcfFontConfig(
         font_ascent=1,
         font_descent=2,

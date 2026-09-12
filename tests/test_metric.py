@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from pcffont import PcfMetric
 
 
-def test_metric():
+def test_metric() -> None:
     metric = PcfMetric(
         left_side_bearing=1,
         right_side_bearing=2,
@@ -19,7 +19,7 @@ def test_metric():
     assert metric.offset == (1, -5)
 
 
-def test_compressible():
+def test_compressible() -> None:
     metric = PcfMetric(attributes=1)
     assert not metric.compressible
     metric.attributes = 0
@@ -71,7 +71,7 @@ def test_compressible():
     assert metric.compressible
 
 
-def test_copy():
+def test_copy() -> None:
     metric_1 = PcfMetric(
         left_side_bearing=1,
         right_side_bearing=2,
@@ -89,7 +89,7 @@ def test_copy():
     assert metric_1 is not metric_3
 
 
-def test_eq():
+def test_eq() -> None:
     metric_1 = PcfMetric(
         left_side_bearing=1,
         right_side_bearing=2,

@@ -3,7 +3,7 @@ import pytest
 from pcffont import PcfTableFormat
 
 
-def test_value_1():
+def test_value_1() -> None:
     table_format = PcfTableFormat.create()
     assert table_format == PcfTableFormat.DEFAULT
     assert not table_format.ms_byte_first
@@ -16,7 +16,7 @@ def test_value_1():
     assert table_format.scan_unit == 1
 
 
-def test_value_2():
+def test_value_2() -> None:
     table_format = PcfTableFormat.create(
         ms_byte_first=True,
         ms_bit_first=True,
@@ -35,7 +35,7 @@ def test_value_2():
     assert table_format.scan_unit == 4
 
 
-def test_ms_byte_first():
+def test_ms_byte_first() -> None:
     table_format = PcfTableFormat.DEFAULT
     assert not table_format.ms_byte_first
 
@@ -46,7 +46,7 @@ def test_ms_byte_first():
     assert not table_format.ms_byte_first
 
 
-def test_ms_bit_first():
+def test_ms_bit_first() -> None:
     table_format = PcfTableFormat.DEFAULT
     assert not table_format.ms_bit_first
 
@@ -57,7 +57,7 @@ def test_ms_bit_first():
     assert not table_format.ms_bit_first
 
 
-def test_ink_bounds_or_compressed_metrics():
+def test_ink_bounds_or_compressed_metrics() -> None:
     table_format = PcfTableFormat.DEFAULT
     assert not table_format.ink_bounds
     assert not table_format.compressed_metrics
@@ -71,7 +71,7 @@ def test_ink_bounds_or_compressed_metrics():
     assert not table_format.compressed_metrics
 
 
-def test_glyph_pad():
+def test_glyph_pad() -> None:
     table_format = PcfTableFormat.DEFAULT
     assert table_format.glyph_pad == 1
     assert table_format.glyph_pad_index == 0
@@ -96,7 +96,7 @@ def test_glyph_pad():
         table_format.replace(glyph_pad=16)
 
 
-def test_scan_unit():
+def test_scan_unit() -> None:
     table_format = PcfTableFormat.DEFAULT
     assert table_format.scan_unit == 1
     assert table_format.scan_unit_index == 0
@@ -117,7 +117,7 @@ def test_scan_unit():
         table_format.replace(scan_unit=8)
 
 
-def test_eq():
+def test_eq() -> None:
     table_format_1 = PcfTableFormat.create(
         ms_byte_first=True,
         ms_bit_first=True,

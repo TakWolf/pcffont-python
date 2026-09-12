@@ -8,7 +8,7 @@ from pcffont.header import PcfHeader
 from pcffont.utils.stream import Stream
 
 
-def test_encodings():
+def test_encodings() -> None:
     encodings = PcfBdfEncodings()
 
     encodings[1] = None
@@ -18,7 +18,7 @@ def test_encodings():
     assert len(encodings) == 0
 
 
-def test_empty_dump_parse():
+def test_empty_dump_parse() -> None:
     font = PcfFont()
 
     encodings_1 = PcfBdfEncodings()
@@ -48,7 +48,7 @@ def test_empty_dump_parse():
         (0, 0, 0, 0x100),
     ],
 )
-def test_parse_invalid_range(min_byte_2: int, max_byte_2: int, min_byte_1: int, max_byte_1: int):
+def test_parse_invalid_range(min_byte_2: int, max_byte_2: int, min_byte_1: int, max_byte_1: int) -> None:
     stream = Stream()
     stream.write_uint32(PcfTableFormat.DEFAULT)
     stream.write_uint16(min_byte_2)
@@ -62,7 +62,7 @@ def test_parse_invalid_range(min_byte_2: int, max_byte_2: int, min_byte_1: int, 
         PcfBdfEncodings.parse(stream, header, PcfFont())
 
 
-def test_copy():
+def test_copy() -> None:
     encodings_1 = PcfBdfEncodings(
         {
             1: 1,
@@ -81,7 +81,7 @@ def test_copy():
     assert encodings_1 is not encodings_3
 
 
-def test_eq():
+def test_eq() -> None:
     encodings_1 = PcfBdfEncodings(
         {
             1: 1,

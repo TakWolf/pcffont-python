@@ -2,7 +2,7 @@ from pcffont import PcfMetric
 from pcffont.utils import calculate_util
 
 
-def test_calculate_1():
+def test_calculate_1() -> None:
     metrics = [
         PcfMetric(
             left_side_bearing=-3,
@@ -56,7 +56,7 @@ def test_calculate_1():
     )
 
 
-def test_calculate_2():
+def test_calculate_2() -> None:
     metrics = []
     assert calculate_util.calculate_max_overlap(metrics) == 0
     assert calculate_util.calculate_min_bounds(metrics) == PcfMetric()

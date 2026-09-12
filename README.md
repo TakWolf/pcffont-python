@@ -23,7 +23,7 @@ from examples import BUILD_DIR
 from pcffont import PcfFontBuilder, PcfGlyph
 
 
-def main():
+def main() -> None:
     outputs_dir = BUILD_DIR.joinpath('create')
     if outputs_dir.exists():
         shutil.rmtree(outputs_dir)
@@ -128,7 +128,7 @@ from examples import ASSETS_DIR, BUILD_DIR
 from pcffont import PcfFont
 
 
-def main():
+def main() -> None:
     outputs_dir = BUILD_DIR.joinpath('load')
     if outputs_dir.exists():
         shutil.rmtree(outputs_dir)
