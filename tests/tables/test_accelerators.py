@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from pcffont import PcfTableFormat, PcfMetric, PcfAccelerators
 
 
-def test_calculate_bounds_1() -> None:
+def test_recalculate_flags_1() -> None:
     accelerators = PcfAccelerators(
         no_overlap=True,
         constant_metrics=True,
@@ -11,7 +11,7 @@ def test_calculate_bounds_1() -> None:
         constant_width=True,
         ink_inside=True,
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert accelerators.no_overlap
     assert accelerators.constant_metrics
     assert accelerators.terminal_font
@@ -19,27 +19,27 @@ def test_calculate_bounds_1() -> None:
     assert accelerators.ink_inside
 
 
-def test_calculate_bounds_2() -> None:
+def test_recalculate_flags_2() -> None:
     accelerators = PcfAccelerators(
         max_overlap=5,
         min_bounds=PcfMetric(left_side_bearing=-2),
         max_bounds=PcfMetric(),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert not accelerators.no_overlap
 
 
-def test_calculate_bounds_3() -> None:
+def test_recalculate_flags_3() -> None:
     accelerators = PcfAccelerators(
         max_overlap=-1,
         min_bounds=PcfMetric(),
         max_bounds=PcfMetric(),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert accelerators.no_overlap
 
 
-def test_calculate_bounds_4() -> None:
+def test_recalculate_flags_4() -> None:
     accelerators = PcfAccelerators(
         font_ascent=12,
         font_descent=4,
@@ -58,13 +58,13 @@ def test_calculate_bounds_4() -> None:
             descent=3,
         ),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert accelerators.constant_metrics
     assert not accelerators.terminal_font
     assert accelerators.constant_width
 
 
-def test_calculate_bounds_5() -> None:
+def test_recalculate_flags_5() -> None:
     accelerators = PcfAccelerators(
         font_ascent=8,
         font_descent=2,
@@ -81,31 +81,31 @@ def test_calculate_bounds_5() -> None:
             descent=2,
         ),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert accelerators.constant_metrics
     assert accelerators.terminal_font
     assert accelerators.constant_width
 
 
-def test_calculate_bounds_6() -> None:
+def test_recalculate_flags_6() -> None:
     accelerators = PcfAccelerators(
         min_bounds=PcfMetric(character_width=5),
         max_bounds=PcfMetric(character_width=7),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert not accelerators.constant_width
 
 
-def test_calculate_bounds_7() -> None:
+def test_recalculate_flags_7() -> None:
     accelerators = PcfAccelerators(
         min_bounds=PcfMetric(character_width=5),
         max_bounds=PcfMetric(character_width=5),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert accelerators.constant_width
 
 
-def test_calculate_bounds_8() -> None:
+def test_recalculate_flags_8() -> None:
     accelerators = PcfAccelerators(
         font_ascent=12,
         font_descent=5,
@@ -118,32 +118,32 @@ def test_calculate_bounds_8() -> None:
             descent=5,
         ),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert accelerators.ink_inside
 
 
-def test_calculate_bounds_9() -> None:
+def test_recalculate_flags_9() -> None:
     accelerators = PcfAccelerators(
         max_overlap=1,
         min_bounds=PcfMetric(),
         max_bounds=PcfMetric(),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert not accelerators.ink_inside
 
 
-def test_calculate_bounds_10() -> None:
+def test_recalculate_flags_10() -> None:
     accelerators = PcfAccelerators(
         font_ascent=10,
         font_descent=5,
         min_bounds=PcfMetric(ascent=12),
         max_bounds=PcfMetric(ascent=12),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert not accelerators.ink_inside
 
 
-def test_calculate_bounds_11() -> None:
+def test_recalculate_flags_11() -> None:
     accelerators = PcfAccelerators(
         font_ascent=10,
         font_descent=5,
@@ -156,29 +156,29 @@ def test_calculate_bounds_11() -> None:
             descent=6,
         ),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert not accelerators.ink_inside
 
 
-def test_calculate_bounds_12() -> None:
+def test_recalculate_flags_12() -> None:
     accelerators = PcfAccelerators(
         font_ascent=10,
         font_descent=5,
         min_bounds=PcfMetric(ascent=-6),
         max_bounds=PcfMetric(),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert not accelerators.ink_inside
 
 
-def test_calculate_bounds_13() -> None:
+def test_recalculate_flags_13() -> None:
     accelerators = PcfAccelerators(
         constant_metrics=True,
         terminal_font=True,
         min_bounds=PcfMetric(left_side_bearing=1),
         max_bounds=PcfMetric(left_side_bearing=2),
     )
-    accelerators.calculate_bounds()
+    accelerators.recalculate_flags()
     assert not accelerators.constant_metrics
     assert not accelerators.terminal_font
 

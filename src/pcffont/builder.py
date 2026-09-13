@@ -183,7 +183,7 @@ class PcfFontBuilder:
         accelerators.max_overlap = calculate_util.calculate_max_overlap(metrics)
         accelerators.min_bounds = calculate_util.calculate_min_bounds(metrics)
         accelerators.max_bounds = calculate_util.calculate_max_bounds(metrics)
-        accelerators.calculate_bounds()
+        accelerators.recalculate_flags()
 
         glyph_indices = set(bdf_encodings.values())
 
@@ -200,7 +200,7 @@ class PcfFontBuilder:
             bdf_accelerators.max_overlap = calculate_util.calculate_max_overlap(bdf_metrics)
             bdf_accelerators.min_bounds = calculate_util.calculate_min_bounds(bdf_metrics)
             bdf_accelerators.max_bounds = calculate_util.calculate_max_bounds(bdf_metrics)
-            bdf_accelerators.calculate_bounds()
+            bdf_accelerators.recalculate_flags()
 
         # ink_bounds
         if accelerators.constant_metrics:

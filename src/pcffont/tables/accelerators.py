@@ -133,7 +133,7 @@ class PcfAccelerators(PcfTable):
                 self.ink_min_bounds == other.ink_min_bounds and
                 self.ink_max_bounds == other.ink_max_bounds)
 
-    def calculate_bounds(self) -> None:
+    def recalculate_flags(self) -> None:
         if self.min_bounds is None or self.max_bounds is None:
             return
 
