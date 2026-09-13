@@ -98,14 +98,10 @@ class PcfGlyph:
             width_limit = min(len(bitmap_row), self.width)
             for x in range(width_limit):
                 if bitmap_row[x] != 0:
-                    if y < first_row:
-                        first_row = y
-                    if y > last_row:
-                        last_row = y
-                    if x < first_col:
-                        first_col = x
-                    if x > last_col:
-                        last_col = x
+                    first_row = min(first_row, y)
+                    last_row = max(last_row, y)
+                    first_col = min(first_col, x)
+                    last_col = max(last_col, x)
 
         if first_row == self.height:
             metric.ascent = 0
