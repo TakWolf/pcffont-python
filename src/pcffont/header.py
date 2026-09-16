@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
 from enum import IntEnum, unique
 from typing import Any
 
@@ -44,7 +45,7 @@ class PcfHeader:
         return headers
 
     @staticmethod
-    def dump(stream: Stream, headers: list[PcfHeader]) -> None:
+    def dump(stream: Stream, headers: Sequence[PcfHeader]) -> None:
         stream.seek(0)
         stream.write(_FILE_VERSION)
 

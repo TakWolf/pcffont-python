@@ -1,5 +1,6 @@
 import os
 import struct
+from collections.abc import Sequence
 from io import BytesIO
 from typing import BinaryIO
 
@@ -74,37 +75,37 @@ class Stream:
     def write_uint8(self, value: int) -> int:
         return self.write(value.to_bytes(1, 'big', signed=False))
 
-    def write_uint8_list(self, values: list[int]) -> int:
+    def write_uint8_list(self, values: Sequence[int]) -> int:
         return self.write(bytes(values))
 
     def write_int8(self, value: int) -> int:
         return self.write(value.to_bytes(1, 'big', signed=True))
 
-    def write_int8_list(self, values: list[int]) -> int:
+    def write_int8_list(self, values: Sequence[int]) -> int:
         return self.write(struct.pack(f'{len(values)}b', *values))
 
     def write_uint16(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(2, 'big' if ms_byte_first else 'little', signed=False))
 
-    def write_uint16_list(self, values: list[int], ms_byte_first: bool = False) -> int:
+    def write_uint16_list(self, values: Sequence[int], ms_byte_first: bool = False) -> int:
         return self.write(struct.pack(f"{'>' if ms_byte_first else '<'}{len(values)}H", *values))
 
     def write_int16(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(2, 'big' if ms_byte_first else 'little', signed=True))
 
-    def write_int16_list(self, values: list[int], ms_byte_first: bool = False) -> int:
+    def write_int16_list(self, values: Sequence[int], ms_byte_first: bool = False) -> int:
         return self.write(struct.pack(f"{'>' if ms_byte_first else '<'}{len(values)}h", *values))
 
     def write_uint32(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(4, 'big' if ms_byte_first else 'little', signed=False))
 
-    def write_uint32_list(self, values: list[int], ms_byte_first: bool = False) -> int:
+    def write_uint32_list(self, values: Sequence[int], ms_byte_first: bool = False) -> int:
         return self.write(struct.pack(f"{'>' if ms_byte_first else '<'}{len(values)}I", *values))
 
     def write_int32(self, value: int, ms_byte_first: bool = False) -> int:
         return self.write(value.to_bytes(4, 'big' if ms_byte_first else 'little', signed=True))
 
-    def write_int32_list(self, values: list[int], ms_byte_first: bool = False) -> int:
+    def write_int32_list(self, values: Sequence[int], ms_byte_first: bool = False) -> int:
         return self.write(struct.pack(f"{'>' if ms_byte_first else '<'}{len(values)}i", *values))
 
     def write_string(self, value: str) -> int:
