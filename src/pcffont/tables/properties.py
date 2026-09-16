@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import re
 from collections import UserDict
+from collections.abc import Mapping
 from typing import Any, TYPE_CHECKING
 
 from pcffont.error import PcfXlfdError
@@ -144,7 +145,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
 
     def __init__(
             self,
-            properties: dict[str, str | int] | None = None,
+            properties: Mapping[str, str | int] | None = None,
             table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
     ) -> None:
         super().__init__(properties)

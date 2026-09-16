@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import UserDict
+from collections.abc import Mapping
 from typing import Any, Final, TYPE_CHECKING
 
 from pcffont.error import PcfParseError
@@ -58,7 +59,7 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
 
     def __init__(
             self,
-            encodings: dict[int, int] | None = None,
+            encodings: Mapping[int, int] | None = None,
             table_format: PcfTableFormat = PcfTableFormat.DEFAULT,
             default_char: int = NO_ENCODING,
     ) -> None:
