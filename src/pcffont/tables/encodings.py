@@ -7,7 +7,7 @@ from typing import Any, Final, TYPE_CHECKING
 from pcffont.error import PcfParseError
 from pcffont.format import PcfTableFormat
 from pcffont.header import PcfHeader
-from pcffont.tables.base import PcfTable
+from pcffont.tables.table import PcfTable
 from pcffont.utils.stream import Stream
 
 if TYPE_CHECKING:

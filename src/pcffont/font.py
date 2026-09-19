@@ -7,7 +7,6 @@ from typing import Any, BinaryIO, cast
 
 from pcffont.header import PcfTableType, PcfHeader
 from pcffont.tables.accelerators import PcfAccelerators
-from pcffont.tables.base import PcfTable
 from pcffont.tables.bitmaps import PcfBitmaps
 from pcffont.tables.encodings import PcfBdfEncodings
 from pcffont.tables.factory import TABLE_TYPE_REGISTRY
@@ -15,6 +14,7 @@ from pcffont.tables.glyph_names import PcfGlyphNames
 from pcffont.tables.metrics import PcfMetrics
 from pcffont.tables.properties import PcfProperties
 from pcffont.tables.scalable_widths import PcfScalableWidths
+from pcffont.tables.table import PcfTable
 from pcffont.utils.stream import Stream
 
 
