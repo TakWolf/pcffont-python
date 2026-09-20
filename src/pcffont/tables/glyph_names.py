@@ -19,8 +19,8 @@ class PcfGlyphNames(UserList[str], PcfTable):
     def parse(stream: Stream, header: PcfHeader, font: PcfFont) -> PcfGlyphNames:
         table_format = header.read_and_check_table_format(stream)
 
-        glyphs_count = stream.read_uint32(table_format.ms_byte_first)
-        name_offsets = stream.read_uint32_list(glyphs_count, table_format.ms_byte_first)
+        glyph_count = stream.read_uint32(table_format.ms_byte_first)
+        name_offsets = stream.read_uint32_list(glyph_count, table_format.ms_byte_first)
         stream.seek(4, os.SEEK_CUR)  # strings_size
         strings_start = stream.tell()
 
@@ -57,9 +57,9 @@ class PcfGlyphNames(UserList[str], PcfTable):
                 super().__eq__(other))
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
-        glyphs_count = len(self)
+        glyph_count = len(self)
 
-        strings_start = table_offset + 4 + 4 + 4 * glyphs_count + 4
+        strings_start = table_offset + 4 + 4 + 4 * glyph_count + 4
         strings_size = 0
         name_offsets = []
         stream.seek(strings_start)
@@ -69,7 +69,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
 
         stream.seek(table_offset)
         stream.write_uint32(self.table_format)
-        stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
+        stream.write_uint32(glyph_count, self.table_format.ms_byte_first)
         stream.write_uint32_list(name_offsets, self.table_format.ms_byte_first)
         stream.write_uint32(strings_size, self.table_format.ms_byte_first)
         stream.seek(strings_size, os.SEEK_CUR)

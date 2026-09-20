@@ -35,8 +35,8 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
         if max_byte_2 > 0xFF or max_byte_1 > 0xFF:
             raise PcfParseError('encoding range exceeds 0xFF')
 
-        glyphs_count = (max_byte_2 - min_byte_2 + 1) * (max_byte_1 - min_byte_1 + 1)
-        glyph_indices = stream.read_uint16_list(glyphs_count, table_format.ms_byte_first)
+        glyph_count = (max_byte_2 - min_byte_2 + 1) * (max_byte_1 - min_byte_1 + 1)
+        glyph_indices = stream.read_uint16_list(glyph_count, table_format.ms_byte_first)
 
         encodings = PcfBdfEncodings(
             table_format=table_format,

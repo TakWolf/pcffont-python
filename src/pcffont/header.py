@@ -32,8 +32,8 @@ class PcfHeader:
             raise PcfParseError('not a valid PCF font')
 
         headers = {}
-        tables_count = stream.read_uint32()
-        for _ in range(tables_count):
+        table_count = stream.read_uint32()
+        for _ in range(table_count):
             table_type = PcfTableType(stream.read_uint32())
             if table_type in headers:
                 raise PcfParseError(f"duplicate table '{table_type.name}'")

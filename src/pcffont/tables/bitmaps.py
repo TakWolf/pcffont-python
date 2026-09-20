@@ -30,8 +30,8 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
     def parse(stream: Stream, header: PcfHeader, font: PcfFont) -> PcfBitmaps:
         table_format = header.read_and_check_table_format(stream)
 
-        glyphs_count = stream.read_uint32(table_format.ms_byte_first)
-        bitmap_offsets = stream.read_uint32_list(glyphs_count, table_format.ms_byte_first)
+        glyph_count = stream.read_uint32(table_format.ms_byte_first)
+        bitmap_offsets = stream.read_uint32_list(glyph_count, table_format.ms_byte_first)
         stream.seek(16, os.SEEK_CUR)  # bitmaps_size_configs
         bitmaps_start = stream.tell()
 
@@ -84,9 +84,9 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
                 super().__eq__(other))
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
-        glyphs_count = len(self)
+        glyph_count = len(self)
 
-        bitmaps_start = table_offset + 4 + 4 + 4 * glyphs_count + 4 * 4
+        bitmaps_start = table_offset + 4 + 4 + 4 * glyph_count + 4 * 4
         bitmaps_size = 0
         bitmap_offsets = []
         bitmaps_size_configs = [0, 0, 0, 0]
@@ -121,7 +121,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
 
         stream.seek(table_offset)
         stream.write_uint32(self.table_format)
-        stream.write_uint32(glyphs_count, self.table_format.ms_byte_first)
+        stream.write_uint32(glyph_count, self.table_format.ms_byte_first)
         stream.write_uint32_list(bitmap_offsets, self.table_format.ms_byte_first)
         stream.write_uint32_list(bitmaps_size_configs, self.table_format.ms_byte_first)
         stream.seek(bitmaps_size, os.SEEK_CUR)

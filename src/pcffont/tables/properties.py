@@ -80,7 +80,7 @@ _XLFD_STR_VALUE_KEYS = {
     _KEY_CHARSET_ENCODING,
 }
 
-_XLFD_KEYS_ORDER = [
+_XLFD_KEY_ORDER = [
     _KEY_FOUNDRY,
     _KEY_FAMILY_NAME,
     _KEY_WEIGHT_NAME,
@@ -111,10 +111,10 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
     def parse(stream: Stream, header: PcfHeader, font: PcfFont) -> PcfProperties:
         table_format = header.read_and_check_table_format(stream)
 
-        props_count = stream.read_uint32(table_format.ms_byte_first)
+        prop_count = stream.read_uint32(table_format.ms_byte_first)
 
         prop_infos = []
-        for _ in range(props_count):
+        for _ in range(prop_count):
             key_offset = stream.read_uint32(table_format.ms_byte_first)
             is_string_prop = stream.read_bool()
             if is_string_prop:
@@ -125,7 +125,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
                 prop_infos.append((key_offset, is_string_prop, value))
 
         # Pad to next int32 boundary
-        padding = 3 - ((4 + 1 + 4) * props_count + 3) % 4
+        padding = 3 - ((4 + 1 + 4) * prop_count + 3) % 4
         stream.seek(padding, os.SEEK_CUR)
 
         stream.seek(4, os.SEEK_CUR)  # strings_size
@@ -384,7 +384,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
 
     def generate_xlfd(self) -> None:
         parts = []
-        for key in _XLFD_KEYS_ORDER:
+        for key in _XLFD_KEY_ORDER:
             value = str(self.get(key, ''))
             if key in _XLFD_STR_VALUE_KEYS:
                 _check_xlfd_str_value(key, value)
@@ -397,11 +397,11 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
             raise PcfXlfdError(f"'{_KEY_FONT}' not set")
         if not self.font.startswith('-'):
             raise PcfXlfdError("must start with '-'")
-        if self.font.count('-') != len(_XLFD_KEYS_ORDER):
-            raise PcfXlfdError(f'must contain {len(_XLFD_KEYS_ORDER)} XLFD fields')
+        if self.font.count('-') != len(_XLFD_KEY_ORDER):
+            raise PcfXlfdError(f'must contain {len(_XLFD_KEY_ORDER)} XLFD fields')
 
         parts = self.font.removeprefix('-').split('-')
-        for key, part in zip(_XLFD_KEYS_ORDER, parts):
+        for key, part in zip(_XLFD_KEY_ORDER, parts):
             if part == '':
                 value = None
             else:
@@ -413,12 +413,12 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
             self[key] = value
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
-        props_count = len(self)
+        prop_count = len(self)
 
         # Pad to next int32 boundary
-        padding = 3 - ((4 + 1 + 4) * props_count + 3) % 4
+        padding = 3 - ((4 + 1 + 4) * prop_count + 3) % 4
 
-        strings_start = table_offset + 4 + 4 + (4 + 1 + 4) * props_count + padding + 4
+        strings_start = table_offset + 4 + 4 + (4 + 1 + 4) * prop_count + padding + 4
         strings_size = 0
         prop_infos = []
         stream.seek(strings_start)
@@ -432,7 +432,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
 
         stream.seek(table_offset)
         stream.write_uint32(self.table_format)
-        stream.write_uint32(props_count, self.table_format.ms_byte_first)
+        stream.write_uint32(prop_count, self.table_format.ms_byte_first)
         for key_offset, value, value_offset in prop_infos:
             stream.write_uint32(key_offset, self.table_format.ms_byte_first)
             if isinstance(value, str):
