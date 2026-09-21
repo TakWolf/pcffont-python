@@ -162,22 +162,22 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
             return
 
         if not isinstance(key, str):
-            raise KeyError("key must be 'str'")
+            raise TypeError("key must be 'str'")
 
         if not _REGEX_PROP_KEY.match(key):
-            raise KeyError('key contain illegal characters')
+            raise ValueError('key contain illegal characters')
 
         key = key.upper()
 
         if key in _STR_VALUE_KEYS:
             if not isinstance(value, str):
-                raise ValueError(f"value of {key!r} must be 'str'")
+                raise TypeError(f"value of {key!r} must be 'str'")
         elif key in _INT_VALUE_KEYS:
             if not isinstance(value, int):
-                raise ValueError(f"value of {key!r} must be 'int'")
+                raise TypeError(f"value of {key!r} must be 'int'")
         else:
             if not isinstance(value, str) and not isinstance(value, int):
-                raise ValueError("value must be 'str' or 'int'")
+                raise TypeError("value must be 'str' or 'int'")
 
         super().__setitem__(key, value)
 

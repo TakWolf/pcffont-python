@@ -64,10 +64,10 @@ class PcfFont(UserDict[PcfTableType, PcfTable]):
             return
 
         if not isinstance(table_type, PcfTableType):
-            raise KeyError(f"key must be 'PcfTableType'")
+            raise TypeError(f"key must be 'PcfTableType'")
 
         if not isinstance(table, TABLE_TYPE_REGISTRY[table_type]):
-            raise ValueError(f"expected type '{TABLE_TYPE_REGISTRY[table_type].__name__}', got '{type(table).__name__}' instead")
+            raise TypeError(f"expected type '{TABLE_TYPE_REGISTRY[table_type].__name__}', got '{type(table).__name__}' instead")
 
         super().__setitem__(table_type, table)
 

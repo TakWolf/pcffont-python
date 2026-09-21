@@ -192,7 +192,7 @@ def test_properties_9() -> None:
 def test_properties_10() -> None:
     properties = PcfProperties()
 
-    with pytest.raises(KeyError, match=re.escape('key contain illegal characters')):
+    with pytest.raises(ValueError, match=re.escape('key contain illegal characters')):
         properties['abc-def'] = 'abcdef'
 
 
@@ -206,13 +206,13 @@ def test_properties_11() -> None:
 def test_properties_12() -> None:
     properties = PcfProperties()
 
-    with pytest.raises(ValueError, match=re.escape("value of 'FOUNDRY' must be 'str'")):
+    with pytest.raises(TypeError, match=re.escape("value of 'FOUNDRY' must be 'str'")):
         properties.foundry = 1
 
-    with pytest.raises(ValueError, match=re.escape("value of 'PIXEL_SIZE' must be 'int'")):
+    with pytest.raises(TypeError, match=re.escape("value of 'PIXEL_SIZE' must be 'int'")):
         properties.pixel_size = '1'
 
-    with pytest.raises(ValueError, match=re.escape("value must be 'str' or 'int'")):
+    with pytest.raises(TypeError, match=re.escape("value must be 'str' or 'int'")):
         properties['FLOAT_VALUE'] = 1.2
 
 
