@@ -103,9 +103,9 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
                 super().__eq__(other))
 
     def dump(self, stream: Stream, table_offset: int, font: PcfFont) -> int:
-        min_byte_2 = 0 if len(self) == 0 else 0xFF
+        min_byte_2 = 0 if not self else 0xFF
         max_byte_2 = 0
-        min_byte_1 = 0 if len(self) == 0 else 0xFF
+        min_byte_1 = 0 if not self else 0xFF
         max_byte_1 = 0
         for encoding in self:
             byte_1 = encoding >> 8

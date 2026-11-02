@@ -12,10 +12,10 @@ def test_encodings() -> None:
     encodings = PcfBdfEncodings()
 
     encodings[1] = None
-    assert len(encodings) == 0
+    assert not encodings
 
     encodings[2] = PcfBdfEncodings.NO_GLYPH_INDEX
-    assert len(encodings) == 0
+    assert not encodings
 
 
 def test_empty_dump_parse() -> None:

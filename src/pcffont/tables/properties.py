@@ -402,7 +402,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
 
         parts = self.font.removeprefix('-').split('-')
         for key, part in zip(_XLFD_KEY_ORDER, parts):
-            if part == '':
+            if not part:
                 value = None
             else:
                 if key in _XLFD_STR_VALUE_KEYS:
