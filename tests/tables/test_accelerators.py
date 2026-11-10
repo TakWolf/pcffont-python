@@ -44,17 +44,17 @@ def test_recalculate_flags_4() -> None:
         font_ascent=12,
         font_descent=4,
         min_bounds=PcfMetric(
-            left_side_bearing=1, 
+            left_side_bearing=1,
             right_side_bearing=5,
             character_width=6,
-            ascent=10, 
+            ascent=10,
             descent=3,
         ),
         max_bounds=PcfMetric(
-            left_side_bearing=1, 
+            left_side_bearing=1,
             right_side_bearing=5,
-            character_width=6, 
-            ascent=10, 
+            character_width=6,
+            ascent=10,
             descent=3,
         ),
     )
