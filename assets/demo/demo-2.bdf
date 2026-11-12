@@ -1,9 +1,9 @@
 STARTFONT 2.1
-FONT -Pixel Font Studio-Demo Pixel 0-Regular-R-Normal-Sans Serif-11-110-75-75-P-110-ISO10646-1
+FONT -TakWolf-Demo Pixel 0-Regular-R-Normal-Sans Serif-11-110-75-75-P-110-ISO10646-1
 SIZE 11 75 75
 FONTBOUNDINGBOX 11 15 0 -4
 STARTPROPERTIES 22
-FOUNDRY "Pixel Font Studio"
+FOUNDRY "TakWolf"
 FAMILY_NAME "Demo Pixel 0"
 WEIGHT_NAME "Regular"
 SLANT "R"
