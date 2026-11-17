@@ -100,8 +100,8 @@ def test_unifont(assets_dir: Path) -> None:
         assert glyph.bitmap == bitmap
 
 
-@pytest.mark.parametrize("ms_byte_first", [False, True])
-@pytest.mark.parametrize("ms_bit_first", [False, True])
+@pytest.mark.parametrize('ms_byte_first', [False, True])
+@pytest.mark.parametrize('ms_bit_first', [False, True])
 @pytest.mark.parametrize('glyph_pad', GLYPH_PAD_OPTIONS)
 @pytest.mark.parametrize('scan_unit', SCAN_UNIT_OPTIONS)
 def test_with_freetype(demo_bdf: BdfFont, ms_byte_first: bool, ms_bit_first: bool, glyph_pad: GlyphPad, scan_unit: ScanUnit) -> None:
