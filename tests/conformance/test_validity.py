@@ -59,7 +59,12 @@ def demo_pcf(assets_dir: Path) -> PcfFont:
         'demo-msbyte-msbit-p4-u4.pcf',
     ],
 )
-def test_demo(demo_bdf: BdfFont, demo_pcf: PcfFont, assets_dir: Path, font_file_name: str) -> None:
+def test_demo(
+        demo_bdf: BdfFont,
+        demo_pcf: PcfFont,
+        assets_dir: Path,
+        font_file_name: str,
+) -> None:
     bdf_font = demo_bdf
     pcf_font_0 = demo_pcf
     pcf_font_x = PcfFont.load(assets_dir.joinpath('demo', font_file_name))
@@ -104,7 +109,13 @@ def test_unifont(assets_dir: Path) -> None:
 @pytest.mark.parametrize('ms_bit_first', [False, True])
 @pytest.mark.parametrize('glyph_pad', GLYPH_PAD_OPTIONS)
 @pytest.mark.parametrize('scan_unit', SCAN_UNIT_OPTIONS)
-def test_with_freetype(demo_bdf: BdfFont, ms_byte_first: bool, ms_bit_first: bool, glyph_pad: GlyphPad, scan_unit: ScanUnit) -> None:
+def test_with_freetype(
+        demo_bdf: BdfFont,
+        ms_byte_first: bool,
+        ms_bit_first: bool,
+        glyph_pad: GlyphPad,
+        scan_unit: ScanUnit,
+) -> None:
     builder = PcfFontBuilder()
     builder.config.font_ascent = demo_bdf.properties.font_ascent
     builder.config.font_descent = demo_bdf.properties.font_descent

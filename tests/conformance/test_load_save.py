@@ -55,7 +55,12 @@ from pcffont import PcfFont
         ('unifont', 'unifont-17.0.05.pcf'),
     ],
 )
-def test_load_save(assets_dir: Path, tmp_path: Path, font_dir: str, font_file_name: str) -> None:
+def test_load_save(
+        assets_dir: Path,
+        font_dir: str,
+        font_file_name: str,
+        tmp_path: Path,
+) -> None:
     load_path = assets_dir.joinpath(font_dir, font_file_name)
     save_path = tmp_path.joinpath(font_file_name)
     font = PcfFont.load(load_path)
