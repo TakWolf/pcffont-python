@@ -1,6 +1,22 @@
+from io import BytesIO
+from typing import BinaryIO
+
 import pytest
 
 from pcffont.utils.stream import Stream
+
+
+@pytest.mark.parametrize(
+    'source',
+    [
+        b'ABC',
+        bytearray(b'ABC'),
+        BytesIO(b'ABC'),
+    ],
+)
+def test_source(source: bytes | bytearray | BinaryIO) -> None:
+    stream = Stream(source)
+    assert stream.read(3) == b'ABC'
 
 
 def test_bytes() -> None:
