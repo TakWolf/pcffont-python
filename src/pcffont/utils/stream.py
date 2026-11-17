@@ -16,6 +16,8 @@ class Stream:
         self.source = source
 
     def read(self, size: int, ignore_eof: bool = False) -> bytes:
+        if size < 0:
+            raise ValueError(f'size must not be negative, got {size}')
         data = self.source.read(size)
         if len(data) < size and not ignore_eof:
             raise EOFError()
@@ -115,6 +117,8 @@ class Stream:
         return self.write(b'\x01' if value else b'\x00')
 
     def write_nulls(self, size: int) -> int:
+        if size < 0:
+            raise ValueError(f'size must not be negative, got {size}')
         if size > 0:
             self.write(b'\x00' * size)
         return size
