@@ -1,7 +1,6 @@
-import os
 import struct
 from collections.abc import Sequence
-from io import BytesIO
+from io import BytesIO, SEEK_SET
 from typing import BinaryIO
 
 
@@ -154,7 +153,7 @@ class Stream:
     def align_to_4_bytes(self) -> int:
         return self.write_nulls(3 - (self.tell() + 3) % 4)
 
-    def seek(self, offset: int, whence: int = os.SEEK_SET) -> None:
+    def seek(self, offset: int, whence: int = SEEK_SET) -> None:
         self.source.seek(offset, whence)
 
     def tell(self) -> int:

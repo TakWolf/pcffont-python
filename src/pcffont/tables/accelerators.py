@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import os
+from io import SEEK_CUR
 from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
@@ -25,7 +25,7 @@ class PcfAccelerators(PcfTable):
         ink_inside = stream.read_bool()
         ink_metrics = stream.read_bool()
         draw_right_to_left = stream.read_bool()
-        stream.seek(1, os.SEEK_CUR)
+        stream.seek(1, SEEK_CUR)
         font_ascent = stream.read_int32(table_format.ms_byte_first)
         font_descent = stream.read_int32(table_format.ms_byte_first)
         max_overlap = stream.read_int32(table_format.ms_byte_first)

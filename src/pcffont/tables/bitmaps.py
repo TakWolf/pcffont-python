@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-import os
 from collections import UserList
 from collections.abc import Iterable
+from io import SEEK_CUR
 from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat, GLYPH_PAD_OPTIONS
@@ -32,7 +32,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
 
         glyph_count = stream.read_uint32(table_format.ms_byte_first)
         bitmap_offsets = stream.read_uint32_list(glyph_count, table_format.ms_byte_first)
-        stream.seek(16, os.SEEK_CUR)  # bitmaps_size_configs
+        stream.seek(16, SEEK_CUR)  # bitmaps_size_configs
         bitmaps_start = stream.tell()
 
         bitmaps = PcfBitmaps(table_format=table_format)
@@ -124,7 +124,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         stream.write_uint32(glyph_count, self.table_format.ms_byte_first)
         stream.write_uint32_list(bitmap_offsets, self.table_format.ms_byte_first)
         stream.write_uint32_list(bitmaps_size_configs, self.table_format.ms_byte_first)
-        stream.seek(bitmaps_size, os.SEEK_CUR)
+        stream.seek(bitmaps_size, SEEK_CUR)
         stream.align_to_4_bytes()
 
         table_size = stream.tell() - table_offset

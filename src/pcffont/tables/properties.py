@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import os
 import re
 from collections import UserDict
 from collections.abc import Mapping
+from io import SEEK_CUR
 from typing import Any, TYPE_CHECKING
 
 from pcffont.error import PcfXlfdError
@@ -126,9 +126,9 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
 
         # Pad to next int32 boundary
         padding = 3 - ((4 + 1 + 4) * prop_count + 3) % 4
-        stream.seek(padding, os.SEEK_CUR)
+        stream.seek(padding, SEEK_CUR)
 
-        stream.seek(4, os.SEEK_CUR)  # strings_size
+        stream.seek(4, SEEK_CUR)  # strings_size
         strings_start = stream.tell()
 
         properties = PcfProperties(table_format=table_format)
@@ -443,7 +443,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
                 stream.write_int32(value, self.table_format.ms_byte_first)
         stream.write_nulls(padding)
         stream.write_uint32(strings_size, self.table_format.ms_byte_first)
-        stream.seek(strings_size, os.SEEK_CUR)
+        stream.seek(strings_size, SEEK_CUR)
         stream.align_to_4_bytes()
 
         table_size = stream.tell() - table_offset

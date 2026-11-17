@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-import os
 from collections import UserList
 from collections.abc import Iterable
+from io import SEEK_CUR
 from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
@@ -21,7 +21,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
 
         glyph_count = stream.read_uint32(table_format.ms_byte_first)
         name_offsets = stream.read_uint32_list(glyph_count, table_format.ms_byte_first)
-        stream.seek(4, os.SEEK_CUR)  # strings_size
+        stream.seek(4, SEEK_CUR)  # strings_size
         strings_start = stream.tell()
 
         names = PcfGlyphNames(table_format=table_format)
@@ -72,7 +72,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
         stream.write_uint32(glyph_count, self.table_format.ms_byte_first)
         stream.write_uint32_list(name_offsets, self.table_format.ms_byte_first)
         stream.write_uint32(strings_size, self.table_format.ms_byte_first)
-        stream.seek(strings_size, os.SEEK_CUR)
+        stream.seek(strings_size, SEEK_CUR)
         stream.align_to_4_bytes()
 
         table_size = stream.tell() - table_offset
