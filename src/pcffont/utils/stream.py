@@ -18,10 +18,29 @@ class Stream:
     def read(self, size: int, ignore_eof: bool = False) -> bytes:
         if size < 0:
             raise ValueError(f'size must not be negative, got {size}')
-        data = self.source.read(size)
+        if size == 0:
+            return b''
+
+        chunk = self.source.read(size)
+        if chunk is None:
+            raise BlockingIOError('stream read would block')
+        if len(chunk) == size:
+            return chunk
+
+        data = bytearray()
+        while chunk:
+            data.extend(chunk)
+            remaining = size - len(data)
+            if remaining == 0:
+                break
+
+            chunk = self.source.read(remaining)
+            if chunk is None:
+                raise BlockingIOError('stream read would block')
+
         if len(data) < size and not ignore_eof:
             raise EOFError()
-        return data
+        return bytes(data)
 
     def read_uint8(self) -> int:
         return self.read(1)[0]
@@ -72,7 +91,16 @@ class Stream:
         return self.read(1) != b'\x00'
 
     def write(self, data: bytes) -> int:
-        return self.source.write(data)
+        view = memoryview(data)
+        offset = 0
+        while offset < len(view):
+            written = self.source.write(view[offset:])
+            if written is None:
+                raise BlockingIOError('stream write would block')
+            if written <= 0 or written > len(view) - offset:
+                raise OSError(f'invalid stream write count: {written}')
+            offset += written
+        return offset
 
     def write_uint8(self, value: int) -> int:
         return self.write(value.to_bytes(1, 'big', signed=False))
