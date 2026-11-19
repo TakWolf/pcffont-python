@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from copy import copy, deepcopy
 from typing import Any
 
 from pcffont.utils.stream import Stream
@@ -56,10 +57,17 @@ class PcfMetric:
         self.attributes = attributes
 
     def __copy__(self) -> PcfMetric:
-        return self.copy()
+        return PcfMetric(
+            self.left_side_bearing,
+            self.right_side_bearing,
+            self.character_width,
+            self.ascent,
+            self.descent,
+            self.attributes,
+        )
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfMetric:
-        return self.deepcopy()
+        return copy(self)
 
     def __repr__(self) -> str:
         return (f'PcfMetric('
@@ -130,14 +138,7 @@ class PcfMetric:
             stream.write_uint16(self.attributes, ms_byte_first)
 
     def copy(self) -> PcfMetric:
-        return PcfMetric(
-            self.left_side_bearing,
-            self.right_side_bearing,
-            self.character_width,
-            self.ascent,
-            self.descent,
-            self.attributes,
-        )
+        return copy(self)
 
     def deepcopy(self) -> PcfMetric:
-        return self.copy()
+        return deepcopy(self)

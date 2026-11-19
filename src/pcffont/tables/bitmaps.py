@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import UserList
 from collections.abc import Iterable
+from copy import copy, deepcopy
 from io import SEEK_CUR
 from typing import Any, TYPE_CHECKING
 
@@ -72,10 +73,13 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         return object.__repr__(self)
 
     def __copy__(self) -> PcfBitmaps:
-        return self.copy()
+        return PcfBitmaps(self, self.table_format)
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfBitmaps:
-        return self.deepcopy()
+        return PcfBitmaps(
+            ([bitmap_row.copy() for bitmap_row in bitmap] for bitmap in self),
+            self.table_format,
+        )
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfBitmaps):
@@ -131,10 +135,7 @@ class PcfBitmaps(UserList[list[list[int]]], PcfTable):
         return table_size
 
     def copy(self) -> PcfBitmaps:
-        return PcfBitmaps(self, self.table_format)
+        return copy(self)
 
     def deepcopy(self) -> PcfBitmaps:
-        return PcfBitmaps(
-            ([bitmap_row.copy() for bitmap_row in bitmap] for bitmap in self),
-            self.table_format,
-        )
+        return deepcopy(self)

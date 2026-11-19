@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from copy import copy, deepcopy
 from os import PathLike
 from typing import Any
 
@@ -48,10 +49,19 @@ class PcfFontConfig:
         self.scan_unit = scan_unit
 
     def __copy__(self) -> PcfFontConfig:
-        return self.copy()
+        return PcfFontConfig(
+            self.font_ascent,
+            self.font_descent,
+            self.default_char,
+            self.draw_right_to_left,
+            self.ms_byte_first,
+            self.ms_bit_first,
+            self.glyph_pad,
+            self.scan_unit,
+        )
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfFontConfig:
-        return self.deepcopy()
+        return copy(self)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfFontConfig):
@@ -74,19 +84,10 @@ class PcfFontConfig:
         )
 
     def copy(self) -> PcfFontConfig:
-        return PcfFontConfig(
-            self.font_ascent,
-            self.font_descent,
-            self.default_char,
-            self.draw_right_to_left,
-            self.ms_byte_first,
-            self.ms_bit_first,
-            self.glyph_pad,
-            self.scan_unit,
-        )
+        return copy(self)
 
     def deepcopy(self) -> PcfFontConfig:
-        return self.copy()
+        return deepcopy(self)
 
 
 class PcfFontBuilder:
@@ -141,10 +142,18 @@ class PcfFontBuilder:
         self.glyphs = glyphs if glyphs is not None else []
 
     def __copy__(self) -> PcfFontBuilder:
-        return self.copy()
+        return PcfFontBuilder(
+            self.config,
+            self.properties,
+            self.glyphs,
+        )
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfFontBuilder:
-        return self.deepcopy()
+        return PcfFontBuilder(
+            self.config.deepcopy(),
+            self.properties.deepcopy(),
+            [glyph.deepcopy() for glyph in self.glyphs],
+        )
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfFontBuilder):
@@ -253,15 +262,7 @@ class PcfFontBuilder:
         self.build().save(file_path)
 
     def copy(self) -> PcfFontBuilder:
-        return PcfFontBuilder(
-            self.config,
-            self.properties,
-            self.glyphs,
-        )
+        return copy(self)
 
     def deepcopy(self) -> PcfFontBuilder:
-        return PcfFontBuilder(
-            self.config.deepcopy(),
-            self.properties.deepcopy(),
-            [glyph.deepcopy() for glyph in self.glyphs],
-        )
+        return deepcopy(self)

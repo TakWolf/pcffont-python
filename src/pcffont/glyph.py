@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from copy import copy, deepcopy
 from typing import Any
 
 from pcffont.metric import PcfMetric
@@ -38,10 +39,28 @@ class PcfGlyph:
         self.bitmap = bitmap if bitmap is not None else []
 
     def __copy__(self) -> PcfGlyph:
-        return self.copy()
+        return PcfGlyph(
+            self.name,
+            self.encodings,
+            self.scalable_width,
+            self.character_width,
+            self.dimensions,
+            self.offset,
+            self.attributes,
+            self.bitmap,
+        )
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfGlyph:
-        return self.deepcopy()
+        return PcfGlyph(
+            self.name,
+            self.encodings.copy(),
+            self.scalable_width,
+            self.character_width,
+            self.dimensions,
+            self.offset,
+            self.attributes,
+            [bitmap_row.copy() for bitmap_row in self.bitmap],
+        )
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfGlyph):
@@ -116,25 +135,7 @@ class PcfGlyph:
         return metric
 
     def copy(self) -> PcfGlyph:
-        return PcfGlyph(
-            self.name,
-            self.encodings,
-            self.scalable_width,
-            self.character_width,
-            self.dimensions,
-            self.offset,
-            self.attributes,
-            self.bitmap,
-        )
+        return copy(self)
 
     def deepcopy(self) -> PcfGlyph:
-        return PcfGlyph(
-            self.name,
-            self.encodings.copy(),
-            self.scalable_width,
-            self.character_width,
-            self.dimensions,
-            self.offset,
-            self.attributes,
-            [bitmap_row.copy() for bitmap_row in self.bitmap],
-        )
+        return deepcopy(self)

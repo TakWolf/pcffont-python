@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import UserList
 from collections.abc import Iterable
+from copy import copy, deepcopy
 from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
@@ -44,10 +45,13 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
         return object.__repr__(self)
 
     def __copy__(self) -> PcfMetrics:
-        return self.copy()
+        return PcfMetrics(self.data, self.table_format)
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfMetrics:
-        return self.deepcopy()
+        return PcfMetrics(
+            (metric.deepcopy() for metric in self),
+            self.table_format,
+        )
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfMetrics):
@@ -72,10 +76,7 @@ class PcfMetrics(UserList[PcfMetric], PcfTable):
         return table_size
 
     def copy(self) -> PcfMetrics:
-        return PcfMetrics(self.data, self.table_format)
+        return copy(self)
 
     def deepcopy(self) -> PcfMetrics:
-        return PcfMetrics(
-            (metric.deepcopy() for metric in self),
-            self.table_format,
-        )
+        return deepcopy(self)

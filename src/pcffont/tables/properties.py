@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from collections import UserDict
 from collections.abc import Mapping
+from copy import copy, deepcopy
 from io import SEEK_CUR
 from typing import Any, TYPE_CHECKING
 
@@ -195,10 +196,10 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return object.__repr__(self)
 
     def __copy__(self) -> PcfProperties:
-        return self.copy()
+        return PcfProperties(self.data, self.table_format)
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfProperties:
-        return self.deepcopy()
+        return copy(self)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfProperties):
@@ -450,7 +451,7 @@ class PcfProperties(UserDict[str, str | int], PcfTable):
         return table_size
 
     def copy(self) -> PcfProperties:
-        return PcfProperties(self.data, self.table_format)
+        return copy(self)
 
     def deepcopy(self) -> PcfProperties:
-        return self.copy()
+        return deepcopy(self)

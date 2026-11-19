@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import UserList
 from collections.abc import Iterable
+from copy import copy, deepcopy
 from io import SEEK_CUR
 from typing import Any, TYPE_CHECKING
 
@@ -45,10 +46,10 @@ class PcfGlyphNames(UserList[str], PcfTable):
         return object.__repr__(self)
 
     def __copy__(self) -> PcfGlyphNames:
-        return self.copy()
+        return PcfGlyphNames(self.data, self.table_format)
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfGlyphNames:
-        return self.deepcopy()
+        return copy(self)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfGlyphNames):
@@ -79,7 +80,7 @@ class PcfGlyphNames(UserList[str], PcfTable):
         return table_size
 
     def copy(self) -> PcfGlyphNames:
-        return PcfGlyphNames(self.data, self.table_format)
+        return copy(self)
 
     def deepcopy(self) -> PcfGlyphNames:
-        return self.copy()
+        return deepcopy(self)

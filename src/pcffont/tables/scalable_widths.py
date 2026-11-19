@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import UserList
 from collections.abc import Iterable
+from copy import copy, deepcopy
 from typing import Any, TYPE_CHECKING
 
 from pcffont.format import PcfTableFormat
@@ -37,10 +38,10 @@ class PcfScalableWidths(UserList[int], PcfTable):
         return object.__repr__(self)
 
     def __copy__(self) -> PcfScalableWidths:
-        return self.copy()
+        return PcfScalableWidths(self.data, self.table_format)
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfScalableWidths:
-        return self.deepcopy()
+        return copy(self)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfScalableWidths):
@@ -61,7 +62,7 @@ class PcfScalableWidths(UserList[int], PcfTable):
         return table_size
 
     def copy(self) -> PcfScalableWidths:
-        return PcfScalableWidths(self.data, self.table_format)
+        return copy(self)
 
     def deepcopy(self) -> PcfScalableWidths:
-        return self.copy()
+        return deepcopy(self)

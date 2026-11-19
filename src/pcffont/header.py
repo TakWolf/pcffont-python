@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from copy import copy, deepcopy
 from enum import IntEnum, unique
 from typing import Any
 
@@ -74,10 +75,15 @@ class PcfHeader:
         self.table_offset = table_offset
 
     def __copy__(self) -> PcfHeader:
-        return self.copy()
+        return PcfHeader(
+            self.table_type,
+            self.table_format,
+            self.table_size,
+            self.table_offset,
+        )
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfHeader:
-        return self.deepcopy()
+        return copy(self)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfHeader):
@@ -95,12 +101,7 @@ class PcfHeader:
         return self.table_format
 
     def copy(self) -> PcfHeader:
-        return PcfHeader(
-            self.table_type,
-            self.table_format,
-            self.table_size,
-            self.table_offset,
-        )
+        return copy(self)
 
     def deepcopy(self) -> PcfHeader:
-        return self.copy()
+        return deepcopy(self)

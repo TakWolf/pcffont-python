@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from copy import copy, deepcopy
 from io import SEEK_CUR
 from typing import Any, TYPE_CHECKING
 
@@ -109,10 +110,42 @@ class PcfAccelerators(PcfTable):
         self.ink_max_bounds = ink_max_bounds
 
     def __copy__(self) -> PcfAccelerators:
-        return self.copy()
+        return PcfAccelerators(
+            self.table_format,
+            self.no_overlap,
+            self.constant_metrics,
+            self.terminal_font,
+            self.constant_width,
+            self.ink_inside,
+            self.ink_metrics,
+            self.draw_right_to_left,
+            self.font_ascent,
+            self.font_descent,
+            self.max_overlap,
+            self.min_bounds,
+            self.max_bounds,
+            self.ink_min_bounds,
+            self.ink_max_bounds,
+        )
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfAccelerators:
-        return self.deepcopy()
+        return PcfAccelerators(
+            self.table_format,
+            self.no_overlap,
+            self.constant_metrics,
+            self.terminal_font,
+            self.constant_width,
+            self.ink_inside,
+            self.ink_metrics,
+            self.draw_right_to_left,
+            self.font_ascent,
+            self.font_descent,
+            self.max_overlap,
+            self.min_bounds.deepcopy() if self.min_bounds is not None else None,
+            self.max_bounds.deepcopy() if self.max_bounds is not None else None,
+            self.ink_min_bounds.deepcopy() if self.ink_min_bounds is not None else None,
+            self.ink_max_bounds.deepcopy() if self.ink_max_bounds is not None else None,
+        )
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfAccelerators):
@@ -189,39 +222,7 @@ class PcfAccelerators(PcfTable):
         return 100
 
     def copy(self) -> PcfAccelerators:
-        return PcfAccelerators(
-            self.table_format,
-            self.no_overlap,
-            self.constant_metrics,
-            self.terminal_font,
-            self.constant_width,
-            self.ink_inside,
-            self.ink_metrics,
-            self.draw_right_to_left,
-            self.font_ascent,
-            self.font_descent,
-            self.max_overlap,
-            self.min_bounds,
-            self.max_bounds,
-            self.ink_min_bounds,
-            self.ink_max_bounds,
-        )
+        return copy(self)
 
     def deepcopy(self) -> PcfAccelerators:
-        return PcfAccelerators(
-            self.table_format,
-            self.no_overlap,
-            self.constant_metrics,
-            self.terminal_font,
-            self.constant_width,
-            self.ink_inside,
-            self.ink_metrics,
-            self.draw_right_to_left,
-            self.font_ascent,
-            self.font_descent,
-            self.max_overlap,
-            self.min_bounds.deepcopy() if self.min_bounds is not None else None,
-            self.max_bounds.deepcopy() if self.max_bounds is not None else None,
-            self.ink_min_bounds.deepcopy() if self.ink_min_bounds is not None else None,
-            self.ink_max_bounds.deepcopy() if self.ink_max_bounds is not None else None,
-        )
+        return deepcopy(self)

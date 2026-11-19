@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import UserDict
 from collections.abc import Mapping
+from copy import copy, deepcopy
 from typing import Any, Final, TYPE_CHECKING
 
 from pcffont.error import PcfParseError
@@ -90,10 +91,14 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
         return object.__repr__(self)
 
     def __copy__(self) -> PcfBdfEncodings:
-        return self.copy()
+        return PcfBdfEncodings(
+            self.data,
+            self.table_format,
+            self.default_char,
+        )
 
     def __deepcopy__(self, memo: dict[int, Any]) -> PcfBdfEncodings:
-        return self.deepcopy()
+        return copy(self)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PcfBdfEncodings):
@@ -144,11 +149,7 @@ class PcfBdfEncodings(UserDict[int, int], PcfTable):
         return table_size
 
     def copy(self) -> PcfBdfEncodings:
-        return PcfBdfEncodings(
-            self.data,
-            self.table_format,
-            self.default_char,
-        )
+        return copy(self)
 
     def deepcopy(self) -> PcfBdfEncodings:
-        return self.copy()
+        return deepcopy(self)
